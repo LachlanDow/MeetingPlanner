@@ -24,7 +24,7 @@ public class Company {
 	 * @param jobTitle as the title of the position in the workplace of the employee
 	 */
 	public void addEmployee(String id,String name, String jobTitle) {
-		employees.put("1234", new Employee(id,name,jobTitle));
+		//employees.put("1234", new Employee(id,name,jobTitle));
 	}
 	
 	/**
