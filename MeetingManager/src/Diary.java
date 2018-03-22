@@ -1,5 +1,8 @@
+import java.util.Arrays;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.LinkedList;
+import java.util.ListIterator;
 import java.util.Stack;
  	 
 /**
@@ -13,7 +16,7 @@ public class Diary {
 	/**
 	 * A LinkedList that contains all the meetings in the diary.
 	 */
-	private LinkedList<Meeting> meetings;
+	private LinkedList<Meeting> meetings = new LinkedList<Meeting>();
 	
 	/**
 	 * A Stack that contains all recent add/edit/delete functions
@@ -24,8 +27,9 @@ public class Diary {
 	/**
 	 * Add a meeting to the employee's diary.
 	 */
-	public void add() {
+	public void add(Date startTime, Date endTime, String description) {
 		
+		meetings.add(new Meeting(startTime,endTime, description));
 	}
 	
 	/**
@@ -58,9 +62,13 @@ public class Diary {
 	 * Print the contents of the diary.
 	 */
 	public void printDiary() {
-		
+		System.out.println("ListIterator Approach: ==========");
+		ListIterator<Meeting> listIterator = meetings.listIterator();
+		System.out.println(listIterator.next());
+		while (listIterator.hasNext()) {
+			System.out.println(listIterator.next());
+		}
 	}
-	
 	/**
 	 * Save the diary contents to a file.
 	 */
