@@ -1,3 +1,5 @@
+import java.util.Date;
+
 /**
  * 
  * @author JavaProject Team 9
@@ -18,6 +20,12 @@ public class Menu {
 		company.addEmployee(198,"Mike","Phil", "softwareEngineer");
 		
 		company.addTestMeetings();
+		
+		
+		Date startDate = new Date(2018, 7, 7, 12 , 00, 00);
+		Date endDate = new Date(2018, 7, 7, 12 , 00, 00);
+		int[] ids = {123,145};
+		company.search(ids, startDate, endDate);
 		
 	}
 

@@ -26,7 +26,10 @@ public class Employee implements Comparable<Employee>{
     public int compareTo(Employee o) {
         return Integer.compare(this.id, o.id);
     }
-   
+   /**
+    * 
+    * @return
+    */
     public int getId() {
         return id;
     }
@@ -62,10 +65,18 @@ public class Employee implements Comparable<Employee>{
     public void setDiary(Diary diary) {
         this.diary = diary;
     }
-   // public LinkedList getMeetings(Date startTime, Date endTime) {
+    public LinkedList getMeetings(Date startTime, Date endTime) {
+    	LinkedList<Meeting> withinMeetings = new LinkedList<Meeting>();
+    	LinkedList<Meeting> allMeetings =  diary.getMeetings();
+    	for (int i = 0; i < allMeetings.size();i++) {
+    		
+    		if(allMeetings.get(i).getStartTime().after(startTime) && allMeetings.get(i).getEndTime().after(endTime)) {
+    			withinMeetings.add(allMeetings.get(i));
+    		}
+    	}
+    	return withinMeetings;
     	
-    	
-   // }
+    }
     public void addMeeting(Date startTime, Date endTime, String description)
     {
     	diary.add(startTime, endTime, description);
@@ -73,5 +84,8 @@ public class Employee implements Comparable<Employee>{
     public void displayDiary() {
     	
     }
+    public String toString() {
+		return ("ID:" + this.id + ". ForeName:" + this.forename + ". Surname: " + this.surname + " Job title: " + this.jobTitle );
+	}
     
 }

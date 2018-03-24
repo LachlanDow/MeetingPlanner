@@ -94,7 +94,5 @@ public class Meeting {
 	public String toString() {
 		return ("Start time:" + this.startTime + ". End time:" + this.endTime + ". Has description of: " + this.description );
 	}
-	
-	
   
  }	 

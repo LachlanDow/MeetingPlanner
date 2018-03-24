@@ -82,4 +82,7 @@ public class Diary {
 	public void load() {
 		
 }
+	public LinkedList<Meeting> getMeetings() {
+		return this.meetings;
+	}
  }	 
