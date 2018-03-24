@@ -13,6 +13,7 @@ public class Menu {
 		menu.createTestCompany();
 
 	}
+	@SuppressWarnings("deprecation")
 	public void createTestCompany() {
 		company.addEmployee(123,"John","doe", "softwareEngineer");
 		company.addEmployee(145,"Roger","pat", "softwareEngineer");
@@ -23,9 +24,9 @@ public class Menu {
 		
 		
 		Date startDate = new Date(2018, 7, 7, 12 , 00, 00);
-		Date endDate = new Date(2018, 7, 7, 12 , 00, 00);
+		Date endDate = new Date(2018, 7, 9, 12 , 50, 00);
 		int[] ids = {123,145};
-		company.search(ids, startDate, endDate);
+		System.out.println(company.search(ids, startDate, endDate));
 		
 	}
 

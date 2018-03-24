@@ -4,9 +4,8 @@ import java.util.Date;
 import java.util.LinkedList;
 import java.util.ListIterator;
 import java.util.Map;
-import java.util.Set;
 import java.util.TreeMap;
-import java.util.Iterator;
+
 
 
 public class Company {
@@ -21,15 +20,21 @@ public class Company {
 	 * @param startTime as the the time that the algorithm will start from
 	 * @param endTime as the time that the algorithm will stop to search for free times
 	 */
+	
+	/**
+	 * Method to preform a search of available time for the user to pick when to add meetings to
+	 * @param ids
+	 * @param startTime
+	 * @param endTime
+	 * @return
+	 */
 	public LinkedList<Meeting> search(int[] ids, Date startTime, Date endTime) {
 	 Employee[] listOfEmployee= new Employee[ids.length]; 
 	LinkedList<Meeting> totalMeetings = new LinkedList<Meeting>();
 	for(int i = 0; i < ids.length; i++) {	
 		listOfEmployee[i] = new Employee();
 		 listOfEmployee[i] = employees.get(ids[i]);
-		 for(int j = 0; j < listOfEmployee[i].getDiary().getMeetings().size() ; j++) {
-		 totalMeetings.add(listOfEmployee[j].getDiary().getMeetings().get(j));
-		 }
+		 totalMeetings = listOfEmployee[i].getMeetings(startTime,endTime);
 		}
 	totalMeetings = this.mergeMeetings(totalMeetings);
 	
@@ -37,7 +42,15 @@ public class Company {
 	
 	}
 	
-	
+	/**
+	 * 
+	 * @param employees
+	 * @param startTime
+	 * @param endTime
+	 * @param index
+	 * @param totalMeetings
+	 * @return
+	 */
 	public LinkedList<Meeting> compareMeetings(Employee[] employees,Date startTime, Date endTime, int index, LinkedList<Meeting> totalMeetings) {
 		if(index < employees.length ) {
 			LinkedList<Meeting> employeeMeetings= employees[index].getDiary().getMeetings();
@@ -92,7 +105,14 @@ public class Company {
 	 * method to delete an employee from the binary tree
 	 * @param id as the id of the employee you want to remove
 	 */
-	public void deleteEmployee(String id) {
+	public boolean deleteEmployee(int id) {
+		try {
+			employees.remove(id);
+			return true;
+		}catch(NullPointerException e) {
+			System.out.println("This employee doesn't exist");
+			return false;
+		}
 		
 	}
 	
@@ -101,26 +121,19 @@ public class Company {
 	 * eg. edit
 	 * @param id as the id of the employee that is to be edited
 	 */
-	public void selectEmployee(String id) {
-		
+	public Employee selectEmployee(String id) {
+		try {
+			return employees.get(id);
+			
+		}catch(NullPointerException e) {
+			System.out.println("This employee doesn't exist");
+			return new Employee();
+		}
 	}
 	
-	/*public LinkedList<Meeting> compareMeetings(Employee[] employees,Date startTime, Date endTime, int index, LinkedList<Meeting> totalMeetings) {
-		if(index < employees.length ) {
-			LinkedList<Meeting> employeeMeetings= employees[index].getDiary().getMeetings();
-			ListIterator<Meeting> it = employeeMeetings.listIterator();
-			
-				while(it.hasNext()){
-						Meeting meetingToAdd = (Meeting) it.next();
-							
-						totalMeetings.add(meetingToAdd);
-						
-			    	}
-			return compareMeetings(employees,startTime, endTime, ++index,totalMeetings);
-		}
-		return totalMeetings; 
-	}*/
 	
+	
+	@SuppressWarnings("deprecation")
 	public void addTestMeetings() {
 		int counter = 0;
 	
@@ -141,16 +154,18 @@ public class Company {
 	     employees.get(me.getKey()).getDiary().printDiary();;
 	     
 		}
-	    }
+	   }
 	
 	public LinkedList<Meeting> getTimesBetween(Date startTime,Date endTime, LinkedList<Meeting> totalMeetings, LinkedList<Meeting> timesBetween) {
 		timesBetween.add(new Meeting(startTime,totalMeetings.get(0).getStartTime(),""));
-		for(int i =0; i < totalMee)
-		
+		for(int i =0; i < totalMeetings.size()-1; i++) {
+			timesBetween.add(new Meeting(totalMeetings.get(i).getEndTime(),totalMeetings.get(i+1).getStartTime(),""));	
+		}
+		timesBetween.add(new Meeting(totalMeetings.getLast().getStartTime(),endTime,""));
+		return timesBetween;
 	}
-	  }
+}
 	
 	
 
---]
 		

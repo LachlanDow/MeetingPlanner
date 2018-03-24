@@ -65,12 +65,12 @@ public class Employee implements Comparable<Employee>{
     public void setDiary(Diary diary) {
         this.diary = diary;
     }
-    public LinkedList getMeetings(Date startTime, Date endTime) {
+    public LinkedList<Meeting> getMeetings(Date startTime, Date endTime) {
     	LinkedList<Meeting> withinMeetings = new LinkedList<Meeting>();
     	LinkedList<Meeting> allMeetings =  diary.getMeetings();
     	for (int i = 0; i < allMeetings.size();i++) {
     		
-    		if(allMeetings.get(i).getStartTime().after(startTime) && allMeetings.get(i).getEndTime().after(endTime)) {
+    		if(allMeetings.get(i).getStartTime().after(startTime) && allMeetings.get(i).getStartTime().before(endTime)) {
     			withinMeetings.add(allMeetings.get(i));
     		}
     	}
