@@ -1,5 +1,7 @@
 package application;
 	
+import java.util.Date;
+
 import javafx.application.Application;
 import javafx.scene.Parent;
 import javafx.stage.Stage;
@@ -33,7 +35,12 @@ public class GUIHandler extends Application {
 			Company.getEmployees().put(23, b);
 			Company.getEmployees().put(45, c);
 			Company.getEmployees().put(35, d);
-			
+
+			Company.getEmployees().get(14).addMeeting(new Date(2018, 7, 7, 12 , 00, 00), new Date(2018, 7, 7, 12,50, 00), "Meetings overlap test");
+			Company.getEmployees().get(14).addMeeting(new Date(2018, 7, 7, 12 , 30, 00), new Date(2018, 7, 7, 13,10, 00), "Meetings overlap test");
+			 
+			Company.getEmployees().get(23).addMeeting(new Date(2018, 7, 7, 13 , 30, 00), new Date(2018, 7, 7, 13,45, 00), "Meetings overlap test");
+			Company.getEmployees().get(23).addMeeting(new Date(2018, 7, 7, 13 , 5, 00), new Date(2018, 7, 7, 13,50, 00), "Meetings overlap test");
 			GUIHandler.main = main;
 			
 			//Set up the style of the window

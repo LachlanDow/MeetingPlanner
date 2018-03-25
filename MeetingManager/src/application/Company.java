@@ -1,11 +1,16 @@
 package application;
 
+import java.io.File;
+import java.io.PrintWriter;
+import java.util.Map;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.ListIterator;
 import java.util.TreeMap;
+
+
 
 
 
@@ -40,11 +45,14 @@ public class Company {
 	for(int i = 0; i < ids.length; i++) {	
 		listOfEmployee[i] = new Employee();
 		 listOfEmployee[i] = employees.get(ids[i]);
+		 listOfEmployee[i].getMeetings(startTime,endTime);
 		 totalMeetings.addAll(listOfEmployee[i].getMeetings(startTime,endTime));
 		}
 	totalMeetings = this.mergeMeetings(totalMeetings);
 	
-	return this.getTimesBetween(startTime, endTime, totalMeetings, new LinkedList<Meeting>());
+	LinkedList<Meeting> timesBetween = new LinkedList<Meeting>();
+	
+	return this.getTimesBetween(startTime, endTime, totalMeetings, timesBetween);
 	
 	}
 	
@@ -203,5 +211,29 @@ public class Company {
 	public static TreeMap<Integer, Employee> getEmployees() {
 		return employees;
 	}
-
+	public boolean save(File filename) {
+		PrintWriter pr = new PrintWriter(filename);
+	
+		for(Map.Entry<Integer,Employee> me : employees.entrySet()) {
+		      
+		      System.out.print("Key is: "+me.getKey() + " & ");
+		      System.out.println("Value is: "+ employees.get(me.getKey()));
+		      employees.get(me.getKey()).setDiary(new Diary());
+		      pr.println(employees.get(me.getKey()).getId());
+		    pr.println(employees.get(me.getKey()).getFirstName());
+		     pr.println(employees.get(me.getKey()).getLastName());
+		     pr.println(employees.get(me.getKey()).getJobTitle());
+		     pr.println();
+		    
+		     
+		     employees.get(me.getKey()).getDiary().printDiary();;
+		
+		
+		
+		     pr.close();
+		}
+		
+		
+		return true;
+	}
 }

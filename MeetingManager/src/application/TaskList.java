@@ -1,3 +1,4 @@
+package application;
 import java.util.LinkedList;
 import java.util.Scanner;
 

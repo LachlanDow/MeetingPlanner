@@ -1,5 +1,6 @@
 package application;
 
+import java.io.File;
 import java.util.Date;
 
 /**
@@ -26,10 +27,13 @@ public class Menu {
 		company.addTestMeetings();
 		
 		
-		Date startDate = new Date(2018, 7, 7, 11 , 00, 00);
-		Date endDate = new Date(2018, 7, 7, 16 , 00, 00);
+		Date startDate = new Date(2018, 7, 6, 11 , 00, 00);
+		Date endDate = new Date(2018, 7, 12, 16 , 00, 00);
 		int[] ids = {123,145};
 		System.out.println(company.search(ids, startDate, endDate));
+		
+		File file = new File("C:\\testFile1.txt");
+		company.save(file);
 		
 	}
 

@@ -8,6 +8,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.LinkedList;
 import java.util.Map.Entry;
 
 import application.DisplayElements.CustomButton;
@@ -103,7 +104,7 @@ public class GUIPanes {
 			companyMeetingButton.setOnAction(new EventHandler<ActionEvent>() {
 				@Override
 				public void handle(ActionEvent event) {
-					// GUIHandler.changePane(new CompanyMeeting());
+					GUIHandler.changePane(new CompanyMeeting());
 				}
 			});
 
@@ -1004,6 +1005,221 @@ public class GUIPanes {
 			setMargin(backButton, new Insets(10, 5, 5, 5));
 
 			setBottom(backButton);
+		}
+	}
+	public static class CompanyMeeting extends BorderPane{
+		public CompanyMeeting() {
+			LinkedList<Employee> employeeSearch = new LinkedList<Employee>();
+			VBox topPane = new VBox();
+
+			CustomText title = new CustomText("Meeting Manager", 64);
+			topPane.getChildren().add(title);
+
+			CustomText subtitle = new CustomText("Click an Employee to choose to search through their details.", 20);
+			topPane.getChildren().add(subtitle);
+
+			Label label1 = new Label("Search:");
+			TextField searchField = new TextField();
+			HBox hb = new HBox();
+			hb.getChildren().addAll(label1, searchField);
+			hb.setSpacing(10);
+			hb.setAlignment(Pos.CENTER_RIGHT);
+
+			topPane.getChildren().add(hb);
+
+			setMargin(topPane, new Insets(10));
+
+			setTop(topPane);
+
+			TableView<Employee> table = new TableView<Employee>();
+
+			TableColumn<Employee, String> idCol = new TableColumn<Employee, String>("ID");
+			idCol.setCellValueFactory(new PropertyValueFactory<Employee, String>("id"));
+
+			TableColumn<Employee, String> firstNameCol = new TableColumn<Employee, String>("First Name");
+			firstNameCol.setCellValueFactory(new PropertyValueFactory<Employee, String>("firstName"));
+
+			TableColumn<Employee, String> lastNameCol = new TableColumn<Employee, String>("Last Name");
+			lastNameCol.setCellValueFactory(new PropertyValueFactory<Employee, String>("lastName"));
+
+			TableColumn<Employee, String> jobTitleCol = new TableColumn<Employee, String>("Job Title");
+			jobTitleCol.setCellValueFactory(new PropertyValueFactory<Employee, String>("jobTitle"));
+
+			table.getColumns().addAll(idCol,firstNameCol,lastNameCol,jobTitleCol);
+
+			// Table column widths (odd value so that it offsets the margin)s
+			idCol.prefWidthProperty().bind(table.widthProperty().divide(4.02));
+			firstNameCol.prefWidthProperty().bind(table.widthProperty().divide(4.02));
+			lastNameCol.prefWidthProperty().bind(table.widthProperty().divide(4.02));
+			jobTitleCol.prefWidthProperty().bind(table.widthProperty().divide(4.02));
+
+			setMargin(table, new Insets(10, 5, 5, 5));
+
+			setCenter(table);
+			// Add some space between the subtitle and the employee name.
+			Region spacer = new Region();
+			spacer.setMinHeight(10);
+			topPane.getChildren().add(spacer);
+
+			// Add employee name to the Pane.
+			CustomText employeeName = new CustomText("Employee: " + employee.getFullName(), 20);
+			topPane.getChildren().add(employeeName);
+
+			BorderPane bottomBox = new BorderPane();
+
+			CustomButton backButton = new CustomButton("Back", 16);
+			backButton.setOnAction(new EventHandler<ActionEvent>() {
+				@Override
+				public void handle(ActionEvent event) {
+					GUIHandler.changePane(new MainMenu());
+				}
+			});
+			bottomBox.setLeft(backButton);
+
+			CustomButton searchButton = new CustomButton("Search for free times", 16);
+			searchButton.setOnAction(new EventHandler<ActionEvent>() {
+				@Override
+				public void handle(ActionEvent event) {
+			//		GUIHandler.changePane(new search());
+				}
+			});
+
+			bottomBox.setRight(searchButton);
+
+			setMargin(bottomBox, new Insets(10, 5, 5, 5));
+			setBottom(bottomBox);
+				
+		}
+	}
+	public static class Search extends BorderPane{
+		public Search(LinkedList<Employee> employee) {
+			
+			LinkedList<Meeting> returnedSearch = new LinkedList<Meeting>();
+			VBox topPane = new VBox();
+
+			CustomText title = new CustomText("Meeting Manager", 64);
+			topPane.getChildren().add(title);
+
+			CustomText subtitle = new CustomText("Employee Search Results", 20);
+			topPane.getChildren().add(subtitle);
+
+			Label label1 = new Label("Search:");
+			TextField searchField = new TextField();
+			HBox hb = new HBox();
+			hb.getChildren().addAll(label1, searchField);
+			hb.setSpacing(10);
+			hb.setAlignment(Pos.CENTER_RIGHT);
+
+			topPane.getChildren().add(hb);
+
+			setMargin(topPane, new Insets(10));
+
+			setTop(topPane);
+
+			TableView<Employee> table = new TableView<Employee>();
+
+			TableColumn<Meeting, String> timeStart = new TableColumn<Meeting, String>("Time Start");
+			timeStart.setCellValueFactory(new PropertyValueFactory<Meeting, String>("timeStart"));
+
+			TableColumn<Meeting, String> timeFinish = new TableColumn<Meeting, String>("Time Finish");
+			timeFinish.setCellValueFactory(new PropertyValueFactory<Meeting, String>("timeFinish"));
+
+			
+			table.getColumns().addAll(timeStart, timeFinish);
+
+
+			// Table column widths (odd value so that it offsets the margin)s
+			timeStart.prefWidthProperty().bind(table.widthProperty().divide(4.02));
+			timeFinish.prefWidthProperty().bind(table.widthProperty().divide(4.02));
+
+			setMargin(table, new Insets(10, 5, 5, 5));
+
+			setCenter(table);
+
+			// TEST DATA
+			// TODO: LOL
+			ObservableList<Employee> data = FXCollections.observableArrayList();
+
+			for (Entry<Integer, Employee> entry : Company.getEmployees().entrySet()) {
+				data.add(entry.getValue());
+			}
+
+			table.setItems(data);
+			
+			// Credit: https://stackoverflow.com/a/30194680/3102362
+			// Row click events.
+			table.setRowFactory(tv -> {
+				TableRow<Employee> row = new TableRow<>();
+				row.setOnMouseClicked(event -> {
+					if (!row.isEmpty() && event.getButton() == MouseButton.PRIMARY && event.getClickCount() == 2) {
+
+						Employee clickedRow = row.getItem();
+
+						// Switch to EditEmployee and pass the selected employee.
+						employeeSearch.add(clickedRow);
+					}
+				});
+				return row;
+			});
+
+			// Searching the table (Credit: https://stackoverflow.com/a/44317900/3102362)
+			FilteredList<Employee> filteredData = new FilteredList<>(data, p -> true);
+
+			// Set the filter Predicate whenever the filter changes.
+			searchField.textProperty().addListener((observable, oldValue, newValue) -> {
+				filteredData.setPredicate(myObject -> {
+					// If filter text is empty, display all employees.
+					if (newValue == null || newValue.isEmpty()) {
+						return true;
+					}
+
+					// Compare first name, last name and id fields with filter.
+					String lowerCaseFilter = newValue.toLowerCase();
+
+					if (String.valueOf(myObject.getFirstName()).toLowerCase().contains(lowerCaseFilter)) {
+						return true; // Filter matches firstName.
+					} else if (String.valueOf(myObject.getLastName()).toLowerCase().contains(lowerCaseFilter)) {
+						return true; // Filter matches lastName.
+					} else if (String.valueOf(myObject.getId()).toLowerCase().contains(lowerCaseFilter)) {
+						return true; // Filter matches ID.
+					} else if (String.valueOf(myObject.getJobTitle()).toLowerCase().contains(lowerCaseFilter)) {
+						return true; // Filter matches job title.
+					}
+
+					return false; // Does not match.
+				});
+			});
+
+			// Sort the data
+			SortedList<Employee> sortedData = new SortedList<>(filteredData);
+			sortedData.comparatorProperty().bind(table.comparatorProperty());
+
+			table.setItems(sortedData);
+
+			BorderPane bottomBox = new BorderPane();
+
+			CustomButton backButton = new CustomButton("Back", 16);
+			backButton.setOnAction(new EventHandler<ActionEvent>() {
+				@Override
+				public void handle(ActionEvent event) {
+					GUIHandler.changePane(new MainMenu());
+				}
+			});
+			bottomBox.setLeft(backButton);
+
+			CustomButton searchButton = new CustomButton("Search for free times", 16);
+			searchButton.setOnAction(new EventHandler<ActionEvent>() {
+				@Override
+				public void handle(ActionEvent event) {
+					GUIHandler.changePane(new search());
+				}
+			});
+
+			bottomBox.setRight(searchButton);
+
+			setMargin(bottomBox, new Insets(10, 5, 5, 5));
+			setBottom(bottomBox);
+				
 		}
 	}
 }
