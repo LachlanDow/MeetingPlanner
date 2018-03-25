@@ -927,13 +927,6 @@ public class GUIPanes {
 			grid.add(dateLabel, 0, 1);
 
 			DatePicker datePicker = new DatePicker();
-			datePicker.setDayCellFactory(picker -> new DateCell() {
-	            @Override
-	            public void updateItem(LocalDate date, boolean empty) {
-	                super.updateItem(date, empty);
-	                setDisable(empty || date.getDayOfWeek() == DayOfWeek.MONDAY);
-	            }
-	        });
 	        datePicker.setEditable(false);
 			
 			grid.add(datePicker, 1, 1);
