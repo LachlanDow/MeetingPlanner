@@ -1,3 +1,5 @@
+package application;
+
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.ListIterator;
@@ -83,4 +85,4 @@ public class Diary {
 	public LinkedList<Meeting> getMeetings() {
 		return this.meetings;
 	}
- }	 
+}

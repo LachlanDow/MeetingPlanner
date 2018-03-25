@@ -1,0 +1,18 @@
+.root {
+    -fx-background-size: cover;
+}
+
+.menuButton {
+	-fx-pref-width: 400px;
+	-fx-font: 30 arial; 
+	-fx-base: #FFFFFF; 
+	-fx-border-color: #E2BBC1;
+}
+.time-slot {
+	-fx-background-color: black, white ;
+	-fx-background-insets: 0, 1 1 0 0 ;
+}
+
+.time-slot:selected {
+	-fx-background-color: honeydew ;
+}
