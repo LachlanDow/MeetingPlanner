@@ -23,9 +23,6 @@ public class Menu {
 		company.addEmployee(167,"Jane","mcmordy", "softwareEngineer");
 		company.addEmployee(198,"Mike","Phil", "softwareEngineer");
 		
-		company.addTestMeetings();
-		
-		
 		Date startDate = new Date(2018, 7, 7, 11 , 00, 00);
 		Date endDate = new Date(2018, 7, 7, 16 , 00, 00);
 		int[] ids = {123,145};

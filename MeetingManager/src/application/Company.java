@@ -149,36 +149,6 @@ public class Company {
 		}
 	}
 	
-	
-	
-	@SuppressWarnings("deprecation")
-	public void addTestMeetings() {
-		//int counter = 0;
-		
-		 employees.get(123).addMeeting(new Date(2018, 7, 7, 12 , 00, 00), new Date(2018, 7, 7, 12,50, 00), "Meetings overlap test");
-		 employees.get(145).addMeeting(new Date(2018, 7, 7, 12 , 30, 00), new Date(2018, 7, 7, 13,10, 00), "Meetings overlap test");
-		 
-		 employees.get(123).addMeeting(new Date(2018, 7, 7, 13 , 30, 00), new Date(2018, 7, 7, 13,45, 00), "Meetings overlap test");
-		 employees.get(145).addMeeting(new Date(2018, 7, 7, 13 , 5, 00), new Date(2018, 7, 7, 13,50, 00), "Meetings overlap test");
-	/*	for(Map.Entry<Integer,Employee> me : employees.entrySet()) {
-	      counter++;
-	      System.out.print("Key is: "+me.getKey() + " & ");
-	      System.out.println("Value is: "+ employees.get(me.getKey()));
-	      Date startTime = new Date(2018, 7, 7, 12 , 00, 00);
-	      Date endTime = new Date(2018, 7, 7, 12,30, 00);
-	      employees.get(me.getKey()).setDiary(new Diary());
-	     employees.get(me.getKey()).addMeeting(startTime, endTime, "This is a test meeting");
-	     
-	     startTime = new Date(2018, 7, 8+counter, 12 , 00, 00);
-	     endTime = new Date(2018, 7, 8 +counter, 12,30, 00);
-	     employees.get(me.getKey()).addMeeting(startTime, endTime, "This is a test meeting 2");
-	    
-	     
-	     employees.get(me.getKey()).getDiary().printDiary();;
-	     
-		}*/
-	   }
-	
 	/**
 	 * Method to find the times between the unavailable times employees
 	 * @param startTime as the start time entered by the user
