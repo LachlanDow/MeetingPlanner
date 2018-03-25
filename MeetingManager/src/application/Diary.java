@@ -1,5 +1,6 @@
 package application;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.ListIterator;
@@ -22,7 +23,7 @@ public class Diary {
 	 * A Stack that contains all recent add/edit/delete functions
 	 * so that they will be able to be reversable.
 	 */
-	private Stack<String> recentActions;
+	private Stack<Action> recentActions = new Stack<Action>();
 	
 	public LinkedList<Meeting> getMeetingsOnDay(Date date){
 		LinkedList<Meeting> meetings = new LinkedList<Meeting>();
@@ -38,38 +39,42 @@ public class Diary {
 		return meetings;
 	}
 	
-	/**
-	 * Add a meeting to the employee's diary.
-	 */
-	public void add(Date startTime, Date endTime, String description) {
+	public void add(Meeting meeting, boolean noStack) {
+		meetings.add(meeting);
 		
-		meetings.add(new Meeting(startTime,endTime, description));
+		if(!noStack) {
+			recentActions.push(new Action(this, "add", meeting));
+		}
 	}
-	
+
 	/**
 	 * Delete a meeting from the employee's diary.
-	 * @return Meeting that was deleted.
 	 */
-	public Meeting delete() {
-		return null;
+	public void delete(Meeting meeting, boolean noStack) {
+		meetings.remove(meeting);
+		
+		if(!noStack) {
+			recentActions.push(new Action(this, "delete", meeting));
+		}
 	}
 	
-	/**
-	 * Edit a meeting within the employee's diary.
-	 * @param meeting Meeting that has to be changed.
-	 * @param start New start time of the meeting.
-	 * @param end New end time of the meeting.
-	 * @param desc New description for the meeting.
-	 */
-	public void edit(Date meeting, Date start, Date end, String desc) {
+	public void edit(Meeting oldMeeting, Meeting newMeeting, boolean noStack) {
+		recentActions.push(new Action(this, "edit", oldMeeting, newMeeting));
 		
+		delete(oldMeeting, true);
+		add(newMeeting, true);
 	}
 	
 	/**
 	 * Undo the last add/edit/delete action.
 	 */
 	public void undo() {
-		
+		if(!recentActions.isEmpty()) {
+			Action pop = recentActions.pop();
+			
+			//Reverse the action.
+			pop.reverse();
+		}
 	}
 	
 	/**

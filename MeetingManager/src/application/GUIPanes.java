@@ -810,7 +810,28 @@ public class GUIPanes {
 				}
 			});
 
-			bottomBox.setRight(addButton);
+			bottomBox.setCenter(addButton);
+			
+			CustomButton undoButton = new CustomButton("Undo", 16);
+			undoButton.setOnAction(new EventHandler<ActionEvent>() {
+				@Override
+				public void handle(ActionEvent event) {
+					employee.undo();
+					
+					String string = monthLabel.getText() + " " + yearComboBox.getValue();
+					SimpleDateFormat format = new SimpleDateFormat("MMMM yyyy");
+
+					try {
+						Date date = format.parse(string);
+						drawCal(calendar, date);
+					} catch (ParseException e) {
+						e.printStackTrace();
+					}
+				}
+			});
+
+			bottomBox.setRight(undoButton);
+
 
 			setMargin(bottomBox, new Insets(10, 5, 5, 5));
 			setBottom(bottomBox);
@@ -927,7 +948,6 @@ public class GUIPanes {
 			grid.add(dateLabel, 0, 1);
 
 			DatePicker datePicker = new DatePicker();
-	        datePicker.setEditable(false);
 			
 			grid.add(datePicker, 1, 1);
 			
@@ -954,7 +974,7 @@ public class GUIPanes {
 						Meeting toAdd = Validation.validateMeeting(datePicker.getValue(), startTimePicker.getText(), endTimePicker.getText(), descTextField.getText(), employee.getDiary());
 
 						// Add the Employee
-						employee.getDiary().getMeetings().add(toAdd);
+						employee.addMeeting(toAdd);
 
 						// Display success message.
 						CustomText successText = new CustomText("Meeting successfully added", 16);
@@ -1088,7 +1108,7 @@ public class GUIPanes {
 						Meeting clickedRow = row.getItem();
 
 						// Switch to EditMeeting and pass the selected meeting and employee.
-						GUIHandler.changePane(new EditMeeting(employee, clickedRow));
+						GUIHandler.changePane(new EditMeeting(employee, clickedRow, meetings, date));
 					}
 				});
 				return row;
@@ -1097,7 +1117,7 @@ public class GUIPanes {
 	}
 	
 	public static class EditMeeting extends BorderPane {
-		public EditMeeting(Employee employee, Meeting meeting) {
+		public EditMeeting(Employee employee, Meeting meeting, LinkedList<Meeting> meetings, String date) {
 			VBox topBox = new VBox();
 			CustomText title = new CustomText("Meeting Manager", 64);
 			topBox.getChildren().add(title);
@@ -1168,12 +1188,11 @@ public class GUIPanes {
 						Meeting toAdd = Validation.validateMeeting(datePicker.getValue(), startTimePicker.getText(), endTimePicker.getText(), descTextField.getText(), employee.getDiary());
 
 						// Add the Meeting
-						employee.getDiary().getMeetings().remove(meeting);
-						employee.getDiary().getMeetings().add(toAdd);
+						employee.editMeeting(meeting, toAdd);
 
 						// Display success message.
 						CustomText successText = new CustomText("Meeting successfully edited.", 16);
-						grid.add(successText, 1, 4);
+						grid.add(successText, 1, 5);
 
 						// Remove the message after 2 seconds.
 						Timeline timer = new Timeline(
@@ -1187,7 +1206,7 @@ public class GUIPanes {
 					} catch (MeetingTimeBeforeStart | MeetingTimeNotSameDay | MeetingTimeSameTime | MeetingTimeStartConflict | GenericFieldEmpty e) {
 						// Display the error to the user.
 						CustomText errorText = new CustomText(e.getMessage(), 16);
-						grid.add(errorText, 1, 4);
+						grid.add(errorText, 1, 5);
 
 						Timeline timer = new Timeline(
 								new KeyFrame(Duration.seconds(2), new EventHandler<ActionEvent>() {
@@ -1202,7 +1221,18 @@ public class GUIPanes {
 			});
 
 			grid.add(saveButton, 0, 4);
-
+			
+			CustomButton deleteButton = new CustomButton("Delete Meeting", 20);
+			deleteButton.setOnAction(new EventHandler<ActionEvent>() {
+				@Override
+				public void handle(ActionEvent event) {
+					employee.deleteMeeting(meeting);
+					meetings.remove(meeting);
+					GUIHandler.changePane(new ViewDay(employee, meetings, date));
+				}
+			});
+			grid.add(deleteButton, 1, 4);
+			
 			setLeft(grid);
 
 			CustomButton backButton = new CustomButton("Back", 16);
