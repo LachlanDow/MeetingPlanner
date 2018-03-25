@@ -29,7 +29,7 @@ public class Diary {
 	 */
 	public void add(Date startTime, Date endTime, String description) {
 		
-		meetings.add(new Meeting(startTime,endTime, description));
+		meetings.add(new Meeting(startTime, endTime, description));
 	}
 	
 	/**

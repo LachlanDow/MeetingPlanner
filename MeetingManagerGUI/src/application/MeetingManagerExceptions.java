@@ -53,6 +53,15 @@ public class MeetingManagerExceptions {
 		}
 	}
 	
+	static class MeetingTimeStartConflict extends Exception {
+		/**
+		 * Default constructor setting the error message.
+		 */
+		public MeetingTimeStartConflict() {
+			super("The meeting has a conflicting start time.");
+		}
+	}
+	
 	static class EmployeeDetailsInvalidID extends Exception {
 		/**
 		 * Default constructor setting the error message.
@@ -62,21 +71,21 @@ public class MeetingManagerExceptions {
 		}
 	}
 	
-	static class EmployeeDetailsEmpty extends Exception {
-		/**
-		 * Default constructor setting the error message.
-		 */
-		public EmployeeDetailsEmpty(String field) {
-			super("You must provide a " + field + ".");
-		}
-	}
-	
 	static class EmployeeExists extends Exception {
 		/**
 		 * Default constructor setting the error message.
 		 */
 		public EmployeeExists() {
 			super("Employee ID taken.");
+		}
+	}
+	
+	static class GenericFieldEmpty extends Exception {
+		/**
+		 * Default constructor setting the error message.
+		 */
+		public GenericFieldEmpty(String field) {
+			super("You must provide a " + field + ".");
 		}
 	}
 }

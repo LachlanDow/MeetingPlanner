@@ -1,5 +1,8 @@
 package application;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -9,39 +12,64 @@ import java.util.Date;
  *
  */
 public class Validation {
-	/**
-	 * Determines if the list of given employees is valid.
-	 * @param ids String array of employee IDs.
-	 * @return True if all employees exist, false otherwise.
-	 */
+
 	public static boolean validateEmployees(String[] ids) {
 		return false;
 		//TODO: Make this work
 	}
 	
-	/**
-	 * Determines if a meeting start time and end time is valid.
-	 * @param startTime Time of the start of the meeting in the form of a Date object.
-	 * @param endTime Time of the end of the meeting in the form of a Date object.
-	 * @return True if meeting is vaid, false otherwise.
-	 * @throws MeetingManagerExceptions.MeetingTimeBeforeStart The meeting end time is before the start time.
-	 * @throws MeetingManagerExceptions.MeetingTimeNotSameDay The meeting is not on the same day.
-	 * @throws MeetingManagerExceptions.MeetingTimeSame The meeting starts and ends at the same time.
-	 */
-	public static boolean validateMeeting(Date startTime, Date endTime) throws MeetingManagerExceptions.MeetingTimeBeforeStart, MeetingManagerExceptions.MeetingTimeNotSameDay, MeetingManagerExceptions.MeetingTimeSameTime {
+	public static Meeting validateMeeting(LocalDate date, String startTime, String endTime, String desc, Diary diary) throws MeetingManagerExceptions.MeetingTimeBeforeStart, MeetingManagerExceptions.MeetingTimeNotSameDay, MeetingManagerExceptions.MeetingTimeSameTime, MeetingManagerExceptions.MeetingTimeStartConflict, MeetingManagerExceptions.GenericFieldEmpty {
+		//Check that all fields were entered.
+		if(desc.isEmpty()) {
+			throw new MeetingManagerExceptions.GenericFieldEmpty("description");
+		}
+		else if(date == null) {
+			throw new MeetingManagerExceptions.GenericFieldEmpty("date");
+		}
+		else if(startTime.isEmpty()) {
+			throw new MeetingManagerExceptions.GenericFieldEmpty("start time");
+		}
+		else if(endTime.isEmpty()) {
+			throw new MeetingManagerExceptions.GenericFieldEmpty("end time");
+		}
+		
+		//Convert two times to Date objects
+		SimpleDateFormat format = new SimpleDateFormat("yyy-MM-dd kk:mm");
+		
+		Date startDate = new Date();
+		Date endDate = new Date();
+	
+		try {
+			startDate = format.parse(date + " " + startTime);
+			endDate = format.parse(date + " " + endTime);
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+		
+				
 		//Make sure that the start time provided is before the end time.
-		if(endTime.before(startTime)){
+		if(endDate.before(startDate)){
 			throw new MeetingManagerExceptions.MeetingTimeBeforeStart();
 		}
 		//Make sure they are on the same day
-		else if(!sameDay(startTime, endTime)) {
+		else if(!sameDay(startDate, endDate)) {
 			throw new MeetingManagerExceptions.MeetingTimeNotSameDay();
 		}
 		//Make sure they aren't the exact same time.
-		else if(startTime.equals(endTime)) {
+		else if(startDate.equals(endDate)) {
 			throw new MeetingManagerExceptions.MeetingTimeSameTime();
 		}
-		return true;
+		
+		Meeting toValidate = new Meeting(startDate, endDate, desc);
+		
+		//Make sure the meeting slot is available
+		diary.getMeetings().iterator()
+		
+		if(diary.getMeetings().contains(toValidate)) {
+			throw new MeetingManagerExceptions.MeetingTimeStartConflict();
+		}
+		
+		return toValidate;
 	}
 	
 	/**
@@ -89,10 +117,10 @@ public class Validation {
 	 * @param jobTitle Job title to be validated.
 	 * @return Employee Reference to Employee object if valid.
 	 * @throws MeetingManagerExceptions.EmployeeDetailsInvalidID Thrown if the ID is a non-integer
-	 * @throws MeetingManagerExceptions.EmployeeDetailsEmpty Thrown if details are left blank.
+	 * @throws MeetingManagerExceptions.GenericFieldEmpty Thrown if details are left blank.
 	 * @throws MeetingManagerExceptions.EmployeeExists Thrown if the employee ID is taken.
 	 */
-	public static Employee validateEmployeeDetails(String id, String forename, String surname, String jobTitle) throws MeetingManagerExceptions.EmployeeDetailsInvalidID, MeetingManagerExceptions.EmployeeDetailsEmpty, MeetingManagerExceptions.EmployeeExists{
+	public static Employee validateEmployeeDetails(String id, String forename, String surname, String jobTitle) throws MeetingManagerExceptions.EmployeeDetailsInvalidID, MeetingManagerExceptions.GenericFieldEmpty, MeetingManagerExceptions.EmployeeExists{
 		int valId;
 		
 		//Make sure the ID is valid.
@@ -105,23 +133,20 @@ public class Validation {
 		
 		//Check that all fields were entered.
 		if(forename.isEmpty()) {
-			throw new MeetingManagerExceptions.EmployeeDetailsEmpty("forename");
+			throw new MeetingManagerExceptions.GenericFieldEmpty("forename");
 		}
 		else if(surname.isEmpty()) {
-			throw new MeetingManagerExceptions.EmployeeDetailsEmpty("surname");
+			throw new MeetingManagerExceptions.GenericFieldEmpty("surname");
 		}
 		else if(jobTitle.isEmpty()) {
-			throw new MeetingManagerExceptions.EmployeeDetailsEmpty("jobtitle");
+			throw new MeetingManagerExceptions.GenericFieldEmpty("jobtitle");
 		}
 		
-		//Create the object so we can compare it to the existing ones.
-		Employee toValidate = new Employee(valId, forename, surname, jobTitle);
-		
-		//Make sure it's not in the current list.
-		if(Company.getEmployees().containsValue(toValidate)) {
+		//Make sure the ID is not in the current list.
+		if(Company.getEmployees().containsKey(valId)) {
 			throw new MeetingManagerExceptions.EmployeeExists();
 		}
 		
-		return toValidate;
+		return new Employee(valId, forename, surname, jobTitle);
 	}
 }
