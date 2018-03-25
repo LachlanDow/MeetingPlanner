@@ -1,3 +1,5 @@
+package application;
+
 import java.time.LocalDateTime;
 import java.util.Calendar;
 import java.util.Collections;
@@ -201,7 +203,3 @@ public class Company {
 		return timesBetween;
 	}
 }
-	
-	
-
-		
