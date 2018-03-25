@@ -1095,11 +1095,133 @@ public class GUIPanes {
 						Meeting clickedRow = row.getItem();
 
 						// Switch to EditMeeting and pass the selected meeting and employee.
-						//GUIHandler.changePane(new EmployeeDiary(clickedRow));
+						GUIHandler.changePane(new EditMeeting(employee, clickedRow));
 					}
 				});
 				return row;
 			});
+		}
+	}
+	
+	public static class EditMeeting extends BorderPane {
+		public EditMeeting(Employee employee, Meeting meeting) {
+			VBox topBox = new VBox();
+			CustomText title = new CustomText("Meeting Manager", 64);
+			topBox.getChildren().add(title);
+			CustomText subtitle = new CustomText("Editing meeting.", 20);
+			topBox.getChildren().add(subtitle);
+
+			// Add some space between the subtitle and the employee name.
+			Region spacer = new Region();
+			spacer.setMinHeight(10);
+			topBox.getChildren().add(spacer);
+
+			// Add employee name to the Pane.
+			CustomText employeeName = new CustomText("Employee: " + employee.getFullName(), 20);
+			topBox.getChildren().add(employeeName);
+
+			setMargin(topBox, new Insets(10));
+			setTop(topBox);
+
+			GridPane grid = new GridPane();
+
+			grid.setHgap(10);
+			grid.setVgap(20);
+			grid.setPadding(new Insets(15, 25, 25, 25));
+
+			CustomText description = new CustomText("Description:", 30);
+			grid.add(description, 0, 0);
+
+			TextField descTextField = new TextField();
+			descTextField.setFont(Font.font("Arial", 20));
+			descTextField.setText(meeting.getDescription());
+			grid.add(descTextField, 1, 0);
+
+			CustomText dateLabel = new CustomText("Date:", 30);
+			
+			grid.add(dateLabel, 0, 1);
+
+			//Get values from date
+			Calendar cal = Calendar.getInstance();
+			cal.setTime(meeting.getStartTime());
+			
+			System.out.println(cal.get(Calendar.YEAR) + " " + cal.get(Calendar.MONTH) + " " +cal.get((Calendar.DAY_OF_MONTH)));
+			
+			DatePicker datePicker = new DatePicker(LocalDate.of(cal.get(Calendar.YEAR), cal.get(Calendar.MONTH)+1, cal.get((Calendar.DAY_OF_MONTH))));
+	        datePicker.setEditable(false);
+			
+			grid.add(datePicker, 1, 1);
+			
+			CustomText startTimeLabel = new CustomText("Start Time:", 30);
+			grid.add(startTimeLabel, 0, 2);
+
+			NumberSpinner startTimePicker = new NumberSpinner(Integer.parseInt(meeting.getRawStart().substring(0, 2)), Integer.parseInt(meeting.getRawStart().substring(3, 5)));
+			startTimePicker.setStyle("-fx-font-size: 18px;");
+			grid.add(startTimePicker, 1, 2);
+			
+			CustomText endTimeLabel = new CustomText("End Time:", 30);
+			grid.add(endTimeLabel, 0, 3);
+
+			NumberSpinner endTimePicker = new NumberSpinner(Integer.parseInt(meeting.getRawEnd().substring(0, 2)), Integer.parseInt(meeting.getRawEnd().substring(3, 5)));
+			endTimePicker.setStyle("-fx-font-size: 18px;");
+			grid.add(endTimePicker, 1, 3);
+
+			CustomButton saveButton = new CustomButton("Save Meeting", 20);
+			saveButton.setOnAction(new EventHandler<ActionEvent>() {
+				@Override
+				public void handle(ActionEvent event) {
+					try {				
+						// Validate the employee details. Any errors will cause an exception.
+						Meeting toAdd = Validation.validateMeeting(datePicker.getValue(), startTimePicker.getText(), endTimePicker.getText(), descTextField.getText(), employee.getDiary());
+
+						// Add the Meeting
+						employee.getDiary().getMeetings().remove(meeting);
+						employee.getDiary().getMeetings().add(toAdd);
+
+						// Display success message.
+						CustomText successText = new CustomText("Meeting successfully edited.", 16);
+						grid.add(successText, 1, 4);
+
+						// Remove the message after 2 seconds.
+						Timeline timer = new Timeline(
+								new KeyFrame(Duration.seconds(2), new EventHandler<ActionEvent>() {
+									@Override
+									public void handle(ActionEvent event) {
+										grid.getChildren().remove(successText);
+									}
+								}));
+						timer.play();
+					} catch (MeetingTimeBeforeStart | MeetingTimeNotSameDay | MeetingTimeSameTime | MeetingTimeStartConflict | GenericFieldEmpty e) {
+						// Display the error to the user.
+						CustomText errorText = new CustomText(e.getMessage(), 16);
+						grid.add(errorText, 1, 4);
+
+						Timeline timer = new Timeline(
+								new KeyFrame(Duration.seconds(2), new EventHandler<ActionEvent>() {
+									@Override
+									public void handle(ActionEvent event) {
+										grid.getChildren().remove(errorText);
+									}
+								}));
+						timer.play();
+					}
+				}
+			});
+
+			grid.add(saveButton, 0, 4);
+
+			setLeft(grid);
+
+			CustomButton backButton = new CustomButton("Back", 16);
+			backButton.setOnAction(new EventHandler<ActionEvent>() {
+				@Override
+				public void handle(ActionEvent event) {
+					GUIHandler.changePane(new EmployeeDiary(employee));
+				}
+			});
+			setMargin(backButton, new Insets(10, 5, 5, 5));
+
+			setBottom(backButton);
 		}
 	}
 }
