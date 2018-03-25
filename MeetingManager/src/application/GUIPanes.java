@@ -1,5 +1,6 @@
 package application;
 
+import java.io.File;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.DayOfWeek;
@@ -10,6 +11,8 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.Map.Entry;
+
+import javax.swing.JFileChooser;
 
 import application.DisplayElements.CustomButton;
 import application.DisplayElements.CustomText;
@@ -52,6 +55,7 @@ import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.scene.text.TextAlignment;
+import javafx.stage.FileChooser;
 import javafx.util.Duration;
 
 /**
@@ -109,8 +113,24 @@ public class GUIPanes {
 					// GUIHandler.changePane(new CompanyMeeting());
 				}
 			});
+			
+			MenuButton loadButton = new MenuButton("Load Company");
+			loadButton.setOnAction(new EventHandler<ActionEvent>() {
+				@Override
+				public void handle(ActionEvent event) {
+					// GUIHandler.changePane(new CompanyMeeting());
+				}
+			});
+			
+			MenuButton saveButton = new MenuButton("Save Company");
+			saveButton.setOnAction(new EventHandler<ActionEvent>() {
+				@Override
+				public void handle(ActionEvent event) {
+					GUIHandler.saveCompany();
+				}
+			});
 
-			options.getChildren().addAll(employeesButton, diaryButton, companyMeetingButton);
+			options.getChildren().addAll(employeesButton, diaryButton, companyMeetingButton, loadButton, saveButton);
 
 			setCenter(options);
 

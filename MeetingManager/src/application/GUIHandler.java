@@ -1,77 +1,101 @@
 package application;
-	
+
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Map.Entry;
+
+import javax.swing.JOptionPane;
 
 import javafx.application.Application;
 import javafx.scene.Parent;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
 /**
- * This class controls the GUI overall. It boots up the GUI and loads the main menu panel.
- * It also controls the switching of GUI panes.
+ * This class controls the GUI overall. It boots up the GUI and loads the main
+ * menu panel. It also controls the switching of GUI panes.
+ * 
  * @author Daniel
  *
  */
 public class GUIHandler extends Application {
 	private static Stage main;
-	
+
 	/**
 	 * Basic constructor for the GUI that gets it up and running.
 	 */
 	public GUIHandler() {
-		
+
 	}
-	
+
 	@Override
 	public void start(Stage main) {
 		try {
-			//TODO: Delete this and read from file.
-			Employee a = new Employee(14, "Dan", "Smith", "Manager");
-			Employee b = new Employee(23, "John", "Doe", "Worker");
-			Employee c = new Employee(45, "Paul", "Lang", "Worker");
-			Employee d = new Employee(35, "Jacob", "Person", "Worker");
-			
-			Company.getEmployees().put(14, a);
-			Company.getEmployees().put(23, b);
-			Company.getEmployees().put(45, c);
-			Company.getEmployees().put(35, d);
-			
-			SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd kk:mm");
-			
-			Date date = format.parse("2018-03-30 12:00");
-			Date date2 = format.parse("2018-03-30 13:00");
-			
-			Company.getEmployees().get(14).getDiary().getMeetings().add(new Meeting(date, date2, "CEO meeting"));
-			
 			GUIHandler.main = main;
-			
-			//Set up the style of the window
+
+			// Set up the style of the window
 			main.setTitle("Meeting Manager");
-			
+
 			changePane(new GUIPanes.MainMenu());
-			
+
 			main.setResizable(false);
 			main.show();
-			
-		} catch(Exception e) {
+
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
-	
+
+	public static void saveCompany() {
+		FileChooser fileChooser = new FileChooser();
+
+		// Set extension filter
+		FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("COMPANY files (*.company)",
+				"*.company");
+		fileChooser.getExtensionFilters().add(extFilter);
+
+		// Show save file dialog
+		File file = fileChooser.showSaveDialog(main);
+
+		if (file != null) {
+			FileWriter fileWriter;
+			try {
+				fileWriter = new FileWriter(file);
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+
+			for (Entry<Integer, Employee> entry : Company.getEmployees().entrySet()) {
+
+			}
+
+			// fileWriter.write();
+			//fileWriter.close();
+		}
+
+	}
+
 	/**
 	 * Used to change the pane in the GUI.
-	 * @param p Parent pane to change to.
+	 * 
+	 * @param p
+	 *            Parent pane to change to.
 	 */
 	public static void changePane(Parent p) {
 		main.setScene(new CustomScene(p));
-		
-		//Counteract the auto-focusing of the first node.
+
+		// Counteract the auto-focusing of the first node.
 		main.getScene().getRoot().requestFocus();
 	}
-	
+
 	/**
-	 * Alternative entry point to the program that boots up the GUI and skips the text-based version.
+	 * Alternative entry point to the program that boots up the GUI and skips the
+	 * text-based version.
+	 * 
 	 * @param args
 	 */
 	public static void main(String[] args) {
