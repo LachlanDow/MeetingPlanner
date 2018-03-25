@@ -1,5 +1,6 @@
 package application;
 
+import java.util.Calendar;
 import java.util.Date;
 
 public class Meeting {
@@ -7,15 +8,40 @@ public class Meeting {
 	private Date startTime;
 	private Date endTime;
 	private String description;
+	
 	private long duration;
+	private String rawStart;
+	private String rawEnd;
 
 	public Meeting(Date startTime, Date endTime, String description) {
 		this.startTime = startTime;
 		this.endTime = endTime;
 		this.description = description;
 		this.duration = this.getDuration(startTime, endTime);
+		
+		Calendar cal = Calendar.getInstance();
+		
+		cal.setTime(startTime);
+		this.rawStart = hourMinuteZero(cal.get(Calendar.HOUR_OF_DAY), cal.get(Calendar.MINUTE));
+		
+		cal.setTime(endTime);
+		this.rawEnd = hourMinuteZero(cal.get(Calendar.HOUR_OF_DAY), cal.get(Calendar.MINUTE));
+		 
 	}
 
+	/**
+	 * 
+	 * @param hour
+	 * @param mnts
+	 * @return
+	 * @credit https://stackoverflow.com/a/49133733/3102362
+	 */
+	public static String hourMinuteZero(int hour,int mnts){
+	    String hourZero = (hour >=10)? Integer.toString(hour):String.format("0%s",Integer.toString(hour));
+	    String minuteZero = (mnts >=10)? Integer.toString(mnts):String.format("0%s",Integer.toString(mnts));
+	    return hourZero+":"+minuteZero;
+	}
+	
 	/**
 	 * Method to get the start time of the meeting
 	 * 
@@ -23,6 +49,14 @@ public class Meeting {
 	 */
 	public Date getStartTime() {
 		return startTime;
+	}
+
+	public String getRawStart() {
+		return this.rawStart;
+	}
+	
+	public String getRawEnd() {
+		return this.rawEnd;
 	}
 
 	/**

@@ -1,5 +1,8 @@
 package application;
 	
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 import javafx.application.Application;
 import javafx.scene.Parent;
 import javafx.stage.Stage;
@@ -33,6 +36,13 @@ public class GUIHandler extends Application {
 			Company.getEmployees().put(23, b);
 			Company.getEmployees().put(45, c);
 			Company.getEmployees().put(35, d);
+			
+			SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd kk:mm");
+			
+			Date date = format.parse("2018-03-30 12:00");
+			Date date2 = format.parse("2018-03-30 13:00");
+			
+			Company.getEmployees().get(14).getDiary().getMeetings().add(new Meeting(date, date2, "CEO meeting"));
 			
 			GUIHandler.main = main;
 			

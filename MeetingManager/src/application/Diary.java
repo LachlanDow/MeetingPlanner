@@ -24,6 +24,20 @@ public class Diary {
 	 */
 	private Stack<String> recentActions;
 	
+	public LinkedList<Meeting> getMeetingsOnDay(Date date){
+		LinkedList<Meeting> meetings = new LinkedList<Meeting>();
+		
+		for(int i = 0; i < getMeetings().size(); i++) {
+			Meeting next = getMeetings().get(i);
+			
+			if(Validation.sameDay(next.getStartTime(), date)) {
+				meetings.add(next);
+			}
+		}
+		
+		return meetings;
+	}
+	
 	/**
 	 * Add a meeting to the employee's diary.
 	 */

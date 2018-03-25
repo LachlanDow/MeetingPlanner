@@ -34,7 +34,7 @@ public class Validation {
 		}
 		
 		//Convert two times to Date objects
-		SimpleDateFormat format = new SimpleDateFormat("yyy-MM-dd kk:mm");
+		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd kk:mm");
 		
 		Date startDate = new Date();
 		Date endDate = new Date();
@@ -62,11 +62,13 @@ public class Validation {
 		
 		Meeting toValidate = new Meeting(startDate, endDate, desc);
 		
-		//Make sure the meeting slot is available
-		//diary.getMeetings().iterator()
-		
-		if(diary.getMeetings().contains(toValidate)) {
-			throw new MeetingManagerExceptions.MeetingTimeStartConflict();
+		//Make sure the meeting slot is available and doesn't intersect with another meeting
+		for(int i = 0; i < diary.getMeetings().size(); i++) {
+			Meeting next = diary.getMeetings().get(i);
+			
+			if(toValidate.getStartTime().before(next.getEndTime()) && next.getStartTime().before(toValidate.getEndTime())){
+				throw new MeetingManagerExceptions.MeetingTimeStartConflict();
+			}
 		}
 		
 		return toValidate;

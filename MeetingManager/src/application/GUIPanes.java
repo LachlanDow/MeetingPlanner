@@ -8,6 +8,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.LinkedList;
 import java.util.Map.Entry;
 
 import application.DisplayElements.CustomButton;
@@ -28,6 +29,7 @@ import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
 import javafx.collections.transformation.SortedList;
 import javafx.event.ActionEvent;
+import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -49,6 +51,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
+import javafx.scene.text.TextAlignment;
 import javafx.util.Duration;
 
 /**
@@ -626,6 +629,23 @@ public class GUIPanes {
 	public static class EmployeeDiary extends BorderPane {
 
 		Employee employee;
+		
+		ArrayList<String> monthsList = new ArrayList<String>() {
+			{
+				add("January");
+				add("February");
+				add("March");
+				add("April");
+				add("May");
+				add("June");
+				add("July");
+				add("August");
+				add("September");
+				add("October");
+				add("November");
+				add("December");
+			}
+		};
 
 		public EmployeeDiary(Employee employee) {
 			this.employee = employee;
@@ -661,31 +681,13 @@ public class GUIPanes {
 			int currYear = Calendar.getInstance().get(Calendar.YEAR);
 			int currMonthNo = Calendar.getInstance().get(Calendar.MONTH);
 
-			// Set up the months in a seperate arrayList (allows me to use currentMonthNo to
-			// get the month name)
-			ArrayList<String> monthsList = new ArrayList<String>() {
-				{
-					add("January");
-					add("February");
-					add("March");
-					add("April");
-					add("May");
-					add("June");
-					add("July");
-					add("August");
-					add("September");
-					add("October");
-					add("November");
-					add("December");
-				}
-			};
-
 			// Caldendar grid
 			GridPane calendar = new GridPane();
 
 			// Year and months combo boxes
 			ComboBox<Integer> yearComboBox = new ComboBox<Integer>();
 			ComboBox<String> monthsComboBox = new ComboBox<String>();
+			monthsComboBox.getItems().addAll(monthsList);
 
 			// Month, seperator and year labels
 			CustomText monthLabel = new CustomText(monthsList.get(currMonthNo), 20);
@@ -700,23 +702,6 @@ public class GUIPanes {
 			monthLabel.setOnMouseClicked(new EventHandler<MouseEvent>() {
 				@Override
 				public void handle(MouseEvent arg0) {
-					SimpleDateFormat format = new SimpleDateFormat("MMMM yyyy");
-
-					monthsComboBox.getItems().clear();
-
-					for (String month : monthsList) {
-						try {
-							Date date = format.parse(month + " " + yearLabel.getText());
-							if (date.after(new Date()) || month.equals(monthLabel.getText())) {
-								monthsComboBox.getItems().add(month);
-							}
-						} catch (ParseException e) {
-							e.printStackTrace();
-						}
-					}
-
-					monthsComboBox.getSelectionModel().select(0);
-
 					monthYearControls.getChildren().remove(monthLabel);
 					monthYearControls.add(monthsComboBox, 0, 0);
 				}
@@ -846,7 +831,7 @@ public class GUIPanes {
 
 			for (int i = 0; i < 5; i++) {
 				for (int j = 0; j < 7; j++) {
-					HBox calSquare = new HBox();
+					VBox calSquare = new VBox();
 					Label day = new Label();
 
 					if (i == 0 && (j + 1) < dayOfWeekMonthStart || counter > lastDayOfMonth) {
@@ -856,10 +841,33 @@ public class GUIPanes {
 						calSquare.getChildren().add(day);
 
 						// Add meeting text
-						// employee.getDiary().getMeetingsOnDay();
-
-						counter++;
-						calSquare.setStyle("-fx-background-color: white; -fx-border-color: black;");
+						SimpleDateFormat format = new SimpleDateFormat("MMMM d yyyy");
+						
+						String toFormat = monthsList.get(cal.get(Calendar.MONTH)) + " " + counter + " " + cal.get(Calendar.YEAR);
+						String toFormatOrdinal = monthsList.get(cal.get(Calendar.MONTH)) + " " + ordinal(counter) + " " + cal.get(Calendar.YEAR);
+						
+						try {
+							LinkedList<Meeting> meetings = employee.getDiary().getMeetingsOnDay(format.parse(toFormat));
+							
+							int size = meetings.size();
+							if(size > 0) {
+								Label noMeetings = new Label(meetings.size() + " meetings");
+								calSquare.getChildren().add(noMeetings);	
+							}
+							
+							counter++;
+							calSquare.setStyle("-fx-background-color: white; -fx-border-color: black;");
+							
+							calSquare.setOnMouseClicked(new EventHandler<MouseEvent>() {
+								@Override
+								public void handle(MouseEvent event) {
+									GUIHandler.changePane(new ViewDay(employee, meetings, toFormatOrdinal));
+								}
+							});
+							
+						} catch (ParseException e) {
+							e.printStackTrace();
+						}
 					}
 					calSquare.setMinSize(80, 50);
 					calendar.add(calSquare, j, i + 4);
@@ -1004,6 +1012,94 @@ public class GUIPanes {
 			setMargin(backButton, new Insets(10, 5, 5, 5));
 
 			setBottom(backButton);
+		}
+	}
+	
+	public static class ViewDay extends BorderPane {
+		public ViewDay(Employee employee, LinkedList<Meeting> meetings, String date) {
+			VBox topBox = new VBox();
+			CustomText title = new CustomText("Meeting Manager", 64);
+			topBox.getChildren().add(title);
+
+			CustomText subtitle = new CustomText("Click a meeting to view or edit it", 20);
+			topBox.getChildren().add(subtitle);
+
+			// Add some space between the subtitle and the employee name.
+			Region spacer = new Region();
+			spacer.setMinHeight(10);
+			topBox.getChildren().add(spacer);
+
+			// Add employee name to the Pane.
+			CustomText employeeName = new CustomText("Employee: " + employee.getFullName(), 20);
+			topBox.getChildren().add(employeeName);
+
+			// Add a margin to the topbox.
+			setMargin(topBox, new Insets(10));
+			setTop(topBox);
+			
+			TableView<Meeting> table = new TableView<Meeting>();
+
+			TableColumn<Meeting, String> monthThing = new TableColumn<>();
+			
+			
+			HBox colBox = new HBox();
+			
+			CustomText backArrow = new CustomText("<", 26);
+			
+			Region space = new Region();
+			space.setMinWidth(200);
+			
+			CustomText dateColHeader = new CustomText(date, 26);
+			
+			colBox.getChildren().add(backArrow);
+			colBox.getChildren().add(space);
+			colBox.getChildren().add(dateColHeader);
+			
+			colBox.setOnMouseClicked(e -> GUIHandler.changePane(new EmployeeDiary(employee)));
+			monthThing.setGraphic(colBox);
+			
+			TableColumn<Meeting, String> descCol = new TableColumn<Meeting, String>("Description");
+			descCol.setCellValueFactory(new PropertyValueFactory<Meeting, String>("description"));
+
+			TableColumn<Meeting, String> startTimeCol = new TableColumn<Meeting, String>("Start Time");
+			startTimeCol.setCellValueFactory(new PropertyValueFactory<Meeting, String>("rawStart"));	
+
+			TableColumn<Meeting, String> endTimeCol = new TableColumn<Meeting, String>("End Time");
+			endTimeCol.setCellValueFactory(new PropertyValueFactory<Meeting, String>("rawEnd"));
+
+			monthThing.getColumns().addAll(descCol, startTimeCol, endTimeCol);
+			
+			table.getColumns().add(monthThing);
+
+			// Table column widths (odd value so that it offsets the margin)
+			descCol.prefWidthProperty().bind(table.widthProperty().divide(2.02));
+			startTimeCol.prefWidthProperty().bind(table.widthProperty().divide(4.02));
+			endTimeCol.prefWidthProperty().bind(table.widthProperty().divide(4.02));
+
+			setMargin(table, new Insets(10, 5, 5, 5));
+
+			setCenter(table);
+
+			// TEST DATA
+			ObservableList<Meeting> data = FXCollections.observableArrayList(meetings);
+
+			table.setItems(data);
+
+			// Credit: https://stackoverflow.com/a/30194680/3102362
+			// Row click events.
+			table.setRowFactory(tv -> {
+				TableRow<Meeting> row = new TableRow<>();
+				row.setOnMouseClicked(event -> {
+					if (!row.isEmpty() && event.getButton() == MouseButton.PRIMARY && event.getClickCount() == 2) {
+
+						Meeting clickedRow = row.getItem();
+
+						// Switch to EditMeeting and pass the selected meeting and employee.
+						//GUIHandler.changePane(new EmployeeDiary(clickedRow));
+					}
+				});
+				return row;
+			});
 		}
 	}
 }

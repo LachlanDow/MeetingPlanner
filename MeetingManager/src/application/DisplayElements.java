@@ -76,7 +76,6 @@ public class DisplayElements {
 		 */
 		private void parseAndFormatInput() {
 			String input = getText();
-			System.out.println(input);
 			try {
 				if (input == null || input.length() == 0) {
 					return;
