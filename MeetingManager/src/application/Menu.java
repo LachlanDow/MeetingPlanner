@@ -1,3 +1,5 @@
+package application;
+
 import java.util.Date;
 
 /**
@@ -13,6 +15,7 @@ public class Menu {
 		menu.createTestCompany();
 
 	}
+	
 	@SuppressWarnings("deprecation")
 	public void createTestCompany() {
 		company.addEmployee(123,"John","doe", "softwareEngineer");
