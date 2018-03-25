@@ -1,13 +1,10 @@
 package application;
 
-import java.time.LocalDateTime;
-import java.util.Calendar;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.ListIterator;
-//import java.util.Map;
 import java.util.TreeMap;
 
 
@@ -16,7 +13,7 @@ public class Company {
 	/**
 	 *A binary tree of all the employees in the company
 	 */
-	private TreeMap<Integer,Employee> employees = new TreeMap<Integer,Employee>();
+	private static TreeMap<Integer,Employee> employees = new TreeMap<Integer,Employee>();
 	private Long searchStart;
 	private Long searchEnd;
 	private Float searchTime;
@@ -202,4 +199,9 @@ public class Company {
 		System.out.println(searchTime/1000 + " s");
 		return timesBetween;
 	}
+
+	public static TreeMap<Integer, Employee> getEmployees() {
+		return employees;
+	}
+
 }
