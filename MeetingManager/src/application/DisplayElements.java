@@ -67,7 +67,7 @@ public class DisplayElements {
 		public NumberTextField(int hour, int mins) {
 			super();
 			initHandlers();
-			setCombined(LocalDateTime.now().getHour(), LocalDateTime.now().getMinute());
+			setCombined(hour, mins);
 		}
 
 		/**
