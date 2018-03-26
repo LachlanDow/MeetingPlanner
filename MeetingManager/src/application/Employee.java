@@ -81,16 +81,21 @@ public class Employee {
     	LinkedList<Meeting> allMeetings =  diary.getMeetings();
     	for (int i = 0; i < allMeetings.size();i++) {
     		
-    		if(allMeetings.get(i).getStartTime().after(startTime) && allMeetings.get(i).getEndTime().after(endTime)) {
+    		if(allMeetings.get(i).getStartTime().after(startTime) && allMeetings.get(i).getStartTime().before(endTime)) {
     			withinMeetings.add(allMeetings.get(i));
     		}
     	}
     	return withinMeetings;
     	
     }
+	public void add(Meeting meeting) {
+		diary.add(meeting);
+	}
 	
+
     public void addMeeting(Meeting meeting) {
     	diary.add(meeting, false);
+
     }
     
     public void deleteMeeting(Meeting meeting) {

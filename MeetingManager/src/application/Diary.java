@@ -29,8 +29,10 @@ public class Diary {
 	 * @param date Date to get meetings for
 	 * @return LinkedList<Meeting> containing meetings occuring on date
 	 */
+
 	public LinkedList<Meeting> getMeetingsOnDay(Date date){
 		LinkedList<Meeting> meetings = new LinkedList<Meeting>();
+
 		
 		for(int i = 0; i < getMeetings().size(); i++) {
 			Meeting next = getMeetings().get(i);
@@ -42,6 +44,11 @@ public class Diary {
 		}
 		
 		return meetings;
+	}
+	
+public void add(Meeting meeting) {
+		
+		meetings.add(meeting);
 	}
 	
 	/**
