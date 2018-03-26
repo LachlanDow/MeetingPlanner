@@ -136,14 +136,27 @@ public class Company {
 		timesBetween.add(new Meeting(startTime,endTime,""));
 		return timesBetween;
 	}
-		timesBetween.add(new Meeting(startTime,totalMeetings.getFirst().getStartTime(),""));
-		for(int i =0; i < totalMeetings.size()-2; i++) {
+	if(startTime.equals(totalMeetings.getFirst().getStartTime())) {
+		for(int i =0; i < totalMeetings.size()-1; i++) {
 			timesBetween.add(new Meeting(totalMeetings.get(i).getEndTime(),totalMeetings.get(i+1).getStartTime(),""));	
 		}
 		timesBetween.add(new Meeting(totalMeetings.getLast().getEndTime(),endTime,""));
 		return timesBetween;
-	}
-
+	}else {
+		
+			timesBetween.add(new Meeting(startTime,totalMeetings.getFirst().getStartTime(),""));
+			for(int i =0; i < totalMeetings.size()-2; i++) {
+				timesBetween.add(new Meeting(totalMeetings.get(i).getEndTime(),totalMeetings.get(i+1).getStartTime(),""));	
+			}
+			timesBetween.add(new Meeting(totalMeetings.getLast().getEndTime(),endTime,""));
+			return timesBetween;
+		}
+	
+}
+/**
+ * get tree of employees
+ * @return
+ */
 	public static TreeMap<Integer, Employee> getEmployees() {
 		return employees;
 	}
