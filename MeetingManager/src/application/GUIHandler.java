@@ -26,23 +26,22 @@ import javafx.stage.Stage;
 public class GUIHandler extends Application {
 	private static Stage main;
 
-	/**
-	 * Basic constructor for the GUI that gets it up and running.
-	 */
-	public GUIHandler() {
-
-	}
-
 	@Override
+	/**
+	 * GUI Entry point
+	 */
 	public void start(Stage main) {
 		try {
+			//Keep reference to the stage for other methods.
 			GUIHandler.main = main;
 			
 			// Set up the style of the window
 			main.setTitle("Meeting Manager");
 
+			//Load the main menu
 			changePane(new GUIPanes.MainMenu());
 
+			//Window options
 			main.setResizable(false);
 			main.show();
 
@@ -51,6 +50,9 @@ public class GUIHandler extends Application {
 		}
 	}
 
+	/**
+	 * Method that saves all current company data to chosen file.
+	 */
 	public static void saveCompany() {
 		FileChooser fileChooser = new FileChooser();
 
@@ -63,13 +65,16 @@ public class GUIHandler extends Application {
 
 		if (file != null) {
 			try {
+				//Open the file to write.
 				FileWriter fileWriter = new FileWriter(file);
 				BufferedWriter out = new BufferedWriter(fileWriter);
 
+				//Loop through every employee
 				for (Entry<Integer, Employee> entry : Company.getEmployees().entrySet()) {
 					out.write(entry.getValue().getEmployeeInformation());
 					out.newLine();
 					
+					//Loop through all their meetings
 					for(Meeting m : entry.getValue().getDiary().getMeetings()) {
 						out.write(m.getMeetingDetails());
 						out.newLine();
@@ -84,6 +89,9 @@ public class GUIHandler extends Application {
 
 	}
 	
+	/**
+	 * Method that loads company information from file into program.
+	 */
 	public static void loadCompany() {
 		FileChooser fileChooser = new FileChooser();
 
@@ -96,17 +104,22 @@ public class GUIHandler extends Application {
 
 		if (file != null) {
 			try {
+				//Open file to read
 				FileReader fileReader = new FileReader(file);
 				BufferedReader in = new BufferedReader(fileReader);
 				
 				String line;
+				
+				//Keep track of the last employee
 				int employeeID = 0;
 				
+				//Read line by line
 			    while ((line = in.readLine()) != null) {
 			    	if(line.isEmpty()) continue;
 			    	
 			        String[] info = line.split(",");
 			        
+			        //If info[0] is parseable, is Employee, if not it's a meeting
 			        try {
 			        	int id = Integer.parseInt(info[0]);
 			        	employeeID = id;
@@ -117,7 +130,6 @@ public class GUIHandler extends Application {
 			        	Company.addEmployee(id, firstName, lastName, jobTitle);
 			        }
 			        catch(NumberFormatException e) {
-			        	//Tue Mar 20 12:00:00 GMT 2018
 			        	SimpleDateFormat format = new SimpleDateFormat("EEE MMM dd kk:mm:ss zzz yyyy");
 			        	
 			        	System.out.println(info[0]);
@@ -144,8 +156,7 @@ public class GUIHandler extends Application {
 	/**
 	 * Used to change the pane in the GUI.
 	 * 
-	 * @param p
-	 *            Parent pane to change to.
+	 * @param p Parent pane to change to.
 	 */
 	public static void changePane(Parent p) {
 		main.setScene(new CustomScene(p));

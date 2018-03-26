@@ -71,7 +71,7 @@ public class GUIPanes {
 		 * Classic constructor. Sets up all the styles and Nodes on the Pane.
 		 */
 		public MainMenu() {
-			//
+			//Top portion of the pane
 			CustomText title = new CustomText("Meeting Manager", 72);
 
 			setMargin(title, new Insets(30, 0, 0, 0));
@@ -81,7 +81,7 @@ public class GUIPanes {
 			VBox options = new VBox(10);
 			options.setAlignment(Pos.CENTER);
 
-			//
+			//Menu buttons
 			MenuButton employeesButton = new MenuButton("Manage Employees");
 			employeesButton.setOnAction(new EventHandler<ActionEvent>() {
 				@Override
@@ -129,8 +129,16 @@ public class GUIPanes {
 		}
 	}
 
+	/**
+	 * ManageEmployees pane that shows all employees and leads to EditEmployee pane.
+	 * @author Daniel
+	 *
+	 */
 	public static class ManageEmployees extends BorderPane {
 		@SuppressWarnings("unchecked")
+		/**
+		 * Classic constructor. Sets up all the styles and Nodes on the Pane.
+		 */
 		public ManageEmployees() {
 			// Add the
 			VBox topPane = new VBox();
@@ -141,10 +149,11 @@ public class GUIPanes {
 			CustomText subtitle = new CustomText("Click an Employee to edit their details.", 20);
 			topPane.getChildren().add(subtitle);
 
-			Label label1 = new Label("Search:");
+			//Search label and styles
+			Label searchLabel = new Label("Search:");
 			TextField searchField = new TextField();
 			HBox hb = new HBox();
-			hb.getChildren().addAll(label1, searchField);
+			hb.getChildren().addAll(searchLabel, searchField);
 			hb.setSpacing(10);
 			hb.setAlignment(Pos.CENTER_RIGHT);
 
@@ -154,6 +163,7 @@ public class GUIPanes {
 
 			setTop(topPane);
 
+			//Table set-up
 			TableView<Employee> table = new TableView<Employee>();
 
 			TableColumn<Employee, String> idCol = new TableColumn<Employee, String>("ID");
@@ -180,6 +190,7 @@ public class GUIPanes {
 
 			setCenter(table);
 			
+			//Convert Employee data structure to ObservableList so that it's compatable with the table.
 			ObservableList<Employee> data = FXCollections.observableArrayList();
 
 			for (Entry<Integer, Employee> entry : Company.getEmployees().entrySet()) {
@@ -238,6 +249,7 @@ public class GUIPanes {
 
 			table.setItems(sortedData);
 
+			//Bottom buttons
 			BorderPane bottomBox = new BorderPane();
 
 			CustomButton backButton = new CustomButton("Back", 16);
@@ -264,8 +276,18 @@ public class GUIPanes {
 		}
 	}
 
+	/**
+	 * EditEmployee pane which allows you to change an Employee's details
+	 * @author Daniel
+	 *
+	 */
 	public static class EditEmployee extends BorderPane {
+		
+		/**
+		 * Classic constructor. Sets up all the styles and Nodes on the Pane.
+		 */
 		public EditEmployee(Employee employee) {
+			//Top styles (title, subtitle..)
 			VBox topBox = new VBox();
 			CustomText title = new CustomText("Meeting Manager", 64);
 			topBox.getChildren().add(title);
@@ -284,6 +306,7 @@ public class GUIPanes {
 			CustomText id = new CustomText("ID:", 30);
 			grid.add(id, 0, 0);
 
+			//Form elements
 			TextField idTextField = new TextField();
 			idTextField.setText(String.valueOf(employee.getId()));
 			idTextField.setEditable(false);
@@ -318,6 +341,7 @@ public class GUIPanes {
 			saveButton.setOnAction(new EventHandler<ActionEvent>() {
 				@Override
 				public void handle(ActionEvent event) {
+					//Only change if any changes are made.
 					if (!employee.getFirstName().equals(firstNameTextField.getText())) {
 						employee.setFirstName(firstNameTextField.getText());
 					}
@@ -330,6 +354,7 @@ public class GUIPanes {
 						employee.setJobTitle(jobTextField.getText());
 					}
 
+					//Success message
 					CustomText successText = new CustomText("Saved successfully.", 16);
 					grid.add(successText, 2, 4);
 
@@ -373,10 +398,19 @@ public class GUIPanes {
 		}
 	}
 
+	/**
+	 * ManageDiaries pane that shows all employees and allows you to view an Employee's diary.
+	 * @author Daniel
+	 *
+	 */
 	public static class ManageDiaries extends BorderPane {
+		
 		@SuppressWarnings("unchecked")
+		/**
+		 * Classic constructor. Sets up all the styles and Nodes on the Pane.
+		 */
 		public ManageDiaries() {
-			// Add the
+			// Title, subtitle, etc.
 			VBox topPane = new VBox();
 
 			CustomText title = new CustomText("Meeting Manager", 64);
@@ -385,10 +419,10 @@ public class GUIPanes {
 			CustomText subtitle = new CustomText("Click an Employee to view their diary.", 20);
 			topPane.getChildren().add(subtitle);
 
-			Label label1 = new Label("Search:");
+			Label searchLabel = new Label("Search:");
 			TextField searchField = new TextField();
 			HBox hb = new HBox();
-			hb.getChildren().addAll(label1, searchField);
+			hb.getChildren().addAll(searchLabel, searchField);
 			hb.setSpacing(10);
 			hb.setAlignment(Pos.CENTER_RIGHT);
 
@@ -398,6 +432,7 @@ public class GUIPanes {
 
 			setTop(topPane);
 
+			//Table set-up
 			TableView<Employee> table = new TableView<Employee>();
 
 			TableColumn<Employee, String> idCol = new TableColumn<Employee, String>("ID");
@@ -495,8 +530,18 @@ public class GUIPanes {
 		}
 	}
 
+	/**
+	 * AddEmployee pane that allows you to add an employee.
+	 * @author Daniel
+	 *
+	 */
 	public static class AddEmployee extends BorderPane {
+		
+		/**
+		 * Classic constructor. Sets up all the styles and Nodes on the Pane.
+		 */
 		public AddEmployee() {
+			//Title, subtitle, etc.
 			VBox topBox = new VBox();
 			CustomText title = new CustomText("Meeting Manager", 64);
 			topBox.getChildren().add(title);
@@ -526,6 +571,7 @@ public class GUIPanes {
 			// Add to the Pane.
 			grid.add(idTextField, 1, 0);
 
+			//Allow them to manually set ID
 			CustomText autogen = new CustomText("Auto generate:", 30);
 			grid.add(autogen, 2, 0);
 
@@ -534,7 +580,6 @@ public class GUIPanes {
 			grid.add(autogenCheckbox, 3, 0);
 
 			autogenCheckbox.setOnAction(new EventHandler<ActionEvent>() {
-
 				public void handle(ActionEvent event) {
 					if (idTextField.isDisable()) {
 						// Re-enable the field.
@@ -550,6 +595,7 @@ public class GUIPanes {
 				}
 			});
 
+			//Form elements.
 			CustomText firstNameLabel = new CustomText("First name:", 30);
 			grid.add(firstNameLabel, 0, 1);
 
@@ -636,10 +682,21 @@ public class GUIPanes {
 		}
 	}
 
+	/**
+	 * EmployeeDiary pane that shows an Employee's diary.
+	 * @author Daniel
+	 *
+	 */
 	public static class EmployeeDiary extends BorderPane {
 
+		/**
+		 * Employee reference
+		 */
 		Employee employee;
 		
+		/**
+		 * List that contains the months.
+		 */
 		ArrayList<String> monthsList = new ArrayList<String>() {
 			{
 				add("January");
@@ -657,9 +714,13 @@ public class GUIPanes {
 			}
 		};
 
+		/**
+		 * Classic constructor. Sets up all the styles and Nodes on the Pane.
+		 */
 		public EmployeeDiary(Employee employee) {
 			this.employee = employee;
 
+			//Title, subtitle, etc.
 			VBox topBox = new VBox();
 			CustomText title = new CustomText("Meeting Manager", 64);
 			topBox.getChildren().add(title);
@@ -709,6 +770,7 @@ public class GUIPanes {
 			CustomText yearLabel = new CustomText(String.valueOf(currYear), 20);
 			monthYearControls.add(yearLabel, 2, 0);
 
+			//Event handlers
 			monthLabel.setOnMouseClicked(new EventHandler<MouseEvent>() {
 				@Override
 				public void handle(MouseEvent arg0) {
@@ -762,8 +824,6 @@ public class GUIPanes {
 					}
 				}
 			});
-
-			// Set up months
 
 			// Set up years.
 			yearComboBox.getItems().add(currYear);
@@ -841,11 +901,15 @@ public class GUIPanes {
 
 			bottomBox.setRight(undoButton);
 
-
 			setMargin(bottomBox, new Insets(10, 5, 5, 5));
 			setBottom(bottomBox);
 		}
 
+		/**
+		 * Method that re-draws the calendar based on the date given.
+		 * @param calendar
+		 * @param date
+		 */
 		public void drawCal(GridPane calendar, Date date) {
 			Calendar cal = Calendar.getInstance();
 			cal.setTime(date);
@@ -864,6 +928,7 @@ public class GUIPanes {
 					VBox calSquare = new VBox();
 					Label day = new Label();
 
+					//Black-out days of the week to sync the start and end of month days.
 					if (i == 0 && (j + 1) < dayOfWeekMonthStart || counter > lastDayOfMonth) {
 						calSquare.setStyle("-fx-background-color: black; -fx-border-color: black;");
 					} else {
@@ -877,6 +942,7 @@ public class GUIPanes {
 						String toFormatOrdinal = monthsList.get(cal.get(Calendar.MONTH)) + " " + ordinal(counter) + " " + cal.get(Calendar.YEAR);
 						
 						try {
+							//Meetings text on the cal square
 							LinkedList<Meeting> meetings = employee.getDiary().getMeetingsOnDay(format.parse(toFormat));
 							
 							int size = meetings.size();
@@ -891,6 +957,7 @@ public class GUIPanes {
 							calSquare.setOnMouseClicked(new EventHandler<MouseEvent>() {
 								@Override
 								public void handle(MouseEvent event) {
+									//View the day specifics if clicked.
 									GUIHandler.changePane(new ViewDay(employee, meetings, toFormatOrdinal));
 								}
 							});
@@ -909,8 +976,7 @@ public class GUIPanes {
 		 * Gets the ordinal value of given number. Used to add the ordinal to calendar
 		 * dates.
 		 * 
-		 * @param num
-		 *            Number to get the ordinal value of.
+		 * @param num Number to get the ordinal value of.
 		 * @return Number and it's ordinal value.
 		 */
 		String ordinal(int num) {
@@ -920,7 +986,16 @@ public class GUIPanes {
 		}
 	}
 
+	/**
+	 * AddMeeting pane that allows you to add meeting.
+	 * @author Daniel
+	 *
+	 */
 	public static class AddMeeting extends BorderPane {
+		
+		/**
+		 * Classic constructor. Sets up all the styles and Nodes on the Pane.
+		 */
 		public AddMeeting(Employee employee) {
 			VBox topBox = new VBox();
 			CustomText title = new CustomText("Meeting Manager", 64);
@@ -970,7 +1045,7 @@ public class GUIPanes {
 			CustomText endTimeLabel = new CustomText("End Time:", 30);
 			grid.add(endTimeLabel, 0, 3);
 
-			NumberSpinner endTimePicker = new NumberSpinner(LocalDateTime.now().getHour(), LocalDateTime.now().getMinute());
+			NumberSpinner endTimePicker = new NumberSpinner(LocalDateTime.now().getHour()+1, LocalDateTime.now().getMinute());
 			endTimePicker.setStyle("-fx-font-size: 18px;");
 			grid.add(endTimePicker, 1, 3);
 
@@ -1037,6 +1112,11 @@ public class GUIPanes {
 		}
 	}
 	
+	/**
+	 * ViewDay pane that allows you to view a day's meetings.
+	 * @author Daniel
+	 *
+	 */
 	public static class ViewDay extends BorderPane {
 		@SuppressWarnings("unchecked")
 		public ViewDay(Employee employee, LinkedList<Meeting> meetings, String date) {
@@ -1078,9 +1158,11 @@ public class GUIPanes {
 			colBox.getChildren().add(space);
 			colBox.getChildren().add(dateColHeader);
 			
+			//Back to the diary if "<" is clicked.
 			colBox.setOnMouseClicked(e -> GUIHandler.changePane(new EmployeeDiary(employee)));
 			monthThing.setGraphic(colBox);
 			
+			//Table set-up
 			TableColumn<Meeting, String> descCol = new TableColumn<Meeting, String>("Description");
 			descCol.setCellValueFactory(new PropertyValueFactory<Meeting, String>("description"));
 
@@ -1103,7 +1185,6 @@ public class GUIPanes {
 
 			setCenter(table);
 
-			// TEST DATA
 			ObservableList<Meeting> data = FXCollections.observableArrayList(meetings);
 
 			table.setItems(data);
@@ -1126,6 +1207,11 @@ public class GUIPanes {
 		}
 	}
 	
+	/**
+	 * EditMeeting pane that allows you to edit meeting.
+	 * @author Daniel
+	 *
+	 */
 	public static class EditMeeting extends BorderPane {
 		public EditMeeting(Employee employee, Meeting meeting, LinkedList<Meeting> meetings, String date) {
 			VBox topBox = new VBox();
@@ -1168,10 +1254,8 @@ public class GUIPanes {
 			Calendar cal = Calendar.getInstance();
 			cal.setTime(meeting.getStartTime());
 			
-			System.out.println(cal.get(Calendar.YEAR) + " " + cal.get(Calendar.MONTH) + " " +cal.get((Calendar.DAY_OF_MONTH)));
-			
+			//Set date picker to current meeting date.
 			DatePicker datePicker = new DatePicker(LocalDate.of(cal.get(Calendar.YEAR), cal.get(Calendar.MONTH)+1, cal.get((Calendar.DAY_OF_MONTH))));
-	        datePicker.setEditable(false);
 			
 			grid.add(datePicker, 1, 1);
 			

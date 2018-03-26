@@ -12,12 +12,21 @@ import java.util.Date;
  *
  */
 public class Validation {
-
-	public static boolean validateEmployees(String[] ids) {
-		return false;
-		//TODO: Make this work
-	}
 	
+	/**
+	 * Validate a meeting that is to be added to a Diary
+	 * @param date Date that the meeting occurs
+	 * @param startTime Time that the meeting starts
+	 * @param endTime Time that the meeting ends
+	 * @param desc Description of meeting
+	 * @param diary Diary to add to
+	 * @return reference to new meeting
+	 * @throws MeetingManagerExceptions.MeetingTimeBeforeStart Thrown if end time comes before start time.
+	 * @throws MeetingManagerExceptions.MeetingTimeNotSameDay Thrown if meeting start and end not on the same day
+	 * @throws MeetingManagerExceptions.MeetingTimeSameTime Thrown if meeting starts and ends at the same time
+	 * @throws MeetingManagerExceptions.MeetingTimeStartConflict Thrown if meeting time conflicts with another meeting.
+	 * @throws MeetingManagerExceptions.GenericFieldEmpty Thrown if a field is empty.
+	 */
 	public static Meeting validateMeeting(LocalDate date, String startTime, String endTime, String desc, Diary diary) throws MeetingManagerExceptions.MeetingTimeBeforeStart, MeetingManagerExceptions.MeetingTimeNotSameDay, MeetingManagerExceptions.MeetingTimeSameTime, MeetingManagerExceptions.MeetingTimeStartConflict, MeetingManagerExceptions.GenericFieldEmpty {
 		//Check that all fields were entered.
 		if(desc.isEmpty()) {

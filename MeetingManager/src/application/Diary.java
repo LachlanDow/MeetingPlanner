@@ -24,12 +24,18 @@ public class Diary {
 	 */
 	private Stack<Action> recentActions = new Stack<Action>();
 	
+	/**
+	 * Returns a LinkedList<Meeting> of meetings that occur on provided date.
+	 * @param date Date to get meetings for
+	 * @return LinkedList<Meeting> containing meetings occuring on date
+	 */
 	public LinkedList<Meeting> getMeetingsOnDay(Date date){
 		LinkedList<Meeting> meetings = new LinkedList<Meeting>();
 		
 		for(int i = 0; i < getMeetings().size(); i++) {
 			Meeting next = getMeetings().get(i);
 			
+			//If they're on the same day, add to list.
 			if(Validation.sameDay(next.getStartTime(), date)) {
 				meetings.add(next);
 			}
@@ -38,28 +44,44 @@ public class Diary {
 		return meetings;
 	}
 	
+	/**
+	 * Add meeting to the diary
+	 * @param meeting meeting to add
+	 * @param noStack true to add to hide from recentActions stack, false if not
+	 */
 	public void add(Meeting meeting, boolean noStack) {
 		meetings.add(meeting);
 		
+		//When undoing, don't add to the stack
 		if(!noStack) {
 			recentActions.push(new Action(this, "add", meeting));
 		}
 	}
 
 	/**
-	 * Delete a meeting from the employee's diary.
+	 * Delete meeting from Employee's diary
+	 * @param meeting meeting to delete
+	 * @param noStack true to add to hide from recentActions stack, false if not
 	 */
 	public void delete(Meeting meeting, boolean noStack) {
 		meetings.remove(meeting);
 		
+		//When undoing, don't add to the stack
 		if(!noStack) {
 			recentActions.push(new Action(this, "delete", meeting));
 		}
 	}
 	
+	/**
+	 * Edit a meeting in the diary.
+	 * @param oldMeeting Reference to the old meeting
+	 * @param newMeeting Reference to the new (changed) meeting
+	 * @param noStack rue to add to hide from recentActions stack, false if not
+	 */
 	public void edit(Meeting oldMeeting, Meeting newMeeting, boolean noStack) {
 		recentActions.push(new Action(this, "edit", oldMeeting, newMeeting));
 		
+		//Delete old, add new. Hide from stack.
 		delete(oldMeeting, true);
 		add(newMeeting, true);
 	}
@@ -87,19 +109,11 @@ public class Diary {
 			System.out.println(listIterator.next());
 		}
 	}
+
 	/**
-	 * Save the diary contents to a file.
+	 * Get all meetings
+	 * @return all meetings
 	 */
-	public void save() {
-		
-	}
-	
-	/**
-	 * Load diary contents into the program.
-	 */
-	public void load() {
-		
-}
 	public LinkedList<Meeting> getMeetings() {
 		return this.meetings;
 	}
