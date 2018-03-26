@@ -1818,26 +1818,43 @@ public class GUIPanes {
 				@Override
 				public void handle(ActionEvent event) {
 			
-					employee.addTask(descTextField.getText(), priorityTextField.getText());
-			
-					// Display success message.
-					CustomText successText = new CustomText("Task successfully added", 16);
-					grid.add(successText, 1, 6);
+					Task toAdd;
+					try {
+						toAdd = Validation.validateTask(descTextField.getText(), priorityTextField.getText());
+						
+						employee.addTask(toAdd);
+						
+						// Display success message.
+						CustomText successText = new CustomText("Task successfully added", 16);
+						grid.add(successText, 1, 6);
 
-					// Remove the message after 2 seconds.
-					Timeline timer = new Timeline(
-							new KeyFrame(Duration.seconds(2), new EventHandler<ActionEvent>() {
-								@Override
-								public void handle(ActionEvent event) {
-									grid.getChildren().remove(successText);
-								}
-							}));
-					timer.play();
+						// Remove the message after 2 seconds.
+						Timeline timer = new Timeline(
+								new KeyFrame(Duration.seconds(2), new EventHandler<ActionEvent>() {
+									@Override
+									public void handle(ActionEvent event) {
+										grid.getChildren().remove(successText);
+									}
+								}));
+						timer.play();
 
-					// Clear the text fields for usability sake
-					descTextField.clear();
-					priorityTextField.clear();
-					
+						// Clear the text fields for usability sake
+						descTextField.clear();
+						priorityTextField.clear();
+					} catch (GenericFieldEmpty e) {
+						// Display the error to the user.
+						CustomText errorText = new CustomText(e.getMessage(), 16);
+						grid.add(errorText, 1, 6);
+
+						Timeline timer = new Timeline(
+								new KeyFrame(Duration.seconds(2), new EventHandler<ActionEvent>() {
+									@Override
+									public void handle(ActionEvent event) {
+										grid.getChildren().remove(errorText);
+									}
+								}));
+						timer.play();
+					}
 			}
 			
 		});

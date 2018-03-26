@@ -188,12 +188,10 @@ public class Employee {
     /**
      * Method to add a task to the list
      * 
-     * @param description
-     * @param priority
+     * @param toAdd
      */
-    public void addTask(String description, String priority)
+    public void addTask(Task toAdd)
     {
-    	Task toAdd = new Task(description, priority);
     	taskList.add(toAdd);
     }
     

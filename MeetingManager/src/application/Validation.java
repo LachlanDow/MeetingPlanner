@@ -156,4 +156,22 @@ public class Validation {
 		
 		return new Employee(valId, forename, surname, jobTitle);
 	}
+	
+	/**
+	 * This method validates task information
+	 * @param description
+	 * @param priority
+	 * @return Task validated task
+	 */
+	public static Task validateTask(String description, String priority) throws MeetingManagerExceptions.GenericFieldEmpty, MeetingManagerExceptions.GenericFieldEmpty {
+		//Check that all fields were entered.
+		if(description.isEmpty()) {
+			throw new MeetingManagerExceptions.GenericFieldEmpty("description");
+		}
+		else if(priority.isEmpty()) {
+			throw new MeetingManagerExceptions.GenericFieldEmpty("priority");
+		}
+		
+		return new Task(description, priority);
+	}
 }
