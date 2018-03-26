@@ -60,10 +60,6 @@ public class Validation {
 		if(endDate.before(startDate)){
 			throw new MeetingManagerExceptions.MeetingTimeBeforeStart();
 		}
-		//Make sure they are on the same day
-		else if(!sameDay(startDate, endDate)) {
-			throw new MeetingManagerExceptions.MeetingTimeNotSameDay();
-		}
 		//Make sure they aren't the exact same time.
 		else if(startDate.equals(endDate)) {
 			throw new MeetingManagerExceptions.MeetingTimeSameTime();
