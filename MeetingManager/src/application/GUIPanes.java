@@ -72,7 +72,7 @@ public class GUIPanes {
 		 * Classic constructor. Sets up all the styles and Nodes on the Pane.
 		 */
 		public MainMenu() {
-			//Top portion of the pane
+			// Top portion of the pane
 			CustomText title = new CustomText("Meeting Manager", 72);
 
 			setMargin(title, new Insets(30, 0, 0, 0));
@@ -82,7 +82,7 @@ public class GUIPanes {
 			VBox options = new VBox(10);
 			options.setAlignment(Pos.CENTER);
 
-			//Menu buttons
+			// Menu buttons
 			MenuButton employeesButton = new MenuButton("Manage Employees");
 			employeesButton.setOnAction(new EventHandler<ActionEvent>() {
 				@Override
@@ -106,7 +106,7 @@ public class GUIPanes {
 					GUIHandler.changePane(new CompanyMeeting());
 				}
 			});
-			
+
 			MenuButton loadButton = new MenuButton("Load Company");
 			loadButton.setOnAction(new EventHandler<ActionEvent>() {
 				@Override
@@ -114,7 +114,7 @@ public class GUIPanes {
 					GUIHandler.loadCompany();
 				}
 			});
-			
+
 			MenuButton saveButton = new MenuButton("Save Company");
 			saveButton.setOnAction(new EventHandler<ActionEvent>() {
 				@Override
@@ -132,6 +132,7 @@ public class GUIPanes {
 
 	/**
 	 * ManageEmployees pane that shows all employees and leads to EditEmployee pane.
+	 * 
 	 * @author Daniel
 	 *
 	 */
@@ -150,7 +151,7 @@ public class GUIPanes {
 			CustomText subtitle = new CustomText("Click an Employee to edit their details.", 20);
 			topPane.getChildren().add(subtitle);
 
-			//Search label and styles
+			// Search label and styles
 			Label searchLabel = new Label("Search:");
 			TextField searchField = new TextField();
 			HBox hb = new HBox();
@@ -164,7 +165,7 @@ public class GUIPanes {
 
 			setTop(topPane);
 
-			//Table set-up
+			// Table set-up
 			TableView<Employee> table = new TableView<Employee>();
 
 			TableColumn<Employee, String> idCol = new TableColumn<Employee, String>("ID");
@@ -190,8 +191,9 @@ public class GUIPanes {
 			setMargin(table, new Insets(10, 5, 5, 5));
 
 			setCenter(table);
-			
-			//Convert Employee data structure to ObservableList so that it's compatable with the table.
+
+			// Convert Employee data structure to ObservableList so that it's compatable
+			// with the table.
 			ObservableList<Employee> data = FXCollections.observableArrayList();
 
 			for (Entry<Integer, Employee> entry : Company.getEmployees().entrySet()) {
@@ -250,7 +252,7 @@ public class GUIPanes {
 
 			table.setItems(sortedData);
 
-			//Bottom buttons
+			// Bottom buttons
 			BorderPane bottomBox = new BorderPane();
 
 			CustomButton backButton = new CustomButton("Back", 16);
@@ -279,16 +281,17 @@ public class GUIPanes {
 
 	/**
 	 * EditEmployee pane which allows you to change an Employee's details
+	 * 
 	 * @author Daniel
 	 *
 	 */
 	public static class EditEmployee extends BorderPane {
-		
+
 		/**
 		 * Classic constructor. Sets up all the styles and Nodes on the Pane.
 		 */
 		public EditEmployee(Employee employee) {
-			//Top styles (title, subtitle..)
+			// Top styles (title, subtitle..)
 			VBox topBox = new VBox();
 			CustomText title = new CustomText("Meeting Manager", 64);
 			topBox.getChildren().add(title);
@@ -307,7 +310,7 @@ public class GUIPanes {
 			CustomText id = new CustomText("ID:", 30);
 			grid.add(id, 0, 0);
 
-			//Form elements
+			// Form elements
 			TextField idTextField = new TextField();
 			idTextField.setText(String.valueOf(employee.getId()));
 			idTextField.setEditable(false);
@@ -342,10 +345,11 @@ public class GUIPanes {
 			saveButton.setOnAction(new EventHandler<ActionEvent>() {
 				@Override
 				public void handle(ActionEvent event) {
-					
-					Company.editEmployee(employee, firstNameTextField.getText(), lastNameTextField.getText(), jobTextField.getText());
 
-					//Success message
+					Company.editEmployee(employee, firstNameTextField.getText(), lastNameTextField.getText(),
+							jobTextField.getText());
+
+					// Success message
 					CustomText successText = new CustomText("Saved successfully.", 16);
 					grid.add(successText, 2, 4);
 
@@ -390,12 +394,14 @@ public class GUIPanes {
 	}
 
 	/**
-	 * ManageDiaries pane that shows all employees and allows you to view an Employee's diary.
+	 * ManageDiaries pane that shows all employees and allows you to view an
+	 * Employee's diary.
+	 * 
 	 * @author Daniel
 	 *
 	 */
 	public static class ManageDiaries extends BorderPane {
-		
+
 		@SuppressWarnings("unchecked")
 		/**
 		 * Classic constructor. Sets up all the styles and Nodes on the Pane.
@@ -423,7 +429,7 @@ public class GUIPanes {
 
 			setTop(topPane);
 
-			//Table set-up
+			// Table set-up
 			TableView<Employee> table = new TableView<Employee>();
 
 			TableColumn<Employee, String> idCol = new TableColumn<Employee, String>("ID");
@@ -523,16 +529,17 @@ public class GUIPanes {
 
 	/**
 	 * AddEmployee pane that allows you to add an employee.
+	 * 
 	 * @author Daniel
 	 *
 	 */
 	public static class AddEmployee extends BorderPane {
-		
+
 		/**
 		 * Classic constructor. Sets up all the styles and Nodes on the Pane.
 		 */
 		public AddEmployee() {
-			//Title, subtitle, etc.
+			// Title, subtitle, etc.
 			VBox topBox = new VBox();
 			CustomText title = new CustomText("Meeting Manager", 64);
 			topBox.getChildren().add(title);
@@ -556,14 +563,15 @@ public class GUIPanes {
 			idTextField.setDisable(true);
 
 			// Auto-generate the ID by default so that they don't have to make one up.
-			String nextID = (Company.getEmployees().isEmpty()) ? "1" : String.valueOf(Company.getEmployees().lastEntry().getValue().getId() + 1);
+			String nextID = (Company.getEmployees().isEmpty()) ? "1"
+					: String.valueOf(Company.getEmployees().lastEntry().getValue().getId() + 1);
 
 			idTextField.setText(nextID);
 
 			// Add to the Pane.
 			grid.add(idTextField, 1, 0);
 
-			//Allow them to manually set ID
+			// Allow them to manually set ID
 			CustomText autogen = new CustomText("Auto generate:", 30);
 			grid.add(autogen, 2, 0);
 
@@ -587,7 +595,7 @@ public class GUIPanes {
 				}
 			});
 
-			//Form elements.
+			// Form elements.
 			CustomText firstNameLabel = new CustomText("First name:", 30);
 			grid.add(firstNameLabel, 0, 1);
 
@@ -676,6 +684,7 @@ public class GUIPanes {
 
 	/**
 	 * EmployeeDiary pane that shows an Employee's diary.
+	 * 
 	 * @author Daniel
 	 *
 	 */
@@ -685,7 +694,7 @@ public class GUIPanes {
 		 * Employee reference
 		 */
 		Employee employee;
-		
+
 		/**
 		 * List that contains the months.
 		 */
@@ -712,7 +721,7 @@ public class GUIPanes {
 		public EmployeeDiary(Employee employee) {
 			this.employee = employee;
 
-			//Title, subtitle, etc.
+			// Title, subtitle, etc.
 			VBox topBox = new VBox();
 			CustomText title = new CustomText("Meeting Manager", 64);
 			topBox.getChildren().add(title);
@@ -762,7 +771,7 @@ public class GUIPanes {
 			CustomText yearLabel = new CustomText(String.valueOf(currYear), 20);
 			monthYearControls.add(yearLabel, 2, 0);
 
-			//Event handlers
+			// Event handlers
 			monthLabel.setOnMouseClicked(new EventHandler<MouseEvent>() {
 				@Override
 				public void handle(MouseEvent arg0) {
@@ -872,13 +881,13 @@ public class GUIPanes {
 			});
 
 			bottomBox.setCenter(addButton);
-			
+
 			CustomButton undoButton = new CustomButton("Undo", 16);
 			undoButton.setOnAction(new EventHandler<ActionEvent>() {
 				@Override
 				public void handle(ActionEvent event) {
 					employee.undo();
-					
+
 					String string = monthLabel.getText() + " " + yearComboBox.getValue();
 					SimpleDateFormat format = new SimpleDateFormat("MMMM yyyy");
 
@@ -899,6 +908,7 @@ public class GUIPanes {
 
 		/**
 		 * Method that re-draws the calendar based on the date given.
+		 * 
 		 * @param calendar
 		 * @param date
 		 */
@@ -920,7 +930,7 @@ public class GUIPanes {
 					VBox calSquare = new VBox();
 					Label day = new Label();
 
-					//Black-out days of the week to sync the start and end of month days.
+					// Black-out days of the week to sync the start and end of month days.
 					if (i == 0 && (j + 1) < dayOfWeekMonthStart || counter > lastDayOfMonth) {
 						calSquare.setStyle("-fx-background-color: black; -fx-border-color: black;");
 					} else {
@@ -929,31 +939,33 @@ public class GUIPanes {
 
 						// Add meeting text
 						SimpleDateFormat format = new SimpleDateFormat("MMMM d yyyy");
-						
-						String toFormat = monthsList.get(cal.get(Calendar.MONTH)) + " " + counter + " " + cal.get(Calendar.YEAR);
-						String toFormatOrdinal = monthsList.get(cal.get(Calendar.MONTH)) + " " + ordinal(counter) + " " + cal.get(Calendar.YEAR);
-						
+
+						String toFormat = monthsList.get(cal.get(Calendar.MONTH)) + " " + counter + " "
+								+ cal.get(Calendar.YEAR);
+						String toFormatOrdinal = monthsList.get(cal.get(Calendar.MONTH)) + " " + ordinal(counter) + " "
+								+ cal.get(Calendar.YEAR);
+
 						try {
-							//Meetings text on the cal square
+							// Meetings text on the cal square
 							LinkedList<Meeting> meetings = employee.getDiary().getMeetingsOnDay(format.parse(toFormat));
-							
+
 							int size = meetings.size();
-							if(size > 0) {
+							if (size > 0) {
 								Label noMeetings = new Label(meetings.size() + " meetings");
-								calSquare.getChildren().add(noMeetings);	
+								calSquare.getChildren().add(noMeetings);
 							}
-							
+
 							counter++;
 							calSquare.setStyle("-fx-background-color: white; -fx-border-color: black;");
-							
+
 							calSquare.setOnMouseClicked(new EventHandler<MouseEvent>() {
 								@Override
 								public void handle(MouseEvent event) {
-									//View the day specifics if clicked.
+									// View the day specifics if clicked.
 									GUIHandler.changePane(new ViewDay(employee, meetings, toFormatOrdinal));
 								}
 							});
-							
+
 						} catch (ParseException e) {
 							e.printStackTrace();
 						}
@@ -968,7 +980,8 @@ public class GUIPanes {
 		 * Gets the ordinal value of given number. Used to add the ordinal to calendar
 		 * dates.
 		 * 
-		 * @param num Number to get the ordinal value of.
+		 * @param num
+		 *            Number to get the ordinal value of.
 		 * @return Number and it's ordinal value.
 		 */
 		String ordinal(int num) {
@@ -980,11 +993,12 @@ public class GUIPanes {
 
 	/**
 	 * AddMeeting pane that allows you to add meeting.
+	 * 
 	 * @author Daniel
 	 *
 	 */
 	public static class AddMeeting extends BorderPane {
-		
+
 		/**
 		 * Classic constructor. Sets up all the styles and Nodes on the Pane.
 		 */
@@ -1024,20 +1038,22 @@ public class GUIPanes {
 			grid.add(dateLabel, 0, 1);
 
 			DatePicker datePicker = new DatePicker();
-			
+
 			grid.add(datePicker, 1, 1);
-			
+
 			CustomText startTimeLabel = new CustomText("Start Time:", 30);
 			grid.add(startTimeLabel, 0, 2);
 
-			NumberSpinner startTimePicker = new NumberSpinner(LocalDateTime.now().getHour(), LocalDateTime.now().getMinute());
+			NumberSpinner startTimePicker = new NumberSpinner(LocalDateTime.now().getHour(),
+					LocalDateTime.now().getMinute());
 			startTimePicker.setStyle("-fx-font-size: 18px;");
 			grid.add(startTimePicker, 1, 2);
-			
+
 			CustomText endTimeLabel = new CustomText("End Time:", 30);
 			grid.add(endTimeLabel, 0, 3);
 
-			NumberSpinner endTimePicker = new NumberSpinner(LocalDateTime.now().getHour()+1, LocalDateTime.now().getMinute());
+			NumberSpinner endTimePicker = new NumberSpinner(LocalDateTime.now().getHour() + 1,
+					LocalDateTime.now().getMinute());
 			endTimePicker.setStyle("-fx-font-size: 18px;");
 			grid.add(endTimePicker, 1, 3);
 
@@ -1045,9 +1061,10 @@ public class GUIPanes {
 			saveButton.setOnAction(new EventHandler<ActionEvent>() {
 				@Override
 				public void handle(ActionEvent event) {
-					try {				
+					try {
 						// Validate the employee details. Any errors will cause an exception.
-						Meeting toAdd = Validation.validateMeeting(datePicker.getValue(), startTimePicker.getText(), endTimePicker.getText(), descTextField.getText(), employee.getDiary());
+						Meeting toAdd = Validation.validateMeeting(datePicker.getValue(), startTimePicker.getText(),
+								endTimePicker.getText(), descTextField.getText(), employee.getDiary());
 
 						// Add the Employee
 						employee.addMeeting(toAdd);
@@ -1070,7 +1087,8 @@ public class GUIPanes {
 						descTextField.clear();
 						startTimePicker.clear();
 						endTimePicker.clear();
-					} catch (MeetingTimeBeforeStart | MeetingTimeSameTime | MeetingTimeStartConflict | GenericFieldEmpty e) {
+					} catch (MeetingTimeBeforeStart | MeetingTimeSameTime | MeetingTimeStartConflict
+							| GenericFieldEmpty e) {
 						// Display the error to the user.
 						CustomText errorText = new CustomText(e.getMessage(), 16);
 						grid.add(errorText, 1, 4);
@@ -1104,186 +1122,177 @@ public class GUIPanes {
 		}
 	}
 
-	public static class CompanyMeeting extends BorderPane{
+	public static class CompanyMeeting extends BorderPane {
 		public CompanyMeeting() {
 			// Add the
-						LinkedList<Employee> searchList = new LinkedList<Employee>();
-						VBox topPane = new VBox();
+			LinkedList<Employee> searchList = new LinkedList<Employee>();
+			VBox topPane = new VBox();
 
-						CustomText title = new CustomText("Meeting Manager", 64);
-						topPane.getChildren().add(title);
+			CustomText title = new CustomText("Meeting Manager", 64);
+			topPane.getChildren().add(title);
 
-						CustomText subtitle = new CustomText("Click an Employee to edit their details.", 20);
-						topPane.getChildren().add(subtitle);
+			CustomText subtitle = new CustomText("Click an Employee to edit their details.", 20);
+			topPane.getChildren().add(subtitle);
 
-						Label label1 = new Label("Search:");
-						TextField searchField = new TextField();
-						HBox hb = new HBox();
-						hb.getChildren().addAll(label1, searchField);
-						hb.setSpacing(10);
-						hb.setAlignment(Pos.CENTER_RIGHT);
+			Label label1 = new Label("Search:");
+			TextField searchField = new TextField();
+			HBox hb = new HBox();
+			hb.getChildren().addAll(label1, searchField);
+			hb.setSpacing(10);
+			hb.setAlignment(Pos.CENTER_RIGHT);
 
-						topPane.getChildren().add(hb);
+			topPane.getChildren().add(hb);
 
-						setMargin(topPane, new Insets(10));
+			setMargin(topPane, new Insets(10));
 
-						setTop(topPane);
+			setTop(topPane);
 
-						TableView<Employee> table = new TableView<Employee>();
+			TableView<Employee> table = new TableView<Employee>();
 
-						TableColumn<Employee, String> idCol = new TableColumn<Employee, String>("ID");
-						idCol.setCellValueFactory(new PropertyValueFactory<Employee, String>("id"));
+			TableColumn<Employee, String> idCol = new TableColumn<Employee, String>("ID");
+			idCol.setCellValueFactory(new PropertyValueFactory<Employee, String>("id"));
 
-						TableColumn<Employee, String> firstNameCol = new TableColumn<Employee, String>("First Name");
-						firstNameCol.setCellValueFactory(new PropertyValueFactory<Employee, String>("firstName"));
+			TableColumn<Employee, String> firstNameCol = new TableColumn<Employee, String>("First Name");
+			firstNameCol.setCellValueFactory(new PropertyValueFactory<Employee, String>("firstName"));
 
-						TableColumn<Employee, String> lastNameCol = new TableColumn<Employee, String>("Last Name");
-						lastNameCol.setCellValueFactory(new PropertyValueFactory<Employee, String>("lastName"));
+			TableColumn<Employee, String> lastNameCol = new TableColumn<Employee, String>("Last Name");
+			lastNameCol.setCellValueFactory(new PropertyValueFactory<Employee, String>("lastName"));
 
-						TableColumn<Employee, String> jobTitleCol = new TableColumn<Employee, String>("Job Title");
-						jobTitleCol.setCellValueFactory(new PropertyValueFactory<Employee, String>("jobTitle"));
+			TableColumn<Employee, String> jobTitleCol = new TableColumn<Employee, String>("Job Title");
+			jobTitleCol.setCellValueFactory(new PropertyValueFactory<Employee, String>("jobTitle"));
 
-						table.getColumns().addAll(idCol, firstNameCol, lastNameCol, jobTitleCol);
+			table.getColumns().addAll(idCol, firstNameCol, lastNameCol, jobTitleCol);
 
-						// Table column widths (odd value so that it offsets the margin)s
-						idCol.prefWidthProperty().bind(table.widthProperty().divide(4.02));
-						firstNameCol.prefWidthProperty().bind(table.widthProperty().divide(4.02));
-						lastNameCol.prefWidthProperty().bind(table.widthProperty().divide(4.02));
-						jobTitleCol.prefWidthProperty().bind(table.widthProperty().divide(4.02));
+			// Table column widths (odd value so that it offsets the margin)s
+			idCol.prefWidthProperty().bind(table.widthProperty().divide(4.02));
+			firstNameCol.prefWidthProperty().bind(table.widthProperty().divide(4.02));
+			lastNameCol.prefWidthProperty().bind(table.widthProperty().divide(4.02));
+			jobTitleCol.prefWidthProperty().bind(table.widthProperty().divide(4.02));
 
-						setMargin(table, new Insets(10, 5, 5, 5));
+			setMargin(table, new Insets(10, 5, 5, 5));
 
-						setLeft(table);
-						
-						
-						TableView<Employee> tableRight = new TableView<Employee>();
+			setLeft(table);
 
-						TableColumn<Employee, String> idColRight = new TableColumn<Employee, String>("ID");
-						idColRight.setCellValueFactory(new PropertyValueFactory<Employee, String>("id"));
+			TableView<Employee> tableRight = new TableView<Employee>();
 
-						TableColumn<Employee, String> firstNameColRight = new TableColumn<Employee, String>("First Name");
-						firstNameColRight.setCellValueFactory(new PropertyValueFactory<Employee, String>("firstName"));
+			TableColumn<Employee, String> idColRight = new TableColumn<Employee, String>("ID");
+			idColRight.setCellValueFactory(new PropertyValueFactory<Employee, String>("id"));
 
-						TableColumn<Employee, String> lastNameColRight = new TableColumn<Employee, String>("Last Name");
-						lastNameColRight.setCellValueFactory(new PropertyValueFactory<Employee, String>("lastName"));
+			TableColumn<Employee, String> firstNameColRight = new TableColumn<Employee, String>("First Name");
+			firstNameColRight.setCellValueFactory(new PropertyValueFactory<Employee, String>("firstName"));
 
-						TableColumn<Employee, String> jobTitleColRight = new TableColumn<Employee, String>("Job Title");
-						jobTitleColRight.setCellValueFactory(new PropertyValueFactory<Employee, String>("jobTitle"));
+			TableColumn<Employee, String> lastNameColRight = new TableColumn<Employee, String>("Last Name");
+			lastNameColRight.setCellValueFactory(new PropertyValueFactory<Employee, String>("lastName"));
 
-						tableRight.getColumns().addAll(idColRight, firstNameColRight, lastNameColRight, jobTitleColRight);
+			TableColumn<Employee, String> jobTitleColRight = new TableColumn<Employee, String>("Job Title");
+			jobTitleColRight.setCellValueFactory(new PropertyValueFactory<Employee, String>("jobTitle"));
 
-						// Table column widths (odd value so that it offsets the margin)s
-						idCol.prefWidthProperty().bind(table.widthProperty().divide(4.02));
-						firstNameCol.prefWidthProperty().bind(table.widthProperty().divide(4.02));
-						lastNameCol.prefWidthProperty().bind(table.widthProperty().divide(4.02));
-						jobTitleCol.prefWidthProperty().bind(table.widthProperty().divide(4.02));
+			tableRight.getColumns().addAll(idColRight, firstNameColRight, lastNameColRight, jobTitleColRight);
 
-						setMargin(tableRight, new Insets(10, 5, 5, 5));
+			// Table column widths (odd value so that it offsets the margin)s
+			idCol.prefWidthProperty().bind(table.widthProperty().divide(4.02));
+			firstNameCol.prefWidthProperty().bind(table.widthProperty().divide(4.02));
+			lastNameCol.prefWidthProperty().bind(table.widthProperty().divide(4.02));
+			jobTitleCol.prefWidthProperty().bind(table.widthProperty().divide(4.02));
 
-						setRight(tableRight);
+			setMargin(tableRight, new Insets(10, 5, 5, 5));
 
-						// TEST DATA
-						// TODO: LOL
-						ObservableList<Employee> data = FXCollections.observableArrayList();
+			setRight(tableRight);
 
-						for (Entry<Integer, Employee> entry : Company.getEmployees().entrySet()) {
-							data.add(entry.getValue());
-						}
+			// TEST DATA
+			// TODO: LOL
+			ObservableList<Employee> data = FXCollections.observableArrayList();
 
-						table.setItems(data);
-						
-						
-						
-						
-						
+			for (Entry<Integer, Employee> entry : Company.getEmployees().entrySet()) {
+				data.add(entry.getValue());
+			}
 
-						// Credit: https://stackoverflow.com/a/30194680/3102362
-						// Row click events.
-						ObservableList<Employee> dataRight = FXCollections.observableArrayList();
-						table.setRowFactory(tv -> {
-							TableRow<Employee> row = new TableRow<>();
-							row.setOnMouseClicked(event -> {
-								if (!row.isEmpty() && event.getButton() == MouseButton.PRIMARY && event.getClickCount() == 2) {
-									
+			table.setItems(data);
 
-									Employee clickedRow = row.getItem();
-									searchList.add(clickedRow);
-									System.out.println(clickedRow);
-									
-									
-							
-									dataRight.add(clickedRow);
-									
-									tableRight.setItems(dataRight);
-									
-								}
-							});
-							
-							return row;
-						});
+			// Credit: https://stackoverflow.com/a/30194680/3102362
+			// Row click events.
+			ObservableList<Employee> dataRight = FXCollections.observableArrayList();
+			table.setRowFactory(tv -> {
+				TableRow<Employee> row = new TableRow<>();
+				row.setOnMouseClicked(event -> {
+					if (!row.isEmpty() && event.getButton() == MouseButton.PRIMARY && event.getClickCount() == 2) {
 
-						// Searching the table (Credit: https://stackoverflow.com/a/44317900/3102362)
-						FilteredList<Employee> filteredData = new FilteredList<>(data, p -> true);
+						Employee clickedRow = row.getItem();
+						searchList.add(clickedRow);
+						System.out.println(clickedRow);
 
-						// Set the filter Predicate whenever the filter changes.
-						searchField.textProperty().addListener((observable, oldValue, newValue) -> {
-							filteredData.setPredicate(myObject -> {
-								// If filter text is empty, display all employees.
-								if (newValue == null || newValue.isEmpty()) {
-									return true;
-								}
+						dataRight.add(clickedRow);
 
-								// Compare first name, last name and id fields with filter.
-								String lowerCaseFilter = newValue.toLowerCase();
+						tableRight.setItems(dataRight);
 
-								if (String.valueOf(myObject.getFirstName()).toLowerCase().contains(lowerCaseFilter)) {
-									return true; // Filter matches firstName.
-								} else if (String.valueOf(myObject.getLastName()).toLowerCase().contains(lowerCaseFilter)) {
-									return true; // Filter matches lastName.
-								} else if (String.valueOf(myObject.getId()).toLowerCase().contains(lowerCaseFilter)) {
-									return true; // Filter matches ID.
-								} else if (String.valueOf(myObject.getJobTitle()).toLowerCase().contains(lowerCaseFilter)) {
-									return true; // Filter matches job title.
-								}
-
-								return false; // Does not match.
-							});
-						});
-
-						// Sort the data
-						SortedList<Employee> sortedData = new SortedList<>(filteredData);
-						sortedData.comparatorProperty().bind(table.comparatorProperty());
-
-						table.setItems(sortedData);
-
-						
-						BorderPane bottomBox = new BorderPane();
-
-						CustomButton backButton = new CustomButton("Back", 16);
-						backButton.setOnAction(new EventHandler<ActionEvent>() {
-							@Override
-							public void handle(ActionEvent event) {
-								GUIHandler.changePane(new MainMenu());
-							}
-						});
-						bottomBox.setLeft(backButton);
-
-						CustomButton searchButton = new CustomButton("Search", 16);
-						searchButton.setOnAction(new EventHandler<ActionEvent>() {
-							@Override
-							public void handle(ActionEvent event) {
-								GUIHandler.changePane(new Search(searchList));
-							}
-						});
-
-						bottomBox.setRight(searchButton);
-
-						setMargin(bottomBox, new Insets(10, 5, 5, 5));
-						setBottom(bottomBox);
 					}
-				
+				});
+
+				return row;
+			});
+
+			// Searching the table (Credit: https://stackoverflow.com/a/44317900/3102362)
+			FilteredList<Employee> filteredData = new FilteredList<>(data, p -> true);
+
+			// Set the filter Predicate whenever the filter changes.
+			searchField.textProperty().addListener((observable, oldValue, newValue) -> {
+				filteredData.setPredicate(myObject -> {
+					// If filter text is empty, display all employees.
+					if (newValue == null || newValue.isEmpty()) {
+						return true;
+					}
+
+					// Compare first name, last name and id fields with filter.
+					String lowerCaseFilter = newValue.toLowerCase();
+
+					if (String.valueOf(myObject.getFirstName()).toLowerCase().contains(lowerCaseFilter)) {
+						return true; // Filter matches firstName.
+					} else if (String.valueOf(myObject.getLastName()).toLowerCase().contains(lowerCaseFilter)) {
+						return true; // Filter matches lastName.
+					} else if (String.valueOf(myObject.getId()).toLowerCase().contains(lowerCaseFilter)) {
+						return true; // Filter matches ID.
+					} else if (String.valueOf(myObject.getJobTitle()).toLowerCase().contains(lowerCaseFilter)) {
+						return true; // Filter matches job title.
+					}
+
+					return false; // Does not match.
+				});
+			});
+
+			// Sort the data
+			SortedList<Employee> sortedData = new SortedList<>(filteredData);
+			sortedData.comparatorProperty().bind(table.comparatorProperty());
+
+			table.setItems(sortedData);
+
+			BorderPane bottomBox = new BorderPane();
+
+			CustomButton backButton = new CustomButton("Back", 16);
+			backButton.setOnAction(new EventHandler<ActionEvent>() {
+				@Override
+				public void handle(ActionEvent event) {
+					GUIHandler.changePane(new MainMenu());
+				}
+			});
+			bottomBox.setLeft(backButton);
+
+			CustomButton searchButton = new CustomButton("Search", 16);
+			searchButton.setOnAction(new EventHandler<ActionEvent>() {
+				@Override
+				public void handle(ActionEvent event) {
+					GUIHandler.changePane(new Search(searchList));
+				}
+			});
+
+			bottomBox.setRight(searchButton);
+
+			setMargin(bottomBox, new Insets(10, 5, 5, 5));
+			setBottom(bottomBox);
+		}
+
 	}
-	public static class Search extends BorderPane{
+
+	public static class Search extends BorderPane {
 		public Search(LinkedList<Employee> searchList) {
 			TableView<Meeting> table = new TableView<Meeting>();
 			VBox topPane = new VBox();
@@ -1315,27 +1324,29 @@ public class GUIPanes {
 
 			DatePicker datePicker = new DatePicker();
 			datePicker.setDayCellFactory(picker -> new DateCell() {
-	            @Override
-	            public void updateItem(LocalDate date, boolean empty) {
-	                super.updateItem(date, empty);
-	                setDisable(empty || date.getDayOfWeek() == DayOfWeek.MONDAY);
-	            }
-	        });
-	        datePicker.setEditable(false);
-			
+				@Override
+				public void updateItem(LocalDate date, boolean empty) {
+					super.updateItem(date, empty);
+					setDisable(empty || date.getDayOfWeek() == DayOfWeek.MONDAY);
+				}
+			});
+			datePicker.setEditable(false);
+
 			grid.add(datePicker, 1, 1);
-			
+
 			CustomText startTimeLabel = new CustomText("Start Time:", 30);
 			grid.add(startTimeLabel, 0, 2);
 
-			NumberSpinner startTimePicker = new NumberSpinner(LocalDateTime.now().getHour(), LocalDateTime.now().getMinute());
+			NumberSpinner startTimePicker = new NumberSpinner(LocalDateTime.now().getHour(),
+					LocalDateTime.now().getMinute());
 			startTimePicker.setStyle("-fx-font-size: 18px;");
 			grid.add(startTimePicker, 1, 2);
-			
+
 			CustomText endTimeLabel = new CustomText("End Time:", 30);
 			grid.add(endTimeLabel, 0, 3);
 
-			NumberSpinner endTimePicker = new NumberSpinner(LocalDateTime.now().getHour(), LocalDateTime.now().getMinute());
+			NumberSpinner endTimePicker = new NumberSpinner(LocalDateTime.now().getHour(),
+					LocalDateTime.now().getMinute());
 			endTimePicker.setStyle("-fx-font-size: 18px;");
 			grid.add(endTimePicker, 1, 3);
 
@@ -1344,63 +1355,56 @@ public class GUIPanes {
 			searchButton.setOnAction(new EventHandler<ActionEvent>() {
 				@Override
 				public void handle(ActionEvent event) {
-					try {				
+					try {
 						// Validate the employee details. Any errors will cause an exception.
 						LocalDate date = datePicker.getValue();
 						String startTimeString = startTimePicker.getText();
-						String endTimeString = endTimePicker.getText(); 
-						
+						String endTimeString = endTimePicker.getText();
+
 						SimpleDateFormat format = new SimpleDateFormat("yyy-MM-dd kk:mm");
-						
+
 						Date startDate = new Date();
 						Date endDate = new Date();
-					
+
 						try {
 							startDate = format.parse(date + " " + startTimeString);
 							endDate = format.parse(date + " " + endTimeString);
-							
+
 						} catch (ParseException e) {
 							e.printStackTrace();
 						}
-					
-					LinkedList<Meeting> results = Company.search(searchList,startDate,endDate);
-						
-						ObservableList<Meeting> data = FXCollections.observableArrayList();
-						data.addAll(results);	
-						table.setItems(data);
-						
 
-					
-					}catch(Exception e) {
+						LinkedList<Meeting> results = Company.search(searchList, startDate, endDate);
+
+						ObservableList<Meeting> data = FXCollections.observableArrayList();
+						data.addAll(results);
+						table.setItems(data);
+
+					} catch (Exception e) {
 						System.out.println("Unsuccessful");
-						CustomText successText = new CustomText("Neither Employees have Meetings between these Times", 16);
+						CustomText successText = new CustomText("Neither Employees have Meetings between these Times",
+								16);
 						grid.add(successText, 1, 5);
 					}
 				}
 			});
 			grid.add(searchButton, 1, 4);
 
-			
-			
-			
-	    
 			table.setEditable(false);
-	        
-	        TableColumn<Meeting, String> startTimeCol = new TableColumn<Meeting, String>("Start of Free Time");
+
+			TableColumn<Meeting, String> startTimeCol = new TableColumn<Meeting, String>("Start of Free Time");
 			startTimeCol.setCellValueFactory(new PropertyValueFactory<Meeting, String>("startTime"));
-	 
-			
+
 			TableColumn<Meeting, String> endTimeCol = new TableColumn<Meeting, String>("End of Free Time");
 			endTimeCol.setCellValueFactory(new PropertyValueFactory<Meeting, String>("endTime"));
-	        
+
 			startTimeCol.prefWidthProperty().bind(table.widthProperty().divide(2.02));
 			endTimeCol.prefWidthProperty().bind(table.widthProperty().divide(2.02));
-	        
-	        table.getColumns().addAll(startTimeCol, endTimeCol);
-          setMargin(table, new Insets(10, 5, 5, 5));
+
+			table.getColumns().addAll(startTimeCol, endTimeCol);
+			setMargin(table, new Insets(10, 5, 5, 5));
 
 			setCenter(table);
-			
 
 			BorderPane bottomBox = new BorderPane();
 
@@ -1425,12 +1429,13 @@ public class GUIPanes {
 
 			setMargin(bottomBox, new Insets(10, 5, 5, 5));
 			setBottom(bottomBox);
-				
+
 		}
 	}
-	
+
 	/**
 	 * ViewDay pane that allows you to view a day's meetings.
+	 * 
 	 * @author Daniel
 	 *
 	 */
@@ -1456,48 +1461,46 @@ public class GUIPanes {
 			// Add a margin to the topbox.
 			setMargin(topBox, new Insets(10));
 			setTop(topBox);
-			
+
 			TableView<Meeting> table = new TableView<Meeting>();
 
 			TableColumn<Meeting, String> monthThing = new TableColumn<>();
-			
-			
+
 			HBox colBox = new HBox();
-			
+
 			CustomText backArrow = new CustomText("<", 26);
-			
+
 			Region space = new Region();
 			space.setMinWidth(200);
-			
+
 			CustomText dateColHeader = new CustomText(date, 26);
-			
+
 			colBox.getChildren().add(backArrow);
 			colBox.getChildren().add(space);
 			colBox.getChildren().add(dateColHeader);
-			
-			//Back to the diary if "<" is clicked.
+
+			// Back to the diary if "<" is clicked.
 			colBox.setOnMouseClicked(e -> GUIHandler.changePane(new EmployeeDiary(employee)));
 			monthThing.setGraphic(colBox);
-			
-			//Table set-up
+
+			// Table set-up
 			TableColumn<Meeting, String> descCol = new TableColumn<Meeting, String>("Description");
 			descCol.setCellValueFactory(new PropertyValueFactory<Meeting, String>("description"));
 
 			TableColumn<Meeting, String> startTimeCol = new TableColumn<Meeting, String>("Start Time");
-			startTimeCol.setCellValueFactory(new PropertyValueFactory<Meeting, String>("rawStart"));	
+			startTimeCol.setCellValueFactory(new PropertyValueFactory<Meeting, String>("rawStart"));
 
 			TableColumn<Meeting, String> endTimeCol = new TableColumn<Meeting, String>("End Time");
 			endTimeCol.setCellValueFactory(new PropertyValueFactory<Meeting, String>("rawEnd"));
 
 			monthThing.getColumns().addAll(descCol, startTimeCol, endTimeCol);
-			
+
 			table.getColumns().add(monthThing);
 
 			// Table column widths (odd value so that it offsets the margin)
 			descCol.prefWidthProperty().bind(table.widthProperty().divide(2.02));
 			startTimeCol.prefWidthProperty().bind(table.widthProperty().divide(4.02));
 			endTimeCol.prefWidthProperty().bind(table.widthProperty().divide(4.02));
-
 
 			setMargin(table, new Insets(10, 5, 5, 5));
 
@@ -1524,9 +1527,10 @@ public class GUIPanes {
 			});
 		}
 	}
-	
+
 	/**
 	 * EditMeeting pane that allows you to edit meeting.
+	 * 
 	 * @author Daniel
 	 *
 	 */
@@ -1562,33 +1566,33 @@ public class GUIPanes {
 			grid.add(descTextField, 1, 0);
 
 			CustomText dateLabel = new CustomText("Date:", 30);
-			
+
 			grid.add(dateLabel, 0, 1);
 
-			//Get values from date
+			// Get values from date
 			Calendar cal = Calendar.getInstance();
 			cal.setTime(meeting.getStartTime());
-			
-			//Set date picker to current meeting date.
-			DatePicker datePicker = new DatePicker(LocalDate.of(cal.get(Calendar.YEAR), cal.get(Calendar.MONTH)+1, cal.get((Calendar.DAY_OF_MONTH))));
 
-			
+			// Set date picker to current meeting date.
+			DatePicker datePicker = new DatePicker(LocalDate.of(cal.get(Calendar.YEAR), cal.get(Calendar.MONTH) + 1,
+					cal.get((Calendar.DAY_OF_MONTH))));
+
 			grid.add(datePicker, 1, 1);
-			
+
 			CustomText startTimeLabel = new CustomText("Start Time:", 30);
 			grid.add(startTimeLabel, 0, 2);
 
-
-			NumberSpinner startTimePicker = new NumberSpinner(Integer.parseInt(meeting.getRawStart().substring(0, 2)), Integer.parseInt(meeting.getRawStart().substring(3, 5)));
+			NumberSpinner startTimePicker = new NumberSpinner(Integer.parseInt(meeting.getRawStart().substring(0, 2)),
+					Integer.parseInt(meeting.getRawStart().substring(3, 5)));
 
 			startTimePicker.setStyle("-fx-font-size: 18px;");
 			grid.add(startTimePicker, 1, 2);
-			
+
 			CustomText endTimeLabel = new CustomText("End Time:", 30);
 			grid.add(endTimeLabel, 0, 3);
 
-
-			NumberSpinner endTimePicker = new NumberSpinner(Integer.parseInt(meeting.getRawEnd().substring(0, 2)), Integer.parseInt(meeting.getRawEnd().substring(3, 5)));
+			NumberSpinner endTimePicker = new NumberSpinner(Integer.parseInt(meeting.getRawEnd().substring(0, 2)),
+					Integer.parseInt(meeting.getRawEnd().substring(3, 5)));
 			endTimePicker.setStyle("-fx-font-size: 18px;");
 			grid.add(endTimePicker, 1, 3);
 
@@ -1598,20 +1602,20 @@ public class GUIPanes {
 				public void handle(ActionEvent event) {
 					try {
 						Meeting temp = meeting;
-						
-						//Avoid conflicting with itself
+
+						// Avoid conflicting with itself
 						employee.deleteMeeting(meeting);
-						
+
 						// Validate the employee details. Any errors will cause an exception.
-						Meeting toAdd = Validation.validateMeeting(datePicker.getValue(), startTimePicker.getText(), endTimePicker.getText(), descTextField.getText(), employee.getDiary());
-						
+						Meeting toAdd = Validation.validateMeeting(datePicker.getValue(), startTimePicker.getText(),
+								endTimePicker.getText(), descTextField.getText(), employee.getDiary());
+
 						// Add the Meeting
 						employee.editMeeting(temp, toAdd);
 
 						// Display success message.
 						CustomText successText = new CustomText("Meeting successfully edited.", 16);
 						grid.add(successText, 1, 5);
-
 
 						// Remove the message after 2 seconds.
 						Timeline timer = new Timeline(
@@ -1623,11 +1627,11 @@ public class GUIPanes {
 								}));
 						timer.play();
 
-					} catch (MeetingTimeBeforeStart | MeetingTimeSameTime | MeetingTimeStartConflict | GenericFieldEmpty e) {
+					} catch (MeetingTimeBeforeStart | MeetingTimeSameTime | MeetingTimeStartConflict
+							| GenericFieldEmpty e) {
 						// Display the error to the user.
 						CustomText errorText = new CustomText(e.getMessage(), 16);
 						grid.add(errorText, 1, 5);
-
 
 						Timeline timer = new Timeline(
 								new KeyFrame(Duration.seconds(2), new EventHandler<ActionEvent>() {
@@ -1643,7 +1647,7 @@ public class GUIPanes {
 			});
 
 			grid.add(saveButton, 0, 4);
-			
+
 			CustomButton deleteButton = new CustomButton("Delete Meeting", 20);
 			deleteButton.setOnAction(new EventHandler<ActionEvent>() {
 				@Override
@@ -1654,7 +1658,6 @@ public class GUIPanes {
 				}
 			});
 			grid.add(deleteButton, 1, 4);
-			
 
 			setLeft(grid);
 
