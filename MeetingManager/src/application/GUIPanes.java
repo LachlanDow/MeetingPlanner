@@ -1719,6 +1719,22 @@ public class GUIPanes {
 		priorityCol.prefWidthProperty().bind(table.widthProperty().divide(3.20));
 		
 		setMargin(table, new Insets(10, 5, 5, 5));
+		
+		// Credit: https://stackoverflow.com/a/30194680/3102362
+		// Row click events.
+		table.setRowFactory(tv -> {
+			TableRow<Task> row = new TableRow<>();
+			row.setOnMouseClicked(event -> {
+				if (!row.isEmpty() && event.getButton() == MouseButton.PRIMARY && event.getClickCount() == 2) {
+
+					Task clickedRow = row.getItem();
+
+					// Switch to EditEmployee and pass the selected employee.
+					GUIHandler.changePane(new EditTask(employee, clickedRow));
+				}
+			});
+			return row;
+		});
 
 		setCenter(table);
 		
@@ -1842,6 +1858,105 @@ public class GUIPanes {
 		
 		}
 		
+	}
+	
+	public static class EditTask extends BorderPane {
+		public EditTask(Employee employee, Task clickedRow) {
+			VBox topBox = new VBox();
+			CustomText title = new CustomText("Meeting Manager", 64);
+			topBox.getChildren().add(title);
+			CustomText subtitle = new CustomText("Editing task.", 20);
+			topBox.getChildren().add(subtitle);
+
+			// Add some space between the subtitle and the employee name.
+			Region spacer = new Region();
+			spacer.setMinHeight(10);
+			topBox.getChildren().add(spacer);
+
+			// Add employee name to the Pane.
+			CustomText employeeName = new CustomText("Employee: " + employee.getFullName(), 20);
+			topBox.getChildren().add(employeeName);
+
+			setMargin(topBox, new Insets(10));
+			setTop(topBox);
+
+			GridPane grid = new GridPane();
+
+			grid.setHgap(10);
+			grid.setVgap(20);
+			grid.setPadding(new Insets(15, 25, 25, 25));
+
+			CustomText description = new CustomText("Description:", 30);
+			grid.add(description, 0, 0);
+
+			TextField descTextField = new TextField();
+			descTextField.setFont(Font.font("Arial", 20));
+			descTextField.setText(clickedRow.getDescription());
+			grid.add(descTextField, 1, 0);
+			
+			setCenter(grid);
+			
+			CustomText priority = new CustomText("Priority:", 30);
+			grid.add(priority, 0, 4);
+
+			TextField priorityTextField = new TextField();
+			priorityTextField.setFont(Font.font("Arial", 20));
+			priorityTextField.setText(clickedRow.getPriority());
+			grid.add(priorityTextField, 1, 4);
+			
+			CustomButton saveButton = new CustomButton("Save Meeting", 20);
+			saveButton.setOnAction(new EventHandler<ActionEvent>() {
+				@Override
+				public void handle(ActionEvent event) {
+					
+					Task toAdd = new Task(descTextField.getText(), priorityTextField.getText());
+				
+					// Add the Meeting
+					employee.editTask(clickedRow, toAdd);
+
+					// Display success message.
+					CustomText successText = new CustomText("Task successfully edited.", 16);
+					grid.add(successText, 1, 5);
+
+					// Remove the message after 2 seconds.
+					Timeline timer = new Timeline(
+							new KeyFrame(Duration.seconds(2), new EventHandler<ActionEvent>() {
+								@Override
+								public void handle(ActionEvent event) {
+									grid.getChildren().remove(successText);
+								}
+							}));
+					timer.play();
+				}
+			});
+
+			grid.add(saveButton, 0, 6);
+			
+			CustomButton deleteButton = new CustomButton("Delete Task", 20);
+			deleteButton.setOnAction(new EventHandler<ActionEvent>() {
+				@Override
+				public void handle(ActionEvent event) {
+					employee.deleteTask(clickedRow);
+					GUIHandler.changePane(new TaskListGUI(employee));
+				}
+			});
+			grid.add(deleteButton, 1, 6);
+			
+			
+			CustomButton backButton = new CustomButton("Back", 16);
+			backButton.setOnAction(new EventHandler<ActionEvent>() {
+				@Override
+				public void handle(ActionEvent event) {
+					GUIHandler.changePane(new TaskListGUI(employee));
+				}
+			});
+			setMargin(backButton, new Insets(10, 5, 5, 5));
+
+			setBottom(backButton);
+			
+			
+			
+		}
 	}
 
 

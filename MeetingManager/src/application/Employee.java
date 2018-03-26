@@ -34,60 +34,132 @@ public class Employee {
 		this.jobTitle = jobTitle;
 	}
 	
+	/**
+	 * Method to get the ID of the employee
+	 * 
+	 * @return id
+	 */
 	public int getId() {
 		return id;
 	}
-
+	
+	/**
+	 * Method to get the first name of the employee
+	 * 
+	 * @return firstName
+	 */
 	public String getFirstName() {
 		return firstName;
 	}
-
+	
+	/**
+	 * Method to set the first name of the employee
+	 * 
+	 * @param fn
+	 */
 	public void setFirstName(String fn) {
 		firstName = fn;
 	}
-
+	
+	/**
+	 * Method to get the last name of the employee
+	 * 
+	 * @return lastName
+	 */
 	public String getLastName() {
 		return lastName;
 	}
-
+	
+	/**
+	 * Method to set the last name of the employee
+	 * 
+	 * @param ln
+	 */
 	public void setLastName(String ln) {
 		lastName = ln;
 	}
-
+	
+	/**
+	 * Method to get the job title of the employee
+	 * 
+	 * @return jobTitle
+	 */
 	public String getJobTitle() {
 		return jobTitle;
 	}
-
+	
+	/**
+	 * Method to set the job title of the employee
+	 * 
+	 * @param job
+	 */
 	public void setJobTitle(String job) {
 		jobTitle = job;
 	}
 
+	/**
+	 * Method to get the full name of the employee
+	 * 
+	 * @return firstName, lastName
+	 */
 	public String getFullName() {
 		return firstName + " " + lastName;
 	}
 
+	/**
+	 * Method to get all employee information
+	 * 
+	 * @return id, firstName, lastName, jobTitle
+	 */
 	public String getEmployeeInformation() {
 		return id + "," + firstName + "," + lastName + "," + jobTitle;
 	}
 	
+	/**
+	 * Method to get the diary
+	 * 
+	 * @return diary
+	 */
 	public Diary getDiary() {
 		return diary;
 	}
 
+	/**
+	 * Method to set the diary
+	 * 
+	 * @param diary
+	 */
 	public void setDiary(Diary diary) {
 		this.diary = diary;
 	}
 	
+	/**
+	 * Method to get the task list
+	 * 
+	 * @return taskList
+	 */
 	public LinkedList<Task> getTaskList()
 	{
 		return taskList;
 	}
 	
+	/**
+	 * Method to set the task list
+	 * 
+	 * @param taskList
+	 */
 	public void setTaskList(LinkedList<Task> taskList)
 	{
 		this.taskList = taskList;
 	}
 	
+	/**
+	 * Method to get the list of meetings
+	 * 
+	 * @param startTime
+	 * @param endTime
+	 * @return withinMeetings
+	 */
 	public LinkedList<Meeting> getMeetings(Date startTime, Date endTime) {
     	LinkedList<Meeting> withinMeetings = new LinkedList<Meeting>();
     	LinkedList<Meeting> allMeetings =  diary.getMeetings();
@@ -104,7 +176,11 @@ public class Employee {
 		diary.add(meeting);
 	}
 	
-
+	/**
+	 * Method to add a meeting to the list
+	 * 
+	 * @param meeting
+	 */
     public void addMeeting(Meeting meeting) {
     	diary.add(meeting, false);
 
@@ -124,24 +200,57 @@ public class Employee {
     
     /**
 	 * Method to delete a task in the list
+	 * 
+	 * @param toDelete
 	 */
-	public void delete(Task toDelete)
+	public void deleteTask(Task toDelete)
 	{
 		taskList.remove(toDelete);
 	}
     
+	/**
+	 * Method to delete a meeting from the list
+	 * 
+	 * @param meeting
+	 */
     public void deleteMeeting(Meeting meeting) {
     	diary.delete(meeting, false);
     }
     
+    /**
+     * Method to edit a meeting in the list
+     * 
+     * @param oldMeeting
+     * @param newMeeting
+     */
 	public void editMeeting(Meeting oldMeeting, Meeting newMeeting) {
 		diary.edit(oldMeeting, newMeeting, false);
 	}
     
+	/**
+	 * Method to edit a task in the list
+	 * 
+	 * @param oldTask
+	 * @param newTask
+	 */
+	public void editTask(Task oldTask, Task newTask)
+	{
+		taskList.remove(oldTask);
+		taskList.add(newTask);
+	}
+	
+	/**
+	 * Method to undo an action
+	 */
     public void undo() {
     	diary.undo();
     }
     
+    /**
+     * Method to return all information
+     * 
+     * @return id, firstName, lastName, jobTitle
+     */
     public String toString() {
 		return ("ID:" + this.id + ". ForeName:" + this.firstName + ". Surname: " + this.lastName + " Job title: " + this.jobTitle );
 	}
