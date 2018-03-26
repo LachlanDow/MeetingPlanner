@@ -167,6 +167,7 @@ public class GUIPanes {
 
 			// Table set-up
 			TableView<Employee> table = new TableView<Employee>();
+			table.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
 
 			TableColumn<Employee, String> idCol = new TableColumn<Employee, String>("ID");
 			idCol.setCellValueFactory(new PropertyValueFactory<Employee, String>("id"));
@@ -181,12 +182,6 @@ public class GUIPanes {
 			jobTitleCol.setCellValueFactory(new PropertyValueFactory<Employee, String>("jobTitle"));
 
 			table.getColumns().addAll(idCol, firstNameCol, lastNameCol, jobTitleCol);
-
-			// Table column widths (odd value so that it offsets the margin)s
-			idCol.prefWidthProperty().bind(table.widthProperty().divide(4.02));
-			firstNameCol.prefWidthProperty().bind(table.widthProperty().divide(4.02));
-			lastNameCol.prefWidthProperty().bind(table.widthProperty().divide(4.02));
-			jobTitleCol.prefWidthProperty().bind(table.widthProperty().divide(4.02));
 
 			setMargin(table, new Insets(10, 5, 5, 5));
 
@@ -431,7 +426,8 @@ public class GUIPanes {
 
 			// Table set-up
 			TableView<Employee> table = new TableView<Employee>();
-
+			table.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
+			
 			TableColumn<Employee, String> idCol = new TableColumn<Employee, String>("ID");
 			idCol.setCellValueFactory(new PropertyValueFactory<Employee, String>("id"));
 
@@ -445,12 +441,6 @@ public class GUIPanes {
 			jobTitleCol.setCellValueFactory(new PropertyValueFactory<Employee, String>("jobTitle"));
 
 			table.getColumns().addAll(idCol, firstNameCol, lastNameCol, jobTitleCol);
-
-			// Table column widths (odd value so that it offsets the margin)s
-			idCol.prefWidthProperty().bind(table.widthProperty().divide(4.02));
-			firstNameCol.prefWidthProperty().bind(table.widthProperty().divide(4.02));
-			lastNameCol.prefWidthProperty().bind(table.widthProperty().divide(4.02));
-			jobTitleCol.prefWidthProperty().bind(table.widthProperty().divide(4.02));
 
 			setMargin(table, new Insets(10, 5, 5, 5));
 
@@ -1156,9 +1146,12 @@ public class GUIPanes {
 			setMargin(topPane, new Insets(10));
 
 			setTop(topPane);
+			
+			HBox middle = new HBox(30);
 
 			TableView<Employee> table = new TableView<Employee>();
-
+			table.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
+			
 			TableColumn<Employee, String> idCol = new TableColumn<Employee, String>("ID");
 			idCol.setCellValueFactory(new PropertyValueFactory<Employee, String>("id"));
 
@@ -1173,17 +1166,10 @@ public class GUIPanes {
 
 			table.getColumns().addAll(idCol, firstNameCol, lastNameCol, jobTitleCol);
 
-			// Table column widths (odd value so that it offsets the margin)s
-			idCol.prefWidthProperty().bind(table.widthProperty().divide(4.02));
-			firstNameCol.prefWidthProperty().bind(table.widthProperty().divide(4.02));
-			lastNameCol.prefWidthProperty().bind(table.widthProperty().divide(4.02));
-			jobTitleCol.prefWidthProperty().bind(table.widthProperty().divide(4.02));
-
-			setMargin(table, new Insets(10, 5, 5, 5));
-
-			setLeft(table);
+			middle.getChildren().add(table);
 
 			TableView<Employee> tableRight = new TableView<Employee>();
+			tableRight.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
 
 			TableColumn<Employee, String> idColRight = new TableColumn<Employee, String>("ID");
 			idColRight.setCellValueFactory(new PropertyValueFactory<Employee, String>("id"));
@@ -1199,15 +1185,12 @@ public class GUIPanes {
 
 			tableRight.getColumns().addAll(idColRight, firstNameColRight, lastNameColRight, jobTitleColRight);
 
-			// Table column widths (odd value so that it offsets the margin)s
-			idCol.prefWidthProperty().bind(table.widthProperty().divide(4.02));
-			firstNameCol.prefWidthProperty().bind(table.widthProperty().divide(4.02));
-			lastNameCol.prefWidthProperty().bind(table.widthProperty().divide(4.02));
-			jobTitleCol.prefWidthProperty().bind(table.widthProperty().divide(4.02));
 
-			setMargin(tableRight, new Insets(10, 5, 5, 5));
-
-			setRight(tableRight);
+			middle.getChildren().add(tableRight);
+			
+			setMargin(middle, new Insets(0, 150, 0, 150));
+			
+			setCenter(middle);
 
 			ObservableList<Employee> data = FXCollections.observableArrayList();
 
