@@ -1,6 +1,7 @@
 package application;
 
 import java.time.LocalDate;
+import java.util.Calendar;
 
 import application.MeetingManagerExceptions.EmployeeDetailsInvalidID;
 import application.MeetingManagerExceptions.EmployeeExists;
@@ -295,9 +296,30 @@ public class Tester {
 		 Company.addEmployee(21, "James", "Test2", "Worker");
 		 Company.addEmployee(22, "Eric", "Test3", "Worker");
 		 
+		 Meeting meeting = null;
+			try {
+				meeting = Validation.validateMeeting(LocalDate.of(2018, 3, 13), "13:00", "15:00", "Test description", Company.getEmployees().get(20).getDiary());
+			} catch (MeetingTimeBeforeStart | MeetingTimeSameTime | MeetingTimeStartConflict | GenericFieldEmpty e) {
+				System.out.println(e.getMessage());
+			}
+		 Company.getEmployees().get(20).getDiary().addMeeting(meeting,true);
 		 
+		 try {
+				meeting = Validation.validateMeeting(LocalDate.of(2018, 3, 13), "15:00", "16:00", "Test description", Company.getEmployees().get(20).getDiary());
+			} catch (MeetingTimeBeforeStart | MeetingTimeSameTime | MeetingTimeStartConflict | GenericFieldEmpty e) {
+				System.out.println(e.getMessage());
+			}
+		 Company.getEmployees().get(21).getDiary().addMeeting(meeting,true);
 		
+		 try {
+				meeting = Validation.validateMeeting(LocalDate.of(2018, 3, 13), "15:00", "16:00", "Test description", Company.getEmployees().get(20).getDiary());
+			} catch (MeetingTimeBeforeStart | MeetingTimeSameTime | MeetingTimeStartConflict | GenericFieldEmpty e) {
+				System.out.println(e.getMessage());
+			}
 		 
+		 Company.getEmployees().get(22).getDiary().addMeeting(meeting,true);
 		 
+			
+			
 	}
 }
