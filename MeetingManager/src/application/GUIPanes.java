@@ -1982,6 +1982,7 @@ public class GUIPanes {
 		}
 	}
 	
+	
 	public static class AddMultiMeeting extends BorderPane {
         public AddMultiMeeting(LinkedList<Employee> employeeMulti) {
             VBox topBox = new VBox();

@@ -34,6 +34,11 @@ public class Company {
 		 totalMeetings.addAll(listOfEmployee.get(i).getMeetings(startTime,endTime));
 		}
 	totalMeetings = Company.mergeMeetings(totalMeetings);
+	if (totalMeetings.size() == 0) {
+		LinkedList<Meeting> oneMeeting = new LinkedList<Meeting>();
+		oneMeeting.add(new Meeting(startTime,endTime,""));
+		return oneMeeting;
+	}
 	
 	LinkedList<Meeting> timesBetween = new LinkedList<Meeting>();
 	
@@ -69,8 +74,9 @@ public class Company {
 			if(meeting1.getEndTime().compareTo(meeting2.getStartTime())> 0 && meeting1.getEndTime().compareTo(meeting2.getEndTime()) < 0) {
 				if(meeting1.getEndTime().compareTo(meeting2.getEndTime()) < 0) {
 					totalMeetings.get(i).setEndTime(meeting2.getEndTime());
-					totalMeetings.remove(i+1);
 					System.out.println(totalMeetings.get(i));
+					totalMeetings.remove(i+1);
+					
 					i--;
 				}
 				else {
@@ -133,9 +139,12 @@ public class Company {
 	 * @return
 	 */
 	public static LinkedList<Meeting> getTimesBetween(Date startTime,Date endTime, LinkedList<Meeting> totalMeetings, LinkedList<Meeting> timesBetween) {
-	
+	if(totalMeetings==null) {
+		timesBetween.add(new Meeting(startTime,endTime,""));
+		return timesBetween;
+	}
 		timesBetween.add(new Meeting(startTime,totalMeetings.getFirst().getStartTime(),""));
-		for(int i =0; i < totalMeetings.size()-1; i++) {
+		for(int i =0; i < totalMeetings.size()-2; i++) {
 			timesBetween.add(new Meeting(totalMeetings.get(i).getEndTime(),totalMeetings.get(i+1).getStartTime(),""));	
 		}
 		timesBetween.add(new Meeting(totalMeetings.getLast().getEndTime(),endTime,""));
