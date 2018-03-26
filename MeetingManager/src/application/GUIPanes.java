@@ -1431,7 +1431,7 @@ public class GUIPanes {
 			});
 			bottomBox.setLeft(backButton);
 
-			CustomButton addMultipul = new CustomButton("Search for free times", 16);
+			CustomButton addMultipul = new CustomButton("Add a Company Meeting ", 16);
 			addMultipul.setOnAction(new EventHandler<ActionEvent>() {
 				@Override
 				public void handle(ActionEvent event) {
@@ -1986,7 +1986,7 @@ public class GUIPanes {
             VBox topBox = new VBox();
             CustomText title = new CustomText("Meeting Manager", 64);
             topBox.getChildren().add(title);
-            CustomText subtitle = new CustomText("Adding meeting to Multiul Employees.", 20);
+            CustomText subtitle = new CustomText("Adding meeting to Multiple Employees.", 20);
             topBox.getChildren().add(subtitle);
  
             // Add some space between the subtitle and the employee name.
