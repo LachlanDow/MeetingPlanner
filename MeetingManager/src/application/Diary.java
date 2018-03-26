@@ -19,6 +19,11 @@ public class Diary {
 	private LinkedList<Meeting> meetings = new LinkedList<Meeting>();
 	
 	/**
+	 * A LinkedList that contains all the tasks in the diary
+	 */
+	private LinkedList<Task> taskList = new LinkedList<Task>();
+	
+	/**
 	 * A Stack that contains all recent add/edit/delete functions
 	 * so that they will be able to be reversable.
 	 */
@@ -106,7 +111,7 @@ public void add(Meeting meeting) {
 	}
 	
 	/**
-	 * Print the contents of the diary.
+	 * Print all meetings
 	 */
 	public void printMeetings() {
 		if(meetings.isEmpty()) {
@@ -120,6 +125,22 @@ public void add(Meeting meeting) {
 			}
 		}
 	}
+	
+	/**
+	 * Print all tasks.
+	 */
+	public void printTasks() {
+		if(taskList.isEmpty()) {
+			System.out.println("Nothing to print");
+		}
+		else {
+			ListIterator<Task> listIterator = taskList.listIterator();
+			System.out.println(listIterator.next());
+			while (listIterator.hasNext()) {
+				System.out.println(listIterator.next());
+			}
+		}
+	}
 
 	/**
 	 * Get all meetings
@@ -127,5 +148,29 @@ public void add(Meeting meeting) {
 	 */
 	public LinkedList<Meeting> getMeetings() {
 		return this.meetings;
+	}
+
+	/**
+	 * Returns the reference to the Task list
+	 * @return LinkedList<Task> list of tasks
+	 */
+	public LinkedList<Task> getTaskList() {
+		return taskList;
+	}
+
+	/**
+	 * Add Task to task list
+	 * @param toAdd Task to add
+	 */
+	public void addTask(Task toAdd) {
+		taskList.add(toAdd);
+	}
+
+	/**
+	 * Remove Task from task list
+	 * @param toDelete
+	 */
+	public void deleteTask(Task toDelete) {
+		taskList.remove(toDelete);
 	}
 }

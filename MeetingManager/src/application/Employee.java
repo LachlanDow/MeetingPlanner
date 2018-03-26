@@ -17,7 +17,6 @@ public class Employee {
 	private String lastName;
 	private String jobTitle;
 	private Diary diary = new Diary();
-	private LinkedList<Task> taskList = new LinkedList<Task>();
 
 	public Employee() {
         this.id = 0;
@@ -139,17 +138,7 @@ public class Employee {
 	 */
 	public LinkedList<Task> getTaskList()
 	{
-		return taskList;
-	}
-	
-	/**
-	 * Method to set the task list
-	 * 
-	 * @param taskList
-	 */
-	public void setTaskList(LinkedList<Task> taskList)
-	{
-		this.taskList = taskList;
+		return diary.getTaskList();
 	}
 	
 	/**
@@ -192,7 +181,7 @@ public class Employee {
      */
     public void addTask(Task toAdd)
     {
-    	taskList.add(toAdd);
+    	diary.addTask(toAdd);
     }
     
     /**
@@ -202,7 +191,7 @@ public class Employee {
 	 */
 	public void deleteTask(Task toDelete)
 	{
-		taskList.remove(toDelete);
+		diary.deleteTask(toDelete);
 	}
     
 	/**
@@ -232,8 +221,8 @@ public class Employee {
 	 */
 	public void editTask(Task oldTask, Task newTask)
 	{
-		taskList.remove(oldTask);
-		taskList.add(newTask);
+		diary.deleteTask(oldTask);
+		diary.addTask(newTask);
 	}
 	
 	/**
