@@ -1132,6 +1132,7 @@ public class GUIPanes {
 	}
 
 	public static class CompanyMeeting extends BorderPane {
+		@SuppressWarnings("unchecked")
 		public CompanyMeeting() {
 			// Add the
 			LinkedList<Employee> searchList = new LinkedList<Employee>();
@@ -1208,8 +1209,6 @@ public class GUIPanes {
 
 			setRight(tableRight);
 
-			// TEST DATA
-			// TODO: LOL
 			ObservableList<Employee> data = FXCollections.observableArrayList();
 
 			for (Entry<Integer, Employee> entry : Company.getEmployees().entrySet()) {
@@ -1302,6 +1301,7 @@ public class GUIPanes {
 	}
 
 	public static class Search extends BorderPane {
+		@SuppressWarnings("unchecked")
 		public Search(LinkedList<Employee> searchList) {
 			TableView<Meeting> table = new TableView<Meeting>();
 			VBox topPane = new VBox();
@@ -1686,6 +1686,7 @@ public class GUIPanes {
 	}
 	
 	public static class TaskListGUI extends BorderPane {
+	@SuppressWarnings("unchecked")
 	public TaskListGUI(Employee employee) {
 		// Add the
 		VBox topPane = new VBox();

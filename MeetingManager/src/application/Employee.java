@@ -2,7 +2,6 @@ package application;
 
 import java.util.Date;
 import java.util.LinkedList;
-import java.util.Scanner;
 
 /**
  * Project: Employee Manager This is the employee class, this class will produce
