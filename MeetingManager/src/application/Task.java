@@ -4,7 +4,6 @@ public class Task {
 	
 	private String description;
 	private String priority;
-	private String test;
 	
 	public Task(String description, String priority)
 	{
