@@ -769,6 +769,15 @@ public class GUIPanes {
 
 			CustomText yearLabel = new CustomText(String.valueOf(currYear), 20);
 			monthYearControls.add(yearLabel, 2, 0);
+			
+			CustomButton taskViewButton = new CustomButton("Change to task view", 16);
+			taskViewButton.setOnAction(new EventHandler<ActionEvent>() {
+				@Override
+				public void handle(ActionEvent event) {
+					GUIHandler.changePane(new TaskListGUI(employee));
+				}
+			});
+			monthYearControls.add(taskViewButton, 28, 0);
 
 			//Event handlers
 			monthLabel.setOnMouseClicked(new EventHandler<MouseEvent>() {
@@ -1341,4 +1350,165 @@ public class GUIPanes {
 			setBottom(backButton);
 		}
 	}
+	
+	public static class TaskListGUI extends BorderPane {
+	public TaskListGUI(Employee employee) {
+		// Add the
+		VBox topPane = new VBox();
+
+		CustomText title = new CustomText("Meeting Manager", 64);
+		topPane.getChildren().add(title);
+
+		CustomText subtitle = new CustomText("Check off tasks you have completed.", 20);
+		topPane.getChildren().add(subtitle);
+
+		setMargin(topPane, new Insets(10));
+
+		setTop(topPane);
+		
+		TableView<Task> table = new TableView<Task>();
+
+		TableColumn<Task, String> taskCol = new TableColumn<Task, String>("Task");
+		taskCol.setCellValueFactory(new PropertyValueFactory<Task, String>("task"));
+
+		TableColumn<Task, String> descriptionCol = new TableColumn<Task, String>("Description");
+		descriptionCol.setCellValueFactory(new PropertyValueFactory<Task, String>("description"));
+
+		TableColumn<Task, String> priorityCol = new TableColumn<Task, String>("Priority");
+		priorityCol.setCellValueFactory(new PropertyValueFactory<Task, String>("priority"));
+		
+		table.getColumns().addAll(taskCol, descriptionCol, priorityCol);
+
+		// Table column widths (odd value so that it offsets the margin)s
+		taskCol.prefWidthProperty().bind(table.widthProperty().divide(5.50));
+		descriptionCol.prefWidthProperty().bind(table.widthProperty().divide(2.00));
+		priorityCol.prefWidthProperty().bind(table.widthProperty().divide(3.20));
+		
+		setMargin(table, new Insets(10, 5, 5, 5));
+
+		setCenter(table);
+		
+		// TEST DATA
+		ObservableList<Task> data = FXCollections.observableArrayList(employee.getTaskList());
+		table.setItems(data);
+		
+		BorderPane bottomBox = new BorderPane();
+		
+		CustomButton backButton = new CustomButton("Back", 16);
+		backButton.setOnAction(new EventHandler<ActionEvent>() {
+			@Override
+			public void handle(ActionEvent event) {
+				GUIHandler.changePane(new EmployeeDiary(employee));
+			}
+		});
+		bottomBox.setLeft(backButton);
+		
+		CustomButton addTaskButton = new CustomButton("Add Task", 16);
+		addTaskButton.setOnAction(new EventHandler<ActionEvent>() {
+			@Override
+			public void handle(ActionEvent event) {
+				GUIHandler.changePane(new AddTask(employee));
+			}
+		});
+		bottomBox.setRight(addTaskButton);
+		
+		setMargin(bottomBox, new Insets(10, 5, 5, 5));
+		setBottom(bottomBox);
+		
+		}
+	
+	}
+	
+	public static class AddTask extends BorderPane {
+		public AddTask(Employee employee) {
+			
+			VBox topBox = new VBox();
+			CustomText title = new CustomText("Meeting Manager", 64);
+			topBox.getChildren().add(title);
+			CustomText subtitle = new CustomText("Adding task.", 20);
+			topBox.getChildren().add(subtitle);
+
+			// Add some space between the subtitle and the employee name.
+			Region spacer = new Region();
+			spacer.setMinHeight(10);
+			topBox.getChildren().add(spacer);
+
+			// Add employee name to the Pane.
+			CustomText employeeName = new CustomText("Employee: " + employee.getFullName(), 20);
+			topBox.getChildren().add(employeeName);
+
+			setMargin(topBox, new Insets(10));
+			setTop(topBox);
+
+			GridPane grid = new GridPane();
+
+			grid.setHgap(10);
+			grid.setVgap(20);
+			grid.setPadding(new Insets(15, 25, 25, 25));
+
+			CustomText description = new CustomText("Description:", 30);
+			grid.add(description, 0, 1);
+
+			TextField descTextField = new TextField();
+			descTextField.setFont(Font.font("Arial", 20));
+			grid.add(descTextField, 1, 1);
+			
+			setCenter(grid);
+			
+			CustomText priority = new CustomText("Priority:", 30);
+			grid.add(priority, 0, 4);
+
+			TextField priorityTextField = new TextField();
+			priorityTextField.setFont(Font.font("Arial", 20));
+			grid.add(priorityTextField, 1, 4);
+			
+			CustomButton saveButton = new CustomButton("Add Task", 20);
+			saveButton.setOnAction(new EventHandler<ActionEvent>() {
+				@Override
+				public void handle(ActionEvent event) {
+			
+					employee.addTask(descTextField.getText(), priorityTextField.getText());
+			
+					// Display success message.
+					CustomText successText = new CustomText("Task successfully added", 16);
+					grid.add(successText, 1, 6);
+
+					// Remove the message after 2 seconds.
+					Timeline timer = new Timeline(
+							new KeyFrame(Duration.seconds(2), new EventHandler<ActionEvent>() {
+								@Override
+								public void handle(ActionEvent event) {
+									grid.getChildren().remove(successText);
+								}
+							}));
+					timer.play();
+
+					// Clear the text fields for usability sake
+					descTextField.clear();
+					priorityTextField.clear();
+					
+			}
+			
+		});
+			
+		grid.add(saveButton, 0, 6);
+		
+		
+
+		CustomButton backButton = new CustomButton("Back", 16);
+		backButton.setOnAction(new EventHandler<ActionEvent>() {
+			@Override
+			public void handle(ActionEvent event) {
+				GUIHandler.changePane(new TaskListGUI(employee));
+			}
+		});
+		setMargin(backButton, new Insets(10, 5, 5, 5));
+
+		setBottom(backButton);
+		
+		}
+		
+	}
+
+
 }

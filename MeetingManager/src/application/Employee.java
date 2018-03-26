@@ -2,6 +2,7 @@ package application;
 
 import java.util.Date;
 import java.util.LinkedList;
+import java.util.Scanner;
 
 /**
  * Project: Employee Manager This is the employee class, this class will produce
@@ -17,6 +18,7 @@ public class Employee {
 	private String lastName;
 	private String jobTitle;
 	private Diary diary = new Diary();
+	private LinkedList<Task> taskList = new LinkedList<Task>();
 
 	public Employee() {
         this.id = 0;
@@ -76,6 +78,16 @@ public class Employee {
 		this.diary = diary;
 	}
 	
+	public LinkedList<Task> getTaskList()
+	{
+		return taskList;
+	}
+	
+	public void setTaskList(LinkedList<Task> taskList)
+	{
+		this.taskList = taskList;
+	}
+	
 	public LinkedList<Meeting> getMeetings(Date startTime, Date endTime) {
     	LinkedList<Meeting> withinMeetings = new LinkedList<Meeting>();
     	LinkedList<Meeting> allMeetings =  diary.getMeetings();
@@ -92,6 +104,26 @@ public class Employee {
     public void addMeeting(Meeting meeting) {
     	diary.add(meeting, false);
     }
+    
+    /**
+     * Method to add a task to the list
+     * 
+     * @param description
+     * @param priority
+     */
+    public void addTask(String description, String priority)
+    {
+    	Task toAdd = new Task(description, priority);
+    	taskList.add(toAdd);
+    }
+    
+    /**
+	 * Method to delete a task in the list
+	 */
+	public void delete(Task toDelete)
+	{
+		taskList.remove(toDelete);
+	}
     
     public void deleteMeeting(Meeting meeting) {
     	diary.delete(meeting, false);

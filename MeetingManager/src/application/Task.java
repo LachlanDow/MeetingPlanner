@@ -1,9 +1,9 @@
+package application;
 
 public class Task {
 	
 	private String description;
 	private String priority;
-	private Task next;
 	
 	public Task(String description, String priority)
 	{
@@ -52,24 +52,5 @@ public class Task {
 		this.priority = priority;
 	}
 	
-	/**
-     * Method to get the next task in the list after this one
-     * 
-     * @return next
-     */
-    public Task getNext()
-    {
-    	return next;
-    }
-
-    /**
-     * Method to set the next task in the list after this one
-     * 
-     * @param next 
-     */
-    public void setNext(Task task)
-    {
-    	next = task;
-    }
 
 }
