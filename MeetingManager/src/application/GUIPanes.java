@@ -1171,7 +1171,7 @@ public class GUIPanes {
 						});
 						bottomBox.setLeft(backButton);
 
-						CustomButton searchButton = new CustomButton("Add Employee", 16);
+						CustomButton searchButton = new CustomButton("Search", 16);
 						searchButton.setOnAction(new EventHandler<ActionEvent>() {
 							@Override
 							public void handle(ActionEvent event) {
