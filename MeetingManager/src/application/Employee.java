@@ -65,7 +65,7 @@ public class Employee {
 	}
 
 	public String getEmployeeInformation() {
-		return "Employee " + id + " Job " + jobTitle + " " + getFullName();
+		return id + "," + firstName + "," + lastName + "," + jobTitle;
 	}
 	
 	public Diary getDiary() {
@@ -89,12 +89,20 @@ public class Employee {
     	
     }
 	
-    public void addMeeting(Date startTime, Date endTime, String description) {
-    	diary.add(startTime, endTime, description);
+    public void addMeeting(Meeting meeting) {
+    	diary.add(meeting, false);
     }
     
-    public void displayDiary() {
-    	
+    public void deleteMeeting(Meeting meeting) {
+    	diary.delete(meeting, false);
+    }
+    
+	public void editMeeting(Meeting oldMeeting, Meeting newMeeting) {
+		diary.edit(oldMeeting, newMeeting, false);
+	}
+    
+    public void undo() {
+    	diary.undo();
     }
     
     public String toString() {
