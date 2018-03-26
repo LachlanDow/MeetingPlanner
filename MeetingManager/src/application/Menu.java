@@ -1,33 +1,99 @@
 package application;
 
+import java.io.File;
 import java.util.Date;
+import java.util.Scanner;
 
 /**
- * 
+ * Menu class that allows you to launch the GUI as well as use test methods.
  * @author JavaProject Team 9
  *
  */
 public class Menu {
 
-	private Company company = new Company();
+	private Tester tester = new Tester();
+	
+	/**
+	 * Entry point to the program.
+	 * @param args Default args param for main
+	 */
 	public static void main(String[] args) {
 		Menu menu = new Menu();
-		menu.createTestCompany();
-
+		
+		menu.userChoice();
 	}
 	
-	@SuppressWarnings("deprecation")
-	public void createTestCompany() {
-		Company.addEmployee(123,"John","doe", "softwareEngineer");
-		Company.addEmployee(145,"Roger","pat", "softwareEngineer");
-		Company.addEmployee(167,"Jane","mcmordy", "softwareEngineer");
-		Company.addEmployee(198,"Mike","Phil", "softwareEngineer");
+	/**
+	 * Display the menu to the user.
+	 */
+	public void displayMenu() {
+		System.out.println("Meeting Manager Launcher");
+		System.out.println("------------------------");
+		System.out.println("1. Launch GUI");
+		System.out.println("e. Exit");
+		System.out.println("-------TEST CASES-------");
+		System.out.println("2. Test add Employee validation.");
+		System.out.println("3. Test edit Employee.");
+		System.out.println("4. Test delete Employee.");
+		System.out.println("5. Test meeting validation.");
+		System.out.println("6. Test meeting edit.");
+		System.out.println("7. Test meeting delete.");
 		
-		Date startDate = new Date(2018, 7, 7, 11 , 00, 00);
-		Date endDate = new Date(2018, 7, 7, 16 , 00, 00);
-		int[] ids = {123,145};
-		System.out.println(company.search(ids, startDate, endDate));
+	}
+	
+	/**
+	 * Processing the user's choice and running the correct methods.
+	 */
+	public void userChoice() {
+		String choice = "";
+		Scanner input = new Scanner(System.in);
 		
+		//Menu loop
+		do {
+			displayMenu();
+			
+			choice = input.nextLine();
+			switch(choice) {
+				case "1": {
+					javafx.application.Application.launch(GUIHandler.class);
+				}
+				break;
+				case "2": {
+					tester.testValidationEmployee();
+				}
+				break;
+				case "3": {
+					tester.testEditEmployee();
+				}
+				break;
+				case "4": {
+					tester.testDeleteEmployee();
+				}
+				break;
+				case "5": {
+					tester.testValidationMeeting();
+				}
+				break;
+				case "6": {
+					tester.testEditMeeting();
+				}
+				break;
+				case "7": {
+					tester.testDeleteMeeting();
+				}
+				break;
+				case "e":{
+					System.out.println("Thanks for playing the lottery!");
+				}
+				break;
+				default:{
+					System.out.println("Invalid choice selected.");
+				}
+			}
+		}
+		while(!choice.equals("e"));
+		
+		input.close();
 	}
 
 }

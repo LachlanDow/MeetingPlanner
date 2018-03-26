@@ -27,7 +27,7 @@ public class Validation {
 	 * @throws MeetingManagerExceptions.MeetingTimeStartConflict Thrown if meeting time conflicts with another meeting.
 	 * @throws MeetingManagerExceptions.GenericFieldEmpty Thrown if a field is empty.
 	 */
-	public static Meeting validateMeeting(LocalDate date, String startTime, String endTime, String desc, Diary diary) throws MeetingManagerExceptions.MeetingTimeBeforeStart, MeetingManagerExceptions.MeetingTimeNotSameDay, MeetingManagerExceptions.MeetingTimeSameTime, MeetingManagerExceptions.MeetingTimeStartConflict, MeetingManagerExceptions.GenericFieldEmpty {
+	public static Meeting validateMeeting(LocalDate date, String startTime, String endTime, String desc, Diary diary) throws MeetingManagerExceptions.MeetingTimeBeforeStart, MeetingManagerExceptions.MeetingTimeSameTime, MeetingManagerExceptions.MeetingTimeStartConflict, MeetingManagerExceptions.GenericFieldEmpty {
 		//Check that all fields were entered.
 		if(desc.isEmpty()) {
 			throw new MeetingManagerExceptions.GenericFieldEmpty("description");
@@ -59,10 +59,6 @@ public class Validation {
 		//Make sure that the start time provided is before the end time.
 		if(endDate.before(startDate)){
 			throw new MeetingManagerExceptions.MeetingTimeBeforeStart();
-		}
-		//Make sure they are on the same day
-		else if(!sameDay(startDate, endDate)) {
-			throw new MeetingManagerExceptions.MeetingTimeNotSameDay();
 		}
 		//Make sure they aren't the exact same time.
 		else if(startDate.equals(endDate)) {

@@ -51,6 +51,4 @@ public class Task {
 	{
 		this.priority = priority;
 	}
-	
-
 }
