@@ -683,12 +683,12 @@ public class GUIPanes {
 		/**
 		 * Employee reference
 		 */
-		Employee employee;
+		private Employee employee;
 
 		/**
 		 * List that contains the months.
 		 */
-		ArrayList<String> monthsList = new ArrayList<String>() {
+		private ArrayList<String> monthsList = new ArrayList<String>() {
 			{
 				add("January");
 				add("February");
@@ -983,7 +983,7 @@ public class GUIPanes {
 		 *            Number to get the ordinal value of.
 		 * @return Number and it's ordinal value.
 		 */
-		String ordinal(int num) {
+		public String ordinal(int num) {
 			String[] suffix = { "th", "st", "nd", "rd", "th", "th", "th", "th", "th", "th" };
 			int m = num % 100;
 			return String.valueOf(num) + suffix[(m > 3 && m < 21) ? 0 : (m % 10)];
@@ -1691,7 +1691,7 @@ public class GUIPanes {
 	public static class TaskListGUI extends BorderPane {
 	@SuppressWarnings("unchecked")
 	public TaskListGUI(Employee employee) {
-		// Add the
+		// Add the top stuff
 		VBox topPane = new VBox();
 
 		CustomText title = new CustomText("Meeting Manager", 64);
