@@ -24,21 +24,6 @@ public class MeetingManagerExceptions {
 	}
 	
 	/**
-	 * This exception is for meetings where the end time and start
-	 * time are not on the same day.
-	 * @author Daniel
-	 *
-	 */
-	static class MeetingTimeNotSameDay extends Exception {
-		/**
-		 * Default constructor setting the error message.
-		 */
-		public MeetingTimeNotSameDay() {
-			super("The meeting must take place on the same day.");
-		}
-	}
-	
-	/**
 	 * This exception is for meeting where the end time and start
 	 * time are the same
 	 * @author Daniel
@@ -53,6 +38,11 @@ public class MeetingManagerExceptions {
 		}
 	}
 	
+	/**
+	 * This exception is for meeting that conflict times.
+	 * @author Daniel
+	 *
+	 */
 	static class MeetingTimeStartConflict extends Exception {
 		/**
 		 * Default constructor setting the error message.
@@ -62,6 +52,12 @@ public class MeetingManagerExceptions {
 		}
 	}
 	
+	/**
+	 * This exception is for when a provided employee ID
+	 * is invalid
+	 * @author Daniel
+	 *
+	 */
 	static class EmployeeDetailsInvalidID extends Exception {
 		/**
 		 * Default constructor setting the error message.
@@ -71,6 +67,12 @@ public class MeetingManagerExceptions {
 		}
 	}
 	
+	/**
+	 * This exception is for when an employee ID
+	 * is taken
+	 * @author Daniel
+	 *
+	 */
 	static class EmployeeExists extends Exception {
 		/**
 		 * Default constructor setting the error message.
@@ -80,9 +82,16 @@ public class MeetingManagerExceptions {
 		}
 	}
 	
+	/**
+	 * This exception is used when a field is empty.
+	 * @author Daniel
+	 *
+	 */
 	static class GenericFieldEmpty extends Exception {
 		/**
 		 * Default constructor setting the error message.
+		 * 
+		 * @param field String field name that was empty
 		 */
 		public GenericFieldEmpty(String field) {
 			super("You must provide a " + field + ".");

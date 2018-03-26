@@ -1,7 +1,5 @@
 package application;
 
-import java.time.LocalDateTime;
-
 import javax.swing.JSpinner;
 
 import javafx.beans.binding.NumberBinding;
@@ -24,30 +22,71 @@ import javafx.scene.shape.MoveTo;
 import javafx.scene.shape.Path;
 import javafx.scene.text.Text;
 
+/**
+ * Wrapper class for custom JAVAFX elements to avoid repetitive styling code.
+ * @author Daniel
+ *
+ */
 public class DisplayElements {
+	
+	/**
+	 * Button wrapper for menu buttons
+	 * @author Daniel
+	 *
+	 */
 	public static class MenuButton extends Button {
 
+		/**
+		 * Constructor that sets styles.
+		 * @param string button text
+		 */
 		public MenuButton(String string) {
 			super(string);
 			getStyleClass().add("menuButton");
 		}
 	}
 
+	/**
+	 * Wrapper for Button.
+	 * @author Daniel
+	 *
+	 */
 	public static class CustomButton extends Button {
 
+		/**
+		 * Sets button styles
+		 * @param string button text
+		 * @param fontSize font size
+		 */
 		public CustomButton(String string, int fontSize) {
 			super(string);
 			setStyle("-fx-font: " + fontSize + " arial;" + " -fx-base: #FFFFFF;");
 		}
 
+		/**
+		 * Sets button styles
+		 * @param string button text
+		 * @param fontSize font size
+		 * @param color background color
+		 */
 		public CustomButton(String string, int fontSize, String color) {
 			super(string);
 			setStyle("-fx-font: " + fontSize + " arial;" + " -fx-base: #" + color + ";");
 		}
 	}
 
+	/**
+	 * Text wrapper class
+	 * @author Daniel
+	 *
+	 */
 	public static class CustomText extends Text {
-
+		
+		/**
+		 * Set custom text styles
+		 * @param string text
+		 * @param fontSize font size
+		 */
 		public CustomText(String string, int fontSize) {
 			super(string);
 			setStyle("-fx-font: " + fontSize + " arial;");
@@ -67,16 +106,14 @@ public class DisplayElements {
 		public NumberTextField(int hour, int mins) {
 			super();
 			initHandlers();
-			setCombined(LocalDateTime.now().getHour(), LocalDateTime.now().getMinute());
+			setCombined(hour, mins);
 		}
 
 		/**
-		 * Tries to parse the user input to a number according to the provided
-		 * NumberFormat
+		 * Tries to parse the user input
 		 */
 		private void parseAndFormatInput() {
 			String input = getText();
-			System.out.println(input);
 			try {
 				if (input == null || input.length() == 0) {
 					return;

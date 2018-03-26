@@ -12,13 +12,22 @@ import java.util.Date;
  *
  */
 public class Validation {
-
-	public static boolean validateEmployees(String[] ids) {
-		return false;
-		//TODO: Make this work
-	}
 	
-	public static Meeting validateMeeting(LocalDate date, String startTime, String endTime, String desc, Diary diary) throws MeetingManagerExceptions.MeetingTimeBeforeStart, MeetingManagerExceptions.MeetingTimeNotSameDay, MeetingManagerExceptions.MeetingTimeSameTime, MeetingManagerExceptions.MeetingTimeStartConflict, MeetingManagerExceptions.GenericFieldEmpty {
+	/**
+	 * Validate a meeting that is to be added to a Diary
+	 * @param date Date that the meeting occurs
+	 * @param startTime Time that the meeting starts
+	 * @param endTime Time that the meeting ends
+	 * @param desc Description of meeting
+	 * @param diary Diary to add to
+	 * @return reference to new meeting
+	 * @throws MeetingManagerExceptions.MeetingTimeBeforeStart Thrown if end time comes before start time.
+	 * @throws MeetingManagerExceptions.MeetingTimeNotSameDay Thrown if meeting start and end not on the same day
+	 * @throws MeetingManagerExceptions.MeetingTimeSameTime Thrown if meeting starts and ends at the same time
+	 * @throws MeetingManagerExceptions.MeetingTimeStartConflict Thrown if meeting time conflicts with another meeting.
+	 * @throws MeetingManagerExceptions.GenericFieldEmpty Thrown if a field is empty.
+	 */
+	public static Meeting validateMeeting(LocalDate date, String startTime, String endTime, String desc, Diary diary) throws MeetingManagerExceptions.MeetingTimeBeforeStart, MeetingManagerExceptions.MeetingTimeSameTime, MeetingManagerExceptions.MeetingTimeStartConflict, MeetingManagerExceptions.GenericFieldEmpty {
 		//Check that all fields were entered.
 		if(desc.isEmpty()) {
 			throw new MeetingManagerExceptions.GenericFieldEmpty("description");
@@ -34,7 +43,7 @@ public class Validation {
 		}
 		
 		//Convert two times to Date objects
-		SimpleDateFormat format = new SimpleDateFormat("yyy-MM-dd kk:mm");
+		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd kk:mm");
 		
 		Date startDate = new Date();
 		Date endDate = new Date();
@@ -51,10 +60,6 @@ public class Validation {
 		if(endDate.before(startDate)){
 			throw new MeetingManagerExceptions.MeetingTimeBeforeStart();
 		}
-		//Make sure they are on the same day
-		else if(!sameDay(startDate, endDate)) {
-			throw new MeetingManagerExceptions.MeetingTimeNotSameDay();
-		}
 		//Make sure they aren't the exact same time.
 		else if(startDate.equals(endDate)) {
 			throw new MeetingManagerExceptions.MeetingTimeSameTime();
@@ -62,11 +67,13 @@ public class Validation {
 		
 		Meeting toValidate = new Meeting(startDate, endDate, desc);
 		
-		//Make sure the meeting slot is available
-		//diary.getMeetings().iterator()
-		
-		if(diary.getMeetings().contains(toValidate)) {
-			throw new MeetingManagerExceptions.MeetingTimeStartConflict();
+		//Make sure the meeting slot is available and doesn't intersect with another meeting
+		for(int i = 0; i < diary.getMeetings().size(); i++) {
+			Meeting next = diary.getMeetings().get(i);
+			
+			if(toValidate.getStartTime().before(next.getEndTime()) && next.getStartTime().before(toValidate.getEndTime())){
+				throw new MeetingManagerExceptions.MeetingTimeStartConflict();
+			}
 		}
 		
 		return toValidate;
