@@ -42,7 +42,7 @@ public class Company {
 	}
 	public static void addMeetingMultiEmployees(LinkedList<Employee> employeeList, Meeting meeting) {
 		for(int i =0; i < employeeList.size();i++) {
-			employees.get(employeeList.get(i).getId()).add(meeting);
+			employees.get(employeeList.get(i).getId()).addMeeting(meeting);
 		}
 	}
 	

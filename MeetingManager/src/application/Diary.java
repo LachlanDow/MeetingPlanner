@@ -51,11 +51,6 @@ public class Diary {
 		return meetings;
 	}
 	
-public void add(Meeting meeting) {
-		
-		meetings.add(meeting);
-	}
-	
 	/**
 	 * Add meeting to the diary
 	 * @param meeting meeting to add
@@ -172,5 +167,15 @@ public void add(Meeting meeting) {
 	 */
 	public void deleteTask(Task toDelete) {
 		taskList.remove(toDelete);
+	}
+	
+	/**
+	 * Edit a task
+	 * @param oldTask task to edit
+	 * @param newTask updated information
+	 */
+	public void editTask(Task oldTask, Task newTask) {
+		deleteTask(oldTask);
+		addTask(newTask);
 	}
 }
