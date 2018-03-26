@@ -12,9 +12,6 @@ public class Company {
 	 *A binary tree of all the employees in the company
 	 */
 	private static TreeMap<Integer,Employee> employees = new TreeMap<Integer,Employee>();
-	private static Long searchStart;
-	private static Long searchEnd;
-	private static Float searchTime;
 	
 	
 	/**
@@ -32,7 +29,6 @@ public class Company {
 	 * @return
 	 */
 	public static LinkedList<Meeting> search(LinkedList<Employee>listOfEmployee, Date startTime, Date endTime) {
-		Company.searchStart = System.nanoTime();
 	LinkedList<Meeting> totalMeetings = new LinkedList<Meeting>();
 	for(int i = 0; i <listOfEmployee.size(); i++) {	
 		 totalMeetings.addAll(listOfEmployee.get(i).getMeetings(startTime,endTime));
@@ -49,32 +45,6 @@ public class Company {
 			employees.get(employeeList.get(i).getId()).add(meeting);
 		}
 	}
-	
-	/**
-	 * Meth0ds to 
-	 * @param employees
-	 * @param startTime
-	 * @param endTime
-	 * @param index
-	 * @param totalMeetings
-	 * @return
-	 */
-	/*
-	public LinkedList<Meeting> compareMeetings(Employee[] employees,Date startTime, Date endTime, int index, LinkedList<Meeting> totalMeetings) {
-		if(index < employees.length ) {
-			LinkedList<Meeting> employeeMeetings= employees[index].getDiary().getMeetings();
-			ListIterator<Meeting> it = employeeMeetings.listIterator();
-			
-				while(it.hasNext()){
-						Meeting meetingToAdd = (Meeting) it.next();
-							
-						totalMeetings.add(meetingToAdd);
-						
-			    	}
-			return compareMeetings(employees,startTime, endTime, ++index,totalMeetings);
-		}
-		return totalMeetings; 
-	}*/
 	
 	
 	/**
@@ -169,9 +139,6 @@ public class Company {
 			timesBetween.add(new Meeting(totalMeetings.get(i).getEndTime(),totalMeetings.get(i+1).getStartTime(),""));	
 		}
 		timesBetween.add(new Meeting(totalMeetings.getLast().getEndTime(),endTime,""));
-		searchEnd = System.nanoTime();
-		Company.searchTime = (float)(searchEnd-searchStart)/1000000;
-		System.out.println(searchTime/1000 + " s");
 		return timesBetween;
 	}
 

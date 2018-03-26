@@ -1382,18 +1382,40 @@ public class GUIPanes {
 						} catch (ParseException e) {
 							e.printStackTrace();
 						}
-
+						
+						long startTime = System.nanoTime();
 						LinkedList<Meeting> results = Company.search(searchList, startDate, endDate);
+						long endTime = System.nanoTime();
+
+						Label duration = new Label("" + ((endTime - startTime) / 1000000.0) + " milliseconds");
 
 						ObservableList<Meeting> data = FXCollections.observableArrayList();
 						data.addAll(results);
 						table.setItems(data);
+						
+						grid.add(duration, 1, 5);
+						Timeline timer = new Timeline(
+								new KeyFrame(Duration.seconds(5), new EventHandler<ActionEvent>() {
+									@Override
+									public void handle(ActionEvent event) {
+										grid.getChildren().remove(duration);
+									}
+								}));
+						timer.play();
 
 					} catch (Exception e) {
-						System.out.println("Unsuccessful");
 						CustomText successText = new CustomText("Neither Employees have Meetings between these Times",
 								16);
 						grid.add(successText, 1, 5);
+						
+						Timeline timer = new Timeline(
+								new KeyFrame(Duration.seconds(2), new EventHandler<ActionEvent>() {
+									@Override
+									public void handle(ActionEvent event) {
+										grid.getChildren().remove(successText);
+									}
+								}));
+						timer.play();
 					}
 				}
 			});
