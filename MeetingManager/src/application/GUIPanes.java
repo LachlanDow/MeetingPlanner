@@ -565,7 +565,8 @@ public class GUIPanes {
 			idTextField.setDisable(true);
 
 			// Auto-generate the ID by default so that they don't have to make one up.
-			String nextID = String.valueOf(Company.getEmployees().lastEntry().getValue().getId() + 1);
+			String nextID = (Company.getEmployees().isEmpty()) ? "1" : String.valueOf(Company.getEmployees().lastEntry().getValue().getId() + 1);
+
 			idTextField.setText(nextID);
 
 			// Add to the Pane.

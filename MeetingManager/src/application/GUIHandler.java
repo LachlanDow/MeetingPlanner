@@ -111,7 +111,7 @@ public class GUIHandler extends Application {
 				String line;
 				
 				//Keep track of the last employee
-				int employeeID = 0;
+				int lastEmployeeID = 0;
 				
 				//Read line by line
 			    while ((line = in.readLine()) != null) {
@@ -122,7 +122,7 @@ public class GUIHandler extends Application {
 			        //If info[0] is parseable, is Employee, if not it's a meeting
 			        try {
 			        	int id = Integer.parseInt(info[0]);
-			        	employeeID = id;
+			        	lastEmployeeID = id;
 			        	String firstName = info[1];
 			        	String lastName = info[2];
 			        	String jobTitle = info[3];
@@ -132,15 +132,12 @@ public class GUIHandler extends Application {
 			        catch(NumberFormatException e) {
 			        	SimpleDateFormat format = new SimpleDateFormat("EEE MMM dd kk:mm:ss zzz yyyy");
 			        	
-			        	System.out.println(info[0]);
 			        	Date startTime = format.parse(info[0]);
-			        	System.out.println(startTime);
-			        	
 			        	Date endTime = format.parse(info[1]);
 			        	String description = info[2];
 			        	
 			        	Meeting toAdd = new Meeting(startTime, endTime, description);
-			        	Company.selectEmployee(employeeID).addMeeting(toAdd);
+			        	Company.selectEmployee(lastEmployeeID).addMeeting(toAdd);
 			        }
 			    }
 				
