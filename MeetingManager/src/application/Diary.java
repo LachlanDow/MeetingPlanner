@@ -27,9 +27,14 @@ public class Diary {
 	/**
 	 * Add a meeting to the employee's diary.
 	 */
-	public void add(Date startTime, Date endTime, String description) {
+	public void addMeeting(Date startTime, Date endTime, String description) {
 		
 		meetings.add(new Meeting(startTime,endTime, description));
+	}
+	
+public void add(Meeting meeting) {
+		
+		meetings.add(meeting);
 	}
 	
 	/**

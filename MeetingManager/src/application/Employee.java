@@ -88,9 +88,12 @@ public class Employee {
     	return withinMeetings;
     	
     }
+	public void add(Meeting meeting) {
+		diary.add(meeting);
+	}
 	
     public void addMeeting(Date startTime, Date endTime, String description) {
-    	diary.add(startTime, endTime, description);
+    	diary.addMeeting(startTime, endTime, description);
     }
     
     public void displayDiary() {
