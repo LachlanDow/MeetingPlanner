@@ -91,23 +91,25 @@ public class Company {
 	
 	
 
-		for (int i = 0; i< totalMeetings.size(); i++) {
+		for (int i = 0; i< totalMeetings.size()-1; i++) {
 			Meeting meeting1 = totalMeetings.get(i);
+			System.out.println(totalMeetings.get(i));
 			Meeting meeting2 = totalMeetings.get(i+1);
+			System.out.println(totalMeetings.get(i+1));
 			if(meeting1.getEndTime().compareTo(meeting2.getStartTime())> 0 && meeting1.getEndTime().compareTo(meeting2.getEndTime()) < 0) {
-				if(meeting1.getEndTime().compareTo(meeting2.getEndTime()) < 0)
-				totalMeetings.get(i).setEndTime(meeting2.getEndTime());
-				totalMeetings.remove(i+1);
-				i--;
-				
-			}else {
+				if(meeting1.getEndTime().compareTo(meeting2.getEndTime()) < 0) {
+					totalMeetings.get(i).setEndTime(meeting2.getEndTime());
+					totalMeetings.remove(i+1);
+					System.out.println(totalMeetings.get(i));
+					i--;
+				}
+				else {
 					totalMeetings.remove(i+1);
 				}
 			}
-		
-		
-		return totalMeetings;
-		
+			
+		}
+		return totalMeetings;	
 	}
 	
 	/**
