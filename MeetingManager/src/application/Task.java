@@ -66,6 +66,6 @@ public class Task {
 	 * Print the task as string
 	 */
 	public String toString() {
-		return ("Description: " + this.description + ". Priority: " + this.priority);
+		return ("Description: " + this.description + " Priority: " + this.priority);
 	}
 }
