@@ -12,6 +12,10 @@ public class Company {
 	 *A binary tree of all the employees in the company
 	 */
 	private static TreeMap<Integer,Employee> employees = new TreeMap<Integer,Employee>();
+
+	
+	
+	
 	
 	
 	/**
@@ -20,7 +24,9 @@ public class Company {
 	 * @param startTime as the start time to be searched through
 	 * @param endTime as the end time of the period to be searched through 
 	 * @return a linked list of all the available times
-	 */
+**/
+	
+
 	public static LinkedList<Meeting> search(LinkedList<Employee>listOfEmployee, Date startTime, Date endTime) {
 	LinkedList<Meeting> totalMeetings = new LinkedList<Meeting>();
 	for(int i = 0; i <listOfEmployee.size(); i++) {	
