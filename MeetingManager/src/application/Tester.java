@@ -215,4 +215,16 @@ public class Tester {
 		System.out.println("Printing meetings");
 		testDiary.printDiary();
 	}
+	public void testSearch() {
+		
+		System.out.println("Adding employee");
+		 Company.addEmployee(20, "Daniel", "Test1", "Worker");
+		 Company.addEmployee(21, "James", "Test2", "Worker");
+		 Company.addEmployee(22, "Eric", "Test3", "Worker");
+		 
+		 
+		
+		 
+		 
+	}
 }

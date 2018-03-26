@@ -51,10 +51,7 @@ public class Diary {
 		return meetings;
 	}
 	
-public void add(Meeting meeting) {
-		
-		meetings.add(meeting);
-	}
+
 	
 	/**
 	 * Add meeting to the diary
