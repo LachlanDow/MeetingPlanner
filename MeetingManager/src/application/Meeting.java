@@ -75,7 +75,7 @@ public class Meeting {
 	 * @param hour hour value
 	 * @param mnts mins value
 	 * @return padded hours/mins
-	 * @credit https://stackoverflow.com/a/49133733/3102362
+	 * https://stackoverflow.com/a/49133733/3102362
 	 */
 	public static String hourMinuteZero(int hour,int mnts){
 	    String hourZero = (hour >=10)? Integer.toString(hour):String.format("0%s",Integer.toString(hour));
@@ -156,9 +156,9 @@ public class Meeting {
 	/**
 	 * Method to get the duration of a meeting
 	 * 
-	 * @param startTime
-	 * @param endTime
-	 * @return duration
+	 * @param startTime as the start time of the meeting
+	 * @param endTime as the end time of the meeting
+	 * @return duration as the duration of the meeting
 	 */
 	public long getDuration(Date startTime, Date endTime) {
 		duration = (endTime.getTime() - startTime.getTime());

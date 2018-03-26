@@ -21,8 +21,7 @@ public class Validation {
 	 * @param desc Description of meeting
 	 * @param diary Diary to add to
 	 * @return reference to new meeting
-	 * @throws MeetingManagerExceptions.MeetingTimeBeforeStart Thrown if end time comes before start time.
-	 * @throws MeetingManagerExceptions.MeetingTimeNotSameDay Thrown if meeting start and end not on the same day
+	 * @throws MeetingManagerExceptions.MeetingTimeBeforeStart Thrown if end time comes before start time
 	 * @throws MeetingManagerExceptions.MeetingTimeSameTime Thrown if meeting starts and ends at the same time
 	 * @throws MeetingManagerExceptions.MeetingTimeStartConflict Thrown if meeting time conflicts with another meeting.
 	 * @throws MeetingManagerExceptions.GenericFieldEmpty Thrown if a field is empty.
@@ -158,10 +157,12 @@ public class Validation {
 	}
 	
 	/**
-	 * This method validates task information
-	 * @param description
-	 * @param priority
-	 * @return Task validated task
+	 * method to validate task
+	 * @param description as the description of the task
+	 * @param priority as teh priority level of the task
+	 * @return the task that has been validated
+	 * @throws MeetingManagerExceptions.GenericFieldEmpty if the field empty 
+	 * @throws MeetingManagerExceptions.GenericFieldEmpty if the field is empty
 	 */
 	public static Task validateTask(String description, String priority) throws MeetingManagerExceptions.GenericFieldEmpty, MeetingManagerExceptions.GenericFieldEmpty {
 		//Check that all fields were entered.

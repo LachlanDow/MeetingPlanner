@@ -25,7 +25,7 @@ public class Task {
 	/**
 	 * Method to set the description of a task
 	 * 
-	 * @param description
+	 * @param description as the description to be set
 	 */
 	public void setDescription(String description)
 	{
@@ -45,7 +45,7 @@ public class Task {
 	/**
 	 * Method to set the priority of a task
 	 * 
-	 * @param priority
+	 * @param priority as the level of pripority the task has
 	 */
 	public void setPriority(String priority)
 	{
@@ -53,8 +53,8 @@ public class Task {
 	}
 	
 	/**
-	 * Returns the task details
-	 * 
+	 * Returns the task details of the task
+	 * @return the details of the task 
 	 */
 	public String getTaskDetails()
 	{

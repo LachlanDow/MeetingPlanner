@@ -7,7 +7,6 @@ import java.util.LinkedList;
  * Project: Employee Manager This is the employee class, this class will produce
  * the employees information such as the employee's ID and their name and their
  * department which can be added into the menu manager
- * @author Mikaela & Daniel
  *
  */
 public class Employee {
@@ -53,7 +52,7 @@ public class Employee {
 	/**
 	 * Method to set the first name of the employee
 	 * 
-	 * @param fn
+	 * @param fn as the first name of the employee to be passed in
 	 */
 	public void setFirstName(String fn) {
 		firstName = fn;
@@ -71,7 +70,7 @@ public class Employee {
 	/**
 	 * Method to set the last name of the employee
 	 * 
-	 * @param ln
+	 * @param ln as the last name of the employee to be passed in
 	 */
 	public void setLastName(String ln) {
 		lastName = ln;
@@ -89,7 +88,7 @@ public class Employee {
 	/**
 	 * Method to set the job title of the employee
 	 * 
-	 * @param job
+	 * @param job as the jobTile  of the employee to be passed in 
 	 */
 	public void setJobTitle(String job) {
 		jobTitle = job;
@@ -125,7 +124,7 @@ public class Employee {
 	/**
 	 * Method to set the diary
 	 * 
-	 * @param diary
+	 * @param diary as the value of the diary to be set to 
 	 */
 	public void setDiary(Diary diary) {
 		this.diary = diary;
@@ -144,9 +143,9 @@ public class Employee {
 	/**
 	 * Method to get the list of meetings
 	 * 
-	 * @param startTime
-	 * @param endTime
-	 * @return withinMeetings
+	 * @param startTime as the start time to retrieve meetings from
+	 * @param endTime as the end time to recieve meetings from
+	 * @return withinMeetings as the linked list of meetings between these times
 	 */
 	public LinkedList<Meeting> getMeetings(Date startTime, Date endTime) {
     	LinkedList<Meeting> withinMeetings = new LinkedList<Meeting>();
@@ -164,7 +163,7 @@ public class Employee {
 	/**
 	 * Method to add a meeting to the list
 	 * 
-	 * @param meeting
+	 * @param meeting we the meeting to be added
 	 */
     public void addMeeting(Meeting meeting) {
     	diary.addMeeting(meeting, false);
@@ -174,7 +173,7 @@ public class Employee {
     /**
      * Method to add a task to the list
      * 
-     * @param toAdd
+     * @param toAdd as the task to be added
      */
     public void addTask(Task toAdd)
     {
@@ -184,7 +183,7 @@ public class Employee {
     /**
 	 * Method to delete a task in the list
 	 * 
-	 * @param toDelete
+	 * @param toDelete as the task to be deleted
 	 */
 	public void deleteTask(Task toDelete)
 	{
@@ -194,7 +193,7 @@ public class Employee {
 	/**
 	 * Method to delete a meeting from the list
 	 * 
-	 * @param meeting
+	 * @param meeting as the meeting to be delted
 	 */
     public void deleteMeeting(Meeting meeting) {
     	diary.deleteMeeting(meeting, false);
@@ -203,8 +202,8 @@ public class Employee {
     /**
      * Method to edit a meeting in the list
      * 
-     * @param oldMeeting
-     * @param newMeeting
+     * @param oldMeeting as the reference to the old meeting object
+     * @param newMeeting as the reference to the new meeting object
      */
 	public void editMeeting(Meeting oldMeeting, Meeting newMeeting) {
 		diary.editMeeting(oldMeeting, newMeeting, false);
@@ -213,8 +212,8 @@ public class Employee {
 	/**
 	 * Method to edit a task in the list
 	 * 
-	 * @param oldTask
-	 * @param newTask
+	 * @param oldTask as the reference to the old task
+	 * @param newTask as the reference to the new task
 	 */
 	public void editTask(Task oldTask, Task newTask)
 	{

@@ -39,6 +39,7 @@ public class Menu {
 		System.out.println("8. Test add task.");
 		System.out.println("9. Test edit task.");
 		System.out.println("10. Test delete task.");
+		System.out.println("11. Test search");
 		
 	}
 	
@@ -95,6 +96,9 @@ public class Menu {
 					tester.testDeleteTask();
 				}
 				break;
+				case "11":{
+					tester.testSearch();
+				}
 				default:{
 					System.out.println("Invalid choice selected.");
 				}

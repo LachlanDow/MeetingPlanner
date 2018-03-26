@@ -96,9 +96,7 @@ public class DisplayElements {
 	/**
 	 * Textfield implementation that has one input, split into two.
 	 *
-	 * @author Thomas Bolz
-	 * @modifiedBy Daniel Sewerynski
-	 * @credit https://dzone.com/articles/javafx-numbertextfield-and
+	 * 
 	 */
 	public static class NumberTextField extends TextField {
 		private ObjectProperty<String> combined = new SimpleObjectProperty<>();
@@ -189,9 +187,7 @@ public class DisplayElements {
 	 * stepWidth using the arrow buttons in the control or the up and down arrow
 	 * keys.
 	 *
-	 * @author Thomas Bolz
-	 * @modifiedBy Daniel Sewerynski
-	 * @credit https://dzone.com/articles/javafx-numbertextfield-and
+	 *
 	 */
 	public static class NumberSpinner extends HBox {
 

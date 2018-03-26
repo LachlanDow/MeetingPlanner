@@ -1,7 +1,12 @@
 package application;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.Calendar;
+import java.util.Date;
+import java.util.LinkedList;
+import java.util.Map.Entry;
 
 import application.MeetingManagerExceptions.EmployeeDetailsInvalidID;
 import application.MeetingManagerExceptions.EmployeeExists;
@@ -17,7 +22,9 @@ import application.MeetingManagerExceptions.MeetingTimeStartConflict;
  *
  */
 public class Tester {
-	
+	/**
+	 * test the validation of the employee
+	 */
 	public void testValidationEmployee() {
 		//Test Employee with invalid ID
 		System.out.println("Testing adding employee with invalid ID");
@@ -136,7 +143,9 @@ public class Tester {
 		}
 		System.out.println();
 	}
-	
+	/**
+	 * test the edit employee methods
+	 */
 	public void testEditEmployee() {
 		System.out.println("Adding employee");
 		Employee e = Company.addEmployee(20, "Daniel", "Test", "Worker");
@@ -164,7 +173,9 @@ public class Tester {
 		System.out.println("Printing employees");
 		Company.printEmployees();
 	}
-	
+	/**
+	 * test the edit meeting methods 
+	 */
 	public void testEditMeeting() {
 		Diary testDiary = new Diary();
 		
@@ -193,6 +204,9 @@ public class Tester {
 		System.out.println("Printing meetings");
 		testDiary.printMeetings();
 	}
+	/**
+	 * test the delete methods
+	 */
 	
 	public void testDeleteMeeting() {
 		Diary testDiary = new Diary();
@@ -216,7 +230,9 @@ public class Tester {
 		System.out.println("Printing meetings");
 		testDiary.printMeetings();
 	}
-	
+	/**
+	 * test the add task method
+	 */
 	public void testAddTask() {
 		Diary testDiary = new Diary();
 		
@@ -243,6 +259,9 @@ public class Tester {
 		testDiary.printTasks();
 	}
 	
+	/**
+	 * test the edit task method
+	 */
 	public void testEditTask() {
 		Diary testDiary = new Diary();
 
@@ -266,7 +285,9 @@ public class Tester {
 		System.out.println("Printing tasks:");
 		testDiary.printTasks();
 	}
-	
+	/**
+	 * test the delete task method
+	 */
 	public void testDeleteTask() {
 		Diary testDiary = new Diary();
 
@@ -289,6 +310,10 @@ public class Tester {
 		System.out.println("Printing tasks");
 		testDiary.printTasks();
 	}
+	
+	/**
+	 * method to test the search functions of the employees
+	 */
 	public void testSearch() {
 		
 		System.out.println("Adding employee");
@@ -318,7 +343,27 @@ public class Tester {
 			}
 		 
 		 Company.getEmployees().get(22).getDiary().addMeeting(meeting,true);
-		 
+		 SimpleDateFormat format = new SimpleDateFormat("yyy-MM-dd kk:mm");
+		 	
+		 Date startDate = new Date();
+		Date endDate = new Date();
+		
+		
+
+			try {
+				startDate = format.parse("2018-3-13"  + " " + "09:00");
+				endDate = format.parse("2018-3-13" + " " + "20:00");
+
+			} catch (ParseException e) {
+				e.printStackTrace();
+			}
+			LinkedList<Employee> employees = new LinkedList<Employee>();
+			for (Entry<Integer, Employee> entry : Company.getEmployees().entrySet()) {
+				employees.add(entry.getValue());
+			}
+
+			
+			System.out.println(Company.search(employees, startDate, endDate));
 			
 			
 	}
