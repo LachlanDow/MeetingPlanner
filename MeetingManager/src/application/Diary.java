@@ -56,7 +56,7 @@ public void add(Meeting meeting) {
 	 * @param meeting meeting to add
 	 * @param noStack true to add to hide from recentActions stack, false if not
 	 */
-	public void add(Meeting meeting, boolean noStack) {
+	public void addMeeting(Meeting meeting, boolean noStack) {
 		meetings.add(meeting);
 		
 		//When undoing, don't add to the stack
@@ -70,7 +70,7 @@ public void add(Meeting meeting) {
 	 * @param meeting meeting to delete
 	 * @param noStack true to add to hide from recentActions stack, false if not
 	 */
-	public void delete(Meeting meeting, boolean noStack) {
+	public void deleteMeeting(Meeting meeting, boolean noStack) {
 		meetings.remove(meeting);
 		
 		//When undoing, don't add to the stack
@@ -85,12 +85,12 @@ public void add(Meeting meeting) {
 	 * @param newMeeting Reference to the new (changed) meeting
 	 * @param noStack rue to add to hide from recentActions stack, false if not
 	 */
-	public void edit(Meeting oldMeeting, Meeting newMeeting, boolean noStack) {
+	public void editMeeting(Meeting oldMeeting, Meeting newMeeting, boolean noStack) {
 		recentActions.push(new Action(this, "edit", oldMeeting, newMeeting));
 		
 		//Delete old, add new. Hide from stack.
-		delete(oldMeeting, true);
-		add(newMeeting, true);
+		deleteMeeting(oldMeeting, true);
+		addMeeting(newMeeting, true);
 	}
 	
 	/**
@@ -108,7 +108,7 @@ public void add(Meeting meeting) {
 	/**
 	 * Print the contents of the diary.
 	 */
-	public void printDiary() {
+	public void printMeetings() {
 		if(meetings.isEmpty()) {
 			System.out.println("Nothing to print");
 		}

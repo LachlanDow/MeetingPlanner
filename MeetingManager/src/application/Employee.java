@@ -181,7 +181,7 @@ public class Employee {
 	 * @param meeting
 	 */
     public void addMeeting(Meeting meeting) {
-    	diary.add(meeting, false);
+    	diary.addMeeting(meeting, false);
 
     }
     
@@ -211,7 +211,7 @@ public class Employee {
 	 * @param meeting
 	 */
     public void deleteMeeting(Meeting meeting) {
-    	diary.delete(meeting, false);
+    	diary.deleteMeeting(meeting, false);
     }
     
     /**
@@ -221,7 +221,7 @@ public class Employee {
      * @param newMeeting
      */
 	public void editMeeting(Meeting oldMeeting, Meeting newMeeting) {
-		diary.edit(oldMeeting, newMeeting, false);
+		diary.editMeeting(oldMeeting, newMeeting, false);
 	}
     
 	/**

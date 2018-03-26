@@ -29,15 +29,15 @@ public class Action {
 		switch(action) {
 			case "add":
 				//Remove the meeting
-				diary.delete(meeting, true);
+				diary.deleteMeeting(meeting, true);
 				break;
 			case "delete":
 				//Add the meeting
-				diary.add(meeting, true);
+				diary.addMeeting(meeting, true);
 				break;
 			case "edit":
-				diary.delete(newMeeting, true);
-				diary.add(meeting, true);
+				diary.deleteMeeting(newMeeting, true);
+				diary.addMeeting(meeting, true);
 				break;
 		}
 	}
