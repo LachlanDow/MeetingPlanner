@@ -160,9 +160,6 @@ public class Employee {
     	return withinMeetings;
     	
     }
-	public void add(Meeting meeting) {
-		diary.add(meeting);
-	}
 	
 	/**
 	 * Method to add a meeting to the list
@@ -221,8 +218,7 @@ public class Employee {
 	 */
 	public void editTask(Task oldTask, Task newTask)
 	{
-		diary.deleteTask(oldTask);
-		diary.addTask(newTask);
+		diary.editTask(oldTask, newTask);
 	}
 	
 	/**
