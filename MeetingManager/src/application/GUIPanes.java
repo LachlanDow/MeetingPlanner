@@ -1679,9 +1679,7 @@ public class GUIPanes {
 			backButton.setOnAction(new EventHandler<ActionEvent>() {
 				@Override
 				public void handle(ActionEvent event) {
-
-					GUIHandler.changePane(new EmployeeDiary(employee));
-
+					GUIHandler.changePane(new ViewDay(employee, meetings, date));
 				}
 			});
 			setMargin(backButton, new Insets(10, 5, 5, 5));
