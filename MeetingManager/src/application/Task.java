@@ -51,4 +51,13 @@ public class Task {
 	{
 		this.priority = priority;
 	}
+	
+	/**
+	 * Returns the task details
+	 * 
+	 */
+	public String getTaskDetails()
+	{
+		return this.description + "," + this.priority;
+	}
 }
