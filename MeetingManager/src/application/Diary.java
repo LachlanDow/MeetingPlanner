@@ -19,6 +19,11 @@ public class Diary {
 	private LinkedList<Meeting> meetings = new LinkedList<Meeting>();
 	
 	/**
+	 * A LinkedList that contains all the tasks in the diary
+	 */
+	private LinkedList<Task> taskList = new LinkedList<Task>();
+	
+	/**
 	 * A Stack that contains all recent add/edit/delete functions
 	 * so that they will be able to be reversable.
 	 */
@@ -46,17 +51,12 @@ public class Diary {
 		return meetings;
 	}
 	
-public void add(Meeting meeting) {
-		
-		meetings.add(meeting);
-	}
-	
 	/**
 	 * Add meeting to the diary
 	 * @param meeting meeting to add
 	 * @param noStack true to add to hide from recentActions stack, false if not
 	 */
-	public void add(Meeting meeting, boolean noStack) {
+	public void addMeeting(Meeting meeting, boolean noStack) {
 		meetings.add(meeting);
 		
 		//When undoing, don't add to the stack
@@ -70,7 +70,7 @@ public void add(Meeting meeting) {
 	 * @param meeting meeting to delete
 	 * @param noStack true to add to hide from recentActions stack, false if not
 	 */
-	public void delete(Meeting meeting, boolean noStack) {
+	public void deleteMeeting(Meeting meeting, boolean noStack) {
 		meetings.remove(meeting);
 		
 		//When undoing, don't add to the stack
@@ -85,12 +85,12 @@ public void add(Meeting meeting) {
 	 * @param newMeeting Reference to the new (changed) meeting
 	 * @param noStack rue to add to hide from recentActions stack, false if not
 	 */
-	public void edit(Meeting oldMeeting, Meeting newMeeting, boolean noStack) {
+	public void editMeeting(Meeting oldMeeting, Meeting newMeeting, boolean noStack) {
 		recentActions.push(new Action(this, "edit", oldMeeting, newMeeting));
 		
 		//Delete old, add new. Hide from stack.
-		delete(oldMeeting, true);
-		add(newMeeting, true);
+		deleteMeeting(oldMeeting, true);
+		addMeeting(newMeeting, true);
 	}
 	
 	/**
@@ -106,14 +106,30 @@ public void add(Meeting meeting) {
 	}
 	
 	/**
-	 * Print the contents of the diary.
+	 * Print all meetings
 	 */
-	public void printDiary() {
+	public void printMeetings() {
 		if(meetings.isEmpty()) {
 			System.out.println("Nothing to print");
 		}
 		else {
 			ListIterator<Meeting> listIterator = meetings.listIterator();
+			System.out.println(listIterator.next());
+			while (listIterator.hasNext()) {
+				System.out.println(listIterator.next());
+			}
+		}
+	}
+	
+	/**
+	 * Print all tasks.
+	 */
+	public void printTasks() {
+		if(taskList.isEmpty()) {
+			System.out.println("Nothing to print");
+		}
+		else {
+			ListIterator<Task> listIterator = taskList.listIterator();
 			System.out.println(listIterator.next());
 			while (listIterator.hasNext()) {
 				System.out.println(listIterator.next());
@@ -127,5 +143,39 @@ public void add(Meeting meeting) {
 	 */
 	public LinkedList<Meeting> getMeetings() {
 		return this.meetings;
+	}
+
+	/**
+	 * Returns the reference to the Task list
+	 * @return LinkedList<Task> list of tasks
+	 */
+	public LinkedList<Task> getTaskList() {
+		return taskList;
+	}
+
+	/**
+	 * Add Task to task list
+	 * @param toAdd Task to add
+	 */
+	public void addTask(Task toAdd) {
+		taskList.add(toAdd);
+	}
+
+	/**
+	 * Remove Task from task list
+	 * @param toDelete
+	 */
+	public void deleteTask(Task toDelete) {
+		taskList.remove(toDelete);
+	}
+	
+	/**
+	 * Edit a task
+	 * @param oldTask task to edit
+	 * @param newTask updated information
+	 */
+	public void editTask(Task oldTask, Task newTask) {
+		deleteTask(oldTask);
+		addTask(newTask);
 	}
 }

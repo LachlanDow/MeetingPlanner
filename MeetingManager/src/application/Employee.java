@@ -2,7 +2,6 @@ package application;
 
 import java.util.Date;
 import java.util.LinkedList;
-import java.util.Scanner;
 
 /**
  * Project: Employee Manager This is the employee class, this class will produce
@@ -18,7 +17,6 @@ public class Employee {
 	private String lastName;
 	private String jobTitle;
 	private Diary diary = new Diary();
-	private LinkedList<Task> taskList = new LinkedList<Task>();
 
 	public Employee() {
         this.id = 0;
@@ -140,17 +138,7 @@ public class Employee {
 	 */
 	public LinkedList<Task> getTaskList()
 	{
-		return taskList;
-	}
-	
-	/**
-	 * Method to set the task list
-	 * 
-	 * @param taskList
-	 */
-	public void setTaskList(LinkedList<Task> taskList)
-	{
-		this.taskList = taskList;
+		return diary.getTaskList();
 	}
 	
 	/**
@@ -172,9 +160,6 @@ public class Employee {
     	return withinMeetings;
     	
     }
-	public void add(Meeting meeting) {
-		diary.add(meeting);
-	}
 	
 	/**
 	 * Method to add a meeting to the list
@@ -182,20 +167,18 @@ public class Employee {
 	 * @param meeting
 	 */
     public void addMeeting(Meeting meeting) {
-    	diary.add(meeting, false);
+    	diary.addMeeting(meeting, false);
 
     }
     
     /**
      * Method to add a task to the list
      * 
-     * @param description
-     * @param priority
+     * @param toAdd
      */
-    public void addTask(String description, String priority)
+    public void addTask(Task toAdd)
     {
-    	Task toAdd = new Task(description, priority);
-    	taskList.add(toAdd);
+    	diary.addTask(toAdd);
     }
     
     /**
@@ -205,7 +188,7 @@ public class Employee {
 	 */
 	public void deleteTask(Task toDelete)
 	{
-		taskList.remove(toDelete);
+		diary.deleteTask(toDelete);
 	}
     
 	/**
@@ -214,7 +197,7 @@ public class Employee {
 	 * @param meeting
 	 */
     public void deleteMeeting(Meeting meeting) {
-    	diary.delete(meeting, false);
+    	diary.deleteMeeting(meeting, false);
     }
     
     /**
@@ -224,7 +207,7 @@ public class Employee {
      * @param newMeeting
      */
 	public void editMeeting(Meeting oldMeeting, Meeting newMeeting) {
-		diary.edit(oldMeeting, newMeeting, false);
+		diary.editMeeting(oldMeeting, newMeeting, false);
 	}
     
 	/**
@@ -235,8 +218,7 @@ public class Employee {
 	 */
 	public void editTask(Task oldTask, Task newTask)
 	{
-		taskList.remove(oldTask);
-		taskList.add(newTask);
+		diary.editTask(oldTask, newTask);
 	}
 	
 	/**

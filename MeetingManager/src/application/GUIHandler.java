@@ -80,6 +80,12 @@ public class GUIHandler extends Application {
 						out.write(m.getMeetingDetails());
 						out.newLine();
 					}
+					
+					//Loop through all their tasks
+					for(Task t : entry.getValue().getTaskList()) {
+						out.write(t.getTaskDetails());
+						out.newLine();
+					}
 				}
 				out.close();
 				fileWriter.close();
@@ -120,25 +126,35 @@ public class GUIHandler extends Application {
 			    	
 			        String[] info = line.split(",");
 			        
-			        //If info[0] is parseable, is Employee, if not it's a meeting
-			        try {
-			        	int id = Integer.parseInt(info[0]);
-			        	lastEmployeeID = id;
-			        	String firstName = info[1];
-			        	String lastName = info[2];
-			        	String jobTitle = info[3];
-			        	
-			        	Company.addEmployee(id, firstName, lastName, jobTitle);
-			        }
-			        catch(NumberFormatException e) {
-			        	SimpleDateFormat format = new SimpleDateFormat("EEE MMM dd kk:mm:ss zzz yyyy");
-			        	
-			        	Date startTime = format.parse(info[0]);
-			        	Date endTime = format.parse(info[1]);
-			        	String description = info[2];
-			        	
-			        	Meeting toAdd = new Meeting(startTime, endTime, description);
-			        	Company.selectEmployee(lastEmployeeID).addMeeting(toAdd);
+			        switch(info.length) {
+			        	case 4: { //Employee
+			        		int id = Integer.parseInt(info[0]);
+				        	lastEmployeeID = id;
+				        	String firstName = info[1];
+				        	String lastName = info[2];
+				        	String jobTitle = info[3];
+				        	
+				        	Company.addEmployee(id, firstName, lastName, jobTitle);
+			        	}
+			        	break;
+			        	case 3: { //Meeting
+			        		SimpleDateFormat format = new SimpleDateFormat("EEE MMM dd kk:mm:ss zzz yyyy");
+				        	Date startTime = format.parse(info[0]);
+				        	Date endTime = format.parse(info[1]);
+				        	String description = info[2];
+				        	
+				        	Meeting toAdd = new Meeting(startTime, endTime, description);
+				        	Company.selectEmployee(lastEmployeeID).addMeeting(toAdd);
+			        	}
+				        break;
+			        	case 2:{ //Task
+			        		String description = info[0];
+			        		String priority = info[1];
+			        		
+			        		Task toAdd = new Task(description, priority);
+			        		Company.selectEmployee(lastEmployeeID).addTask(toAdd);
+			        	}
+			        	break;
 			        }
 			    }
 				
@@ -161,15 +177,5 @@ public class GUIHandler extends Application {
 
 		// Counteract the auto-focusing of the first node.
 		main.getScene().getRoot().requestFocus();
-	}
-
-	/**
-	 * Alternative entry point to the program that boots up the GUI and skips the
-	 * text-based version.
-	 * 
-	 * @param args
-	 */
-	public static void main(String[] args) {
-		launch(args);
 	}
 }

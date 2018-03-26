@@ -36,6 +36,9 @@ public class Menu {
 		System.out.println("5. Test meeting validation.");
 		System.out.println("6. Test meeting edit.");
 		System.out.println("7. Test meeting delete.");
+		System.out.println("8. Test add task.");
+		System.out.println("9. Test edit task.");
+		System.out.println("10. Test delete task.");
 		
 	}
 	
@@ -80,8 +83,16 @@ public class Menu {
 					tester.testDeleteMeeting();
 				}
 				break;
-				case "e":{
-					System.out.println("Thanks for playing the lottery!");
+				case "8": {
+					tester.testAddTask();
+				}
+				break;
+				case "9": {
+					tester.testEditTask();
+				}
+				break;
+				case "10": {
+					tester.testDeleteTask();
 				}
 				break;
 				default:{

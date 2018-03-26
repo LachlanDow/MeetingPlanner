@@ -1,8 +1,6 @@
 package application;
 
 import java.time.LocalDate;
-import java.util.Date;
-import java.util.Map.Entry;
 
 import application.MeetingManagerExceptions.EmployeeDetailsInvalidID;
 import application.MeetingManagerExceptions.EmployeeExists;
@@ -114,7 +112,7 @@ public class Tester {
 		} catch (MeetingTimeBeforeStart | MeetingTimeSameTime | MeetingTimeStartConflict | GenericFieldEmpty e) {
 			System.out.println(e.getMessage());
 		}
-		testDiary.add(meeting, true);
+		testDiary.addMeeting(meeting, true);
 		
 		//Adding conflicting meeting
 		System.out.println("Adding conflicting meeting to Diary: 13/3/18 12:00 - 14:00");
@@ -177,10 +175,10 @@ public class Tester {
 			e.printStackTrace();
 		}
 		
-		testDiary.add(toAdd, true);
+		testDiary.addMeeting(toAdd, true);
 		
 		System.out.println("Printing meetings");
-		testDiary.printDiary();
+		testDiary.printMeetings();
 		
 		Meeting toChange = null;
 		try {
@@ -189,10 +187,10 @@ public class Tester {
 			e.printStackTrace();
 		}
 		System.out.println("Editing meeting time to: 28/03/2018");
-		testDiary.edit(toAdd, toChange, true);
+		testDiary.editMeeting(toAdd, toChange, true);
 		
 		System.out.println("Printing meetings");
-		testDiary.printDiary();
+		testDiary.printMeetings();
 	}
 	
 	public void testDeleteMeeting() {
@@ -206,15 +204,100 @@ public class Tester {
 			e.printStackTrace();
 		}
 		
-		testDiary.add(toAdd, true);
+		testDiary.addMeeting(toAdd, true);
 		
 		System.out.println("Printing meetings");
-		testDiary.printDiary();
+		testDiary.printMeetings();
 		
 		System.out.println("Deleting meeting");
-		testDiary.delete(toAdd, true);
+		testDiary.deleteMeeting(toAdd, true);
 		
 		System.out.println("Printing meetings");
-		testDiary.printDiary();
+		testDiary.printMeetings();
+	}
+	
+	public void testAddTask() {
+		Diary testDiary = new Diary();
+		
+		System.out.println("Adding Task with blank priority");
+		
+		Task toAdd = null;
+		try {
+			toAdd = Validation.validateTask("Foobar", "");
+			testDiary.addTask(toAdd);
+		} catch (GenericFieldEmpty e) {
+			System.out.println(e.getMessage());
+		}
+
+		
+		System.out.println("Adding valid Task");
+		try {
+			toAdd = Validation.validateTask("Printing", "High");
+		} catch (GenericFieldEmpty e) {
+			System.out.println(e.getMessage());
+		}
+		testDiary.addTask(toAdd);
+		
+		System.out.println("Printing tasks");
+		testDiary.printTasks();
+	}
+	
+	public void testEditTask() {
+		Diary testDiary = new Diary();
+
+		System.out.println("Adding valid Task");
+		
+		Task toAdd = null;
+		try {
+			toAdd = Validation.validateTask("Printing", "High");
+		} catch (GenericFieldEmpty e) {
+			System.out.println(e.getMessage());
+		}
+		testDiary.addTask(toAdd);
+		
+		System.out.println("Printing tasks:");
+		testDiary.printTasks();
+		
+		System.out.println("Editing task description to running");
+		Task toChange = new Task("Running", toAdd.getPriority());
+		testDiary.editTask(toAdd, toChange);
+		
+		System.out.println("Printing tasks:");
+		testDiary.printTasks();
+	}
+	
+	public void testDeleteTask() {
+		Diary testDiary = new Diary();
+
+		System.out.println("Adding valid Task");
+		
+		Task toAdd = null;
+		try {
+			toAdd = Validation.validateTask("Printing", "High");
+		} catch (GenericFieldEmpty e) {
+			System.out.println(e.getMessage());
+		}
+		testDiary.addTask(toAdd);
+		
+		System.out.println("Printing tasks:");
+		testDiary.printTasks();
+		
+		System.out.println("Deleting task");
+		testDiary.deleteTask(toAdd);
+		
+		System.out.println("Printing tasks");
+		testDiary.printTasks();
+	}
+	public void testSearch() {
+		
+		System.out.println("Adding employee");
+		 Company.addEmployee(20, "Daniel", "Test1", "Worker");
+		 Company.addEmployee(21, "James", "Test2", "Worker");
+		 Company.addEmployee(22, "Eric", "Test3", "Worker");
+		 
+		 
+		
+		 
+		 
 	}
 }

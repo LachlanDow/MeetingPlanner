@@ -167,6 +167,7 @@ public class GUIPanes {
 
 			// Table set-up
 			TableView<Employee> table = new TableView<Employee>();
+			table.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
 
 			TableColumn<Employee, String> idCol = new TableColumn<Employee, String>("ID");
 			idCol.setCellValueFactory(new PropertyValueFactory<Employee, String>("id"));
@@ -181,12 +182,6 @@ public class GUIPanes {
 			jobTitleCol.setCellValueFactory(new PropertyValueFactory<Employee, String>("jobTitle"));
 
 			table.getColumns().addAll(idCol, firstNameCol, lastNameCol, jobTitleCol);
-
-			// Table column widths (odd value so that it offsets the margin)s
-			idCol.prefWidthProperty().bind(table.widthProperty().divide(4.02));
-			firstNameCol.prefWidthProperty().bind(table.widthProperty().divide(4.02));
-			lastNameCol.prefWidthProperty().bind(table.widthProperty().divide(4.02));
-			jobTitleCol.prefWidthProperty().bind(table.widthProperty().divide(4.02));
 
 			setMargin(table, new Insets(10, 5, 5, 5));
 
@@ -431,7 +426,8 @@ public class GUIPanes {
 
 			// Table set-up
 			TableView<Employee> table = new TableView<Employee>();
-
+			table.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
+			
 			TableColumn<Employee, String> idCol = new TableColumn<Employee, String>("ID");
 			idCol.setCellValueFactory(new PropertyValueFactory<Employee, String>("id"));
 
@@ -445,12 +441,6 @@ public class GUIPanes {
 			jobTitleCol.setCellValueFactory(new PropertyValueFactory<Employee, String>("jobTitle"));
 
 			table.getColumns().addAll(idCol, firstNameCol, lastNameCol, jobTitleCol);
-
-			// Table column widths (odd value so that it offsets the margin)s
-			idCol.prefWidthProperty().bind(table.widthProperty().divide(4.02));
-			firstNameCol.prefWidthProperty().bind(table.widthProperty().divide(4.02));
-			lastNameCol.prefWidthProperty().bind(table.widthProperty().divide(4.02));
-			jobTitleCol.prefWidthProperty().bind(table.widthProperty().divide(4.02));
 
 			setMargin(table, new Insets(10, 5, 5, 5));
 
@@ -1132,6 +1122,7 @@ public class GUIPanes {
 	}
 
 	public static class CompanyMeeting extends BorderPane {
+		@SuppressWarnings("unchecked")
 		public CompanyMeeting() {
 			// Add the
 			LinkedList<Employee> searchList = new LinkedList<Employee>();
@@ -1155,9 +1146,12 @@ public class GUIPanes {
 			setMargin(topPane, new Insets(10));
 
 			setTop(topPane);
+			
+			HBox middle = new HBox(30);
 
 			TableView<Employee> table = new TableView<Employee>();
-
+			table.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
+			
 			TableColumn<Employee, String> idCol = new TableColumn<Employee, String>("ID");
 			idCol.setCellValueFactory(new PropertyValueFactory<Employee, String>("id"));
 
@@ -1172,17 +1166,10 @@ public class GUIPanes {
 
 			table.getColumns().addAll(idCol, firstNameCol, lastNameCol, jobTitleCol);
 
-			// Table column widths (odd value so that it offsets the margin)s
-			idCol.prefWidthProperty().bind(table.widthProperty().divide(4.02));
-			firstNameCol.prefWidthProperty().bind(table.widthProperty().divide(4.02));
-			lastNameCol.prefWidthProperty().bind(table.widthProperty().divide(4.02));
-			jobTitleCol.prefWidthProperty().bind(table.widthProperty().divide(4.02));
-
-			setMargin(table, new Insets(10, 5, 5, 5));
-
-			setLeft(table);
+			middle.getChildren().add(table);
 
 			TableView<Employee> tableRight = new TableView<Employee>();
+			tableRight.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
 
 			TableColumn<Employee, String> idColRight = new TableColumn<Employee, String>("ID");
 			idColRight.setCellValueFactory(new PropertyValueFactory<Employee, String>("id"));
@@ -1198,18 +1185,13 @@ public class GUIPanes {
 
 			tableRight.getColumns().addAll(idColRight, firstNameColRight, lastNameColRight, jobTitleColRight);
 
-			// Table column widths (odd value so that it offsets the margin)s
-			idCol.prefWidthProperty().bind(table.widthProperty().divide(4.02));
-			firstNameCol.prefWidthProperty().bind(table.widthProperty().divide(4.02));
-			lastNameCol.prefWidthProperty().bind(table.widthProperty().divide(4.02));
-			jobTitleCol.prefWidthProperty().bind(table.widthProperty().divide(4.02));
 
-			setMargin(tableRight, new Insets(10, 5, 5, 5));
+			middle.getChildren().add(tableRight);
+			
+			setMargin(middle, new Insets(0, 150, 0, 150));
+			
+			setCenter(middle);
 
-			setRight(tableRight);
-
-			// TEST DATA
-			// TODO: LOL
 			ObservableList<Employee> data = FXCollections.observableArrayList();
 
 			for (Entry<Integer, Employee> entry : Company.getEmployees().entrySet()) {
@@ -1302,6 +1284,7 @@ public class GUIPanes {
 	}
 
 	public static class Search extends BorderPane {
+		@SuppressWarnings("unchecked")
 		public Search(LinkedList<Employee> searchList) {
 			TableView<Meeting> table = new TableView<Meeting>();
 			VBox topPane = new VBox();
@@ -1382,18 +1365,40 @@ public class GUIPanes {
 						} catch (ParseException e) {
 							e.printStackTrace();
 						}
-
+						
+						long startTime = System.nanoTime();
 						LinkedList<Meeting> results = Company.search(searchList, startDate, endDate);
+						long endTime = System.nanoTime();
+
+						Label duration = new Label("" + ((endTime - startTime) / 1000000.0) + " milliseconds");
 
 						ObservableList<Meeting> data = FXCollections.observableArrayList();
 						data.addAll(results);
 						table.setItems(data);
+						
+						grid.add(duration, 1, 5);
+						Timeline timer = new Timeline(
+								new KeyFrame(Duration.seconds(5), new EventHandler<ActionEvent>() {
+									@Override
+									public void handle(ActionEvent event) {
+										grid.getChildren().remove(duration);
+									}
+								}));
+						timer.play();
 
 					} catch (Exception e) {
-						System.out.println("Unsuccessful");
 						CustomText successText = new CustomText("Neither Employees have Meetings between these Times",
 								16);
 						grid.add(successText, 1, 5);
+						
+						Timeline timer = new Timeline(
+								new KeyFrame(Duration.seconds(2), new EventHandler<ActionEvent>() {
+									@Override
+									public void handle(ActionEvent event) {
+										grid.getChildren().remove(successText);
+									}
+								}));
+						timer.play();
 					}
 				}
 			});
@@ -1674,9 +1679,7 @@ public class GUIPanes {
 			backButton.setOnAction(new EventHandler<ActionEvent>() {
 				@Override
 				public void handle(ActionEvent event) {
-
-					GUIHandler.changePane(new EmployeeDiary(employee));
-
+					GUIHandler.changePane(new ViewDay(employee, meetings, date));
 				}
 			});
 			setMargin(backButton, new Insets(10, 5, 5, 5));
@@ -1686,6 +1689,7 @@ public class GUIPanes {
 	}
 	
 	public static class TaskListGUI extends BorderPane {
+	@SuppressWarnings("unchecked")
 	public TaskListGUI(Employee employee) {
 		// Add the
 		VBox topPane = new VBox();
@@ -1817,26 +1821,43 @@ public class GUIPanes {
 				@Override
 				public void handle(ActionEvent event) {
 			
-					employee.addTask(descTextField.getText(), priorityTextField.getText());
-			
-					// Display success message.
-					CustomText successText = new CustomText("Task successfully added", 16);
-					grid.add(successText, 1, 6);
+					Task toAdd;
+					try {
+						toAdd = Validation.validateTask(descTextField.getText(), priorityTextField.getText());
+						
+						employee.addTask(toAdd);
+						
+						// Display success message.
+						CustomText successText = new CustomText("Task successfully added", 16);
+						grid.add(successText, 1, 6);
 
-					// Remove the message after 2 seconds.
-					Timeline timer = new Timeline(
-							new KeyFrame(Duration.seconds(2), new EventHandler<ActionEvent>() {
-								@Override
-								public void handle(ActionEvent event) {
-									grid.getChildren().remove(successText);
-								}
-							}));
-					timer.play();
+						// Remove the message after 2 seconds.
+						Timeline timer = new Timeline(
+								new KeyFrame(Duration.seconds(2), new EventHandler<ActionEvent>() {
+									@Override
+									public void handle(ActionEvent event) {
+										grid.getChildren().remove(successText);
+									}
+								}));
+						timer.play();
 
-					// Clear the text fields for usability sake
-					descTextField.clear();
-					priorityTextField.clear();
-					
+						// Clear the text fields for usability sake
+						descTextField.clear();
+						priorityTextField.clear();
+					} catch (GenericFieldEmpty e) {
+						// Display the error to the user.
+						CustomText errorText = new CustomText(e.getMessage(), 16);
+						grid.add(errorText, 1, 6);
+
+						Timeline timer = new Timeline(
+								new KeyFrame(Duration.seconds(2), new EventHandler<ActionEvent>() {
+									@Override
+									public void handle(ActionEvent event) {
+										grid.getChildren().remove(errorText);
+									}
+								}));
+						timer.play();
+					}
 			}
 			
 		});
@@ -1958,6 +1979,7 @@ public class GUIPanes {
 			
 		}
 	}
+	
 	
 	public static class AddMultiMeeting extends BorderPane {
         public AddMultiMeeting(LinkedList<Employee> employeeMulti) {
