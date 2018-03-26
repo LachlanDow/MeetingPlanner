@@ -195,12 +195,6 @@ public class DisplayElements {
 	 */
 	public static class NumberSpinner extends HBox {
 
-		public static final String ARROW = "NumberSpinnerArrow";
-		public static final String NUMBER_FIELD = "NumberField";
-		public static final String NUMBER_SPINNER = "NumberSpinner";
-		public static final String SPINNER_BUTTON_UP = "SpinnerButtonUp";
-		public static final String SPINNER_BUTTON_DOWN = "SpinnerButtonDown";
-		private final String BUTTONS_BOX = "ButtonsBox";
 		private NumberTextField numberField;
 		private final double ARROW_SIZE = 4;
 		private final Button incrementButton;
@@ -210,11 +204,9 @@ public class DisplayElements {
 
 		public NumberSpinner(int hour, int mins) {
 			super();
-			this.setId(NUMBER_SPINNER);
 
 			// TextField
 			numberField = new NumberTextField(hour, mins);
-			numberField.setId(NUMBER_FIELD);
 
 			// Enable arrow keys for dec/inc
 			numberField.addEventFilter(KeyEvent.KEY_PRESSED, new EventHandler<KeyEvent>() {
@@ -234,14 +226,12 @@ public class DisplayElements {
 
 			// Painting the up and down arrows
 			Path arrowUp = new Path();
-			arrowUp.setId(ARROW);
 			arrowUp.getElements().addAll(new MoveTo(-ARROW_SIZE, 0), new LineTo(ARROW_SIZE, 0),
 					new LineTo(0, -ARROW_SIZE), new LineTo(-ARROW_SIZE, 0));
 			// mouse clicks should be forwarded to the underlying button
 			arrowUp.setMouseTransparent(true);
 
 			Path arrowDown = new Path();
-			arrowDown.setId(ARROW);
 			arrowDown.getElements().addAll(new MoveTo(-ARROW_SIZE, 0), new LineTo(ARROW_SIZE, 0),
 					new LineTo(0, ARROW_SIZE), new LineTo(-ARROW_SIZE, 0));
 			arrowDown.setMouseTransparent(true);
@@ -255,9 +245,7 @@ public class DisplayElements {
 
 			// inc/dec buttons
 			VBox buttons = new VBox();
-			buttons.setId(BUTTONS_BOX);
 			incrementButton = new Button();
-			incrementButton.setId(SPINNER_BUTTON_UP);
 			incrementButton.prefWidthProperty().bind(numberField.heightProperty());
 			incrementButton.minWidthProperty().bind(numberField.heightProperty());
 			incrementButton.maxHeightProperty().bind(buttonHeight.add(spacing));
@@ -278,7 +266,6 @@ public class DisplayElements {
 			incPane.setAlignment(Pos.CENTER);
 
 			decrementButton = new Button();
-			decrementButton.setId(SPINNER_BUTTON_DOWN);
 			decrementButton.prefWidthProperty().bind(numberField.heightProperty());
 			decrementButton.minWidthProperty().bind(numberField.heightProperty());
 			decrementButton.maxHeightProperty().bind(buttonHeight);
