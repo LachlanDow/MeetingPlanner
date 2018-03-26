@@ -105,10 +105,6 @@ public class Employee {
     	diary.undo();
     }
     
-    public void displayDiary() {
-    	
-    }
-    
     public String toString() {
 		return ("ID:" + this.id + ". ForeName:" + this.firstName + ". Surname: " + this.lastName + " Job title: " + this.jobTitle );
 	}
