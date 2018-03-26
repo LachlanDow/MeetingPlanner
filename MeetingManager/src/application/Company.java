@@ -106,16 +106,14 @@ public class Company {
 		return totalMeetings;
 		
 	}
-    
-	     
-
+	
 	/**
 	 * A method to add an employee to the binary tree
 	 * @param id as the id of the employee to add
 	 * @param name as the name of the employee to add
 	 * @param jobTitle as the title of the position in the workplace of the employee
 	 */
-	public void addEmployee(int id,String forename,String surname, String jobTitle) {
+	public static void addEmployee(int id,String forename,String surname, String jobTitle) {
 		employees.put(id, new Employee(id,forename,surname,jobTitle));
 	}
 	
@@ -139,10 +137,9 @@ public class Company {
 	 * eg. edit
 	 * @param id as the id of the employee that is to be edited
 	 */
-	public Employee selectEmployee(int id) {
+	public static Employee selectEmployee(int id) {
 		try {
 			return employees.get(id);
-			
 		}catch(NullPointerException e) {
 			System.out.println("This employee doesn't exist");
 			return new Employee();

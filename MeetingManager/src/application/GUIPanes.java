@@ -1,9 +1,7 @@
 package application;
 
-import java.io.File;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -12,15 +10,13 @@ import java.util.Date;
 import java.util.LinkedList;
 import java.util.Map.Entry;
 
-import javax.swing.JFileChooser;
-
 import application.DisplayElements.CustomButton;
 import application.DisplayElements.CustomText;
 import application.DisplayElements.MenuButton;
 import application.DisplayElements.NumberSpinner;
-import application.MeetingManagerExceptions.GenericFieldEmpty;
 import application.MeetingManagerExceptions.EmployeeDetailsInvalidID;
 import application.MeetingManagerExceptions.EmployeeExists;
+import application.MeetingManagerExceptions.GenericFieldEmpty;
 import application.MeetingManagerExceptions.MeetingTimeBeforeStart;
 import application.MeetingManagerExceptions.MeetingTimeNotSameDay;
 import application.MeetingManagerExceptions.MeetingTimeSameTime;
@@ -32,13 +28,11 @@ import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
 import javafx.collections.transformation.SortedList;
 import javafx.event.ActionEvent;
-import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
-import javafx.scene.control.DateCell;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
@@ -54,8 +48,6 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
-import javafx.scene.text.TextAlignment;
-import javafx.stage.FileChooser;
 import javafx.util.Duration;
 
 /**
@@ -118,7 +110,7 @@ public class GUIPanes {
 			loadButton.setOnAction(new EventHandler<ActionEvent>() {
 				@Override
 				public void handle(ActionEvent event) {
-					// GUIHandler.changePane(new CompanyMeeting());
+					GUIHandler.loadCompany();
 				}
 			});
 			
@@ -138,6 +130,7 @@ public class GUIPanes {
 	}
 
 	public static class ManageEmployees extends BorderPane {
+		@SuppressWarnings("unchecked")
 		public ManageEmployees() {
 			// Add the
 			VBox topPane = new VBox();
@@ -186,9 +179,7 @@ public class GUIPanes {
 			setMargin(table, new Insets(10, 5, 5, 5));
 
 			setCenter(table);
-
-			// TEST DATA
-			// TODO: LOL
+			
 			ObservableList<Employee> data = FXCollections.observableArrayList();
 
 			for (Entry<Integer, Employee> entry : Company.getEmployees().entrySet()) {
@@ -358,9 +349,9 @@ public class GUIPanes {
 
 			CustomButton deleteButton = new CustomButton("Delete", 20, "FF0000");
 			deleteButton.setOnAction(new EventHandler<ActionEvent>() {
+				@SuppressWarnings("unlikely-arg-type")
 				@Override
 				public void handle(ActionEvent event) {
-					// TODO: Delete
 					Company.getEmployees().remove(employee);
 					GUIHandler.changePane(new ManageEmployees());
 				}
@@ -383,6 +374,7 @@ public class GUIPanes {
 	}
 
 	public static class ManageDiaries extends BorderPane {
+		@SuppressWarnings("unchecked")
 		public ManageDiaries() {
 			// Add the
 			VBox topPane = new VBox();
@@ -432,8 +424,6 @@ public class GUIPanes {
 
 			setCenter(table);
 
-			// TEST DATA
-			// TODO: Use real data
 			ObservableList<Employee> data = FXCollections.observableArrayList();
 
 			for (Entry<Integer, Employee> entry : Company.getEmployees().entrySet()) {
@@ -779,7 +769,6 @@ public class GUIPanes {
 			yearComboBox.getItems().add(currYear);
 			yearComboBox.getSelectionModel().select(0);
 
-			// TODO: Discuss future meeting max time (for now 3 years)
 			for (int i = 1; i <= 3; i++) {
 				yearComboBox.getItems().add(currYear + i);
 			}
@@ -1049,6 +1038,7 @@ public class GUIPanes {
 	}
 	
 	public static class ViewDay extends BorderPane {
+		@SuppressWarnings("unchecked")
 		public ViewDay(Employee employee, LinkedList<Meeting> meetings, String date) {
 			VBox topBox = new VBox();
 			CustomText title = new CustomText("Meeting Manager", 64);

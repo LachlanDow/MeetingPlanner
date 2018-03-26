@@ -65,7 +65,7 @@ public class Employee {
 	}
 
 	public String getEmployeeInformation() {
-		return "Employee " + id + " Job " + jobTitle + " " + getFullName();
+		return id + "," + firstName + "," + lastName + "," + jobTitle;
 	}
 	
 	public Diary getDiary() {

@@ -28,6 +28,10 @@ public class Meeting {
 		this.rawEnd = hourMinuteZero(cal.get(Calendar.HOUR_OF_DAY), cal.get(Calendar.MINUTE));
 		 
 	}
+	
+	public String getMeetingDetails() {
+		return "" + startTime + "," + endTime + "," + description;
+	}
 
 	/**
 	 * 
