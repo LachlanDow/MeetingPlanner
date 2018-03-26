@@ -1,11 +1,13 @@
 package application;
 
+
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.LinkedList;
-import java.util.ListIterator;
 import java.util.TreeMap;
+
+
 
 
 
@@ -14,9 +16,9 @@ public class Company {
 	 *A binary tree of all the employees in the company
 	 */
 	private static TreeMap<Integer,Employee> employees = new TreeMap<Integer,Employee>();
-	private Long searchStart;
-	private Long searchEnd;
-	private Float searchTime;
+	private static Long searchStart;
+	private static Long searchEnd;
+	private static Float searchTime;
 	
 	
 	/**
@@ -33,23 +35,27 @@ public class Company {
 	 * @param endTime
 	 * @return
 	 */
-	public LinkedList<Meeting> search(int[] ids, Date startTime, Date endTime) {
-		searchStart = System.nanoTime();
-	 Employee[] listOfEmployee= new Employee[ids.length]; 
+	public static LinkedList<Meeting> search(LinkedList<Employee>listOfEmployee, Date startTime, Date endTime) {
+		Company.searchStart = System.nanoTime();
 	LinkedList<Meeting> totalMeetings = new LinkedList<Meeting>();
-	for(int i = 0; i < ids.length; i++) {	
-		listOfEmployee[i] = new Employee();
-		 listOfEmployee[i] = employees.get(ids[i]);
-		 totalMeetings.addAll(listOfEmployee[i].getMeetings(startTime,endTime));
+	for(int i = 0; i <listOfEmployee.size(); i++) {	
+		 totalMeetings.addAll(listOfEmployee.get(i).getMeetings(startTime,endTime));
 		}
-	totalMeetings = this.mergeMeetings(totalMeetings);
+	totalMeetings = Company.mergeMeetings(totalMeetings);
 	
-	return this.getTimesBetween(startTime, endTime, totalMeetings, new LinkedList<Meeting>());
+	LinkedList<Meeting> timesBetween = new LinkedList<Meeting>();
 	
+	return Company.getTimesBetween(startTime, endTime, totalMeetings, timesBetween);
+	
+	}
+	public static void addMeetingMultiEmployees(LinkedList<Employee> employeeList, Meeting meeting) {
+		for(int i =0; i < employeeList.size();i++) {
+			employees.get(employeeList.get(i).getId()).add(meeting);
+		}
 	}
 	
 	/**
-	 * 
+	 * Meth0ds to 
 	 * @param employees
 	 * @param startTime
 	 * @param endTime
@@ -57,6 +63,7 @@ public class Company {
 	 * @param totalMeetings
 	 * @return
 	 */
+	/*
 	public LinkedList<Meeting> compareMeetings(Employee[] employees,Date startTime, Date endTime, int index, LinkedList<Meeting> totalMeetings) {
 		if(index < employees.length ) {
 			LinkedList<Meeting> employeeMeetings= employees[index].getDiary().getMeetings();
@@ -71,15 +78,15 @@ public class Company {
 			return compareMeetings(employees,startTime, endTime, ++index,totalMeetings);
 		}
 		return totalMeetings; 
-	}
+	}*/
 	
 	
 	/**
-	 * 
-	 * @param totalMeetings
-	 * @return
+	 * method to merge any overlapping meetings between employees
+	 * @param totalMeetings as all the meetings of the employees
+	 * @return the linked list of all the merged meetings
 	 */
-	private LinkedList<Meeting> mergeMeetings(LinkedList<Meeting> totalMeetings) {
+	private static LinkedList<Meeting> mergeMeetings(LinkedList<Meeting> totalMeetings) {
 		Collections.sort(totalMeetings, new Comparator<Meeting>() {
 		    public int compare(Meeting meeting1,  Meeting meeting2) {
 		        return meeting1.getStartTime().compareTo(meeting2.getStartTime());
@@ -154,7 +161,7 @@ public class Company {
 	 * @param timesBetween
 	 * @return
 	 */
-	public LinkedList<Meeting> getTimesBetween(Date startTime,Date endTime, LinkedList<Meeting> totalMeetings, LinkedList<Meeting> timesBetween) {
+	public static LinkedList<Meeting> getTimesBetween(Date startTime,Date endTime, LinkedList<Meeting> totalMeetings, LinkedList<Meeting> timesBetween) {
 	
 		timesBetween.add(new Meeting(startTime,totalMeetings.getFirst().getStartTime(),""));
 		for(int i =0; i < totalMeetings.size()-1; i++) {
@@ -162,7 +169,7 @@ public class Company {
 		}
 		timesBetween.add(new Meeting(totalMeetings.getLast().getEndTime(),endTime,""));
 		searchEnd = System.nanoTime();
-		searchTime = (float)(searchEnd-searchStart)/1000000;
+		Company.searchTime = (float)(searchEnd-searchStart)/1000000;
 		System.out.println(searchTime/1000 + " s");
 		return timesBetween;
 	}
@@ -170,5 +177,6 @@ public class Company {
 	public static TreeMap<Integer, Employee> getEmployees() {
 		return employees;
 	}
-
+	
+	
 }

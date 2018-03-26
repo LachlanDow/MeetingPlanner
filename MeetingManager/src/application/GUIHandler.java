@@ -1,5 +1,4 @@
 package application;
-
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
@@ -10,6 +9,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Map.Entry;
+
 
 import javafx.application.Application;
 import javafx.scene.Parent;
@@ -32,7 +32,8 @@ public class GUIHandler extends Application {
 	 */
 	public void start(Stage main) {
 		try {
-			//Keep reference to the stage for other methods.
+
+			
 			GUIHandler.main = main;
 			
 			// Set up the style of the window
