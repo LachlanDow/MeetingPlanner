@@ -6,6 +6,7 @@ import java.util.Date;
 import java.util.LinkedList;
 import java.util.ListIterator;
 import java.util.TreeMap;
+import java.util.Map.Entry;
 
 
 
@@ -113,15 +114,18 @@ public class Company {
 	 * @param name as the name of the employee to add
 	 * @param jobTitle as the title of the position in the workplace of the employee
 	 */
-	public static void addEmployee(int id,String forename,String surname, String jobTitle) {
-		employees.put(id, new Employee(id,forename,surname,jobTitle));
+	public static Employee addEmployee(int id,String forename,String surname, String jobTitle) {
+		Employee toAdd = new Employee(id,forename,surname,jobTitle);
+		employees.put(id, toAdd);
+		
+		return toAdd;
 	}
 	
 	/**
 	 * method to delete an employee from the binary tree
 	 * @param id as the id of the employee you want to remove
 	 */
-	public boolean deleteEmployee(int id) {
+	public static boolean deleteEmployee(int id) {
 		try {
 			employees.remove(id);
 			return true;
@@ -170,5 +174,24 @@ public class Company {
 	public static TreeMap<Integer, Employee> getEmployees() {
 		return employees;
 	}
-
+	
+	public static void printEmployees() {
+		for (Entry<Integer, Employee> entry : getEmployees().entrySet()) {
+			System.out.println(entry.getValue().getEmployeeInformation());
+		}
+	}
+	
+	public static void editEmployee(Employee employee, String firstName) {
+		employee.setFirstName(firstName);
+	}
+	public static void editEmployee(Employee employee, String firstName, String secondName) {
+		employee.setFirstName(firstName);
+		employee.setLastName(secondName);
+	}
+	
+	public static void editEmployee(Employee employee, String firstName, String secondName, String jobTitle) {
+		employee.setFirstName(firstName);
+		employee.setLastName(secondName);
+		employee.setJobTitle(jobTitle);
+	}
 }

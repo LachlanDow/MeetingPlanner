@@ -102,11 +102,15 @@ public class Diary {
 	 * Print the contents of the diary.
 	 */
 	public void printDiary() {
-		System.out.println("ListIterator Approach: ==========");
-		ListIterator<Meeting> listIterator = meetings.listIterator();
-		System.out.println(listIterator.next());
-		while (listIterator.hasNext()) {
+		if(meetings.isEmpty()) {
+			System.out.println("Nothing to print");
+		}
+		else {
+			ListIterator<Meeting> listIterator = meetings.listIterator();
 			System.out.println(listIterator.next());
+			while (listIterator.hasNext()) {
+				System.out.println(listIterator.next());
+			}
 		}
 	}
 

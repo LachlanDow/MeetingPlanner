@@ -340,18 +340,8 @@ public class GUIPanes {
 			saveButton.setOnAction(new EventHandler<ActionEvent>() {
 				@Override
 				public void handle(ActionEvent event) {
-					//Only change if any changes are made.
-					if (!employee.getFirstName().equals(firstNameTextField.getText())) {
-						employee.setFirstName(firstNameTextField.getText());
-					}
-
-					if (!employee.getLastName().equals(lastNameTextField.getText())) {
-						employee.setLastName(lastNameTextField.getText());
-					}
-
-					if (!employee.getJobTitle().equals(jobTextField.getText())) {
-						employee.setJobTitle(jobTextField.getText());
-					}
+					
+					Company.editEmployee(employee, firstNameTextField.getText(), lastNameTextField.getText(), jobTextField.getText());
 
 					//Success message
 					CustomText successText = new CustomText("Saved successfully.", 16);
@@ -1277,12 +1267,17 @@ public class GUIPanes {
 			saveButton.setOnAction(new EventHandler<ActionEvent>() {
 				@Override
 				public void handle(ActionEvent event) {
-					try {				
+					try {
+						Meeting temp = meeting;
+						
+						//Avoid conflicting with itself
+						employee.deleteMeeting(meeting);
+						
 						// Validate the employee details. Any errors will cause an exception.
 						Meeting toAdd = Validation.validateMeeting(datePicker.getValue(), startTimePicker.getText(), endTimePicker.getText(), descTextField.getText(), employee.getDiary());
-
+						
 						// Add the Meeting
-						employee.editMeeting(meeting, toAdd);
+						employee.editMeeting(temp, toAdd);
 
 						// Display success message.
 						CustomText successText = new CustomText("Meeting successfully edited.", 16);
