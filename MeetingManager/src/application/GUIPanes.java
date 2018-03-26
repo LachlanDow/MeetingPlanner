@@ -18,7 +18,6 @@ import application.MeetingManagerExceptions.EmployeeDetailsInvalidID;
 import application.MeetingManagerExceptions.EmployeeExists;
 import application.MeetingManagerExceptions.GenericFieldEmpty;
 import application.MeetingManagerExceptions.MeetingTimeBeforeStart;
-import application.MeetingManagerExceptions.MeetingTimeNotSameDay;
 import application.MeetingManagerExceptions.MeetingTimeSameTime;
 import application.MeetingManagerExceptions.MeetingTimeStartConflict;
 import javafx.animation.KeyFrame;
@@ -1079,7 +1078,7 @@ public class GUIPanes {
 						descTextField.clear();
 						startTimePicker.clear();
 						endTimePicker.clear();
-					} catch (MeetingTimeBeforeStart | MeetingTimeNotSameDay | MeetingTimeSameTime | MeetingTimeStartConflict | GenericFieldEmpty e) {
+					} catch (MeetingTimeBeforeStart | MeetingTimeSameTime | MeetingTimeStartConflict | GenericFieldEmpty e) {
 						// Display the error to the user.
 						CustomText errorText = new CustomText(e.getMessage(), 16);
 						grid.add(errorText, 1, 4);
@@ -1298,7 +1297,7 @@ public class GUIPanes {
 									}
 								}));
 						timer.play();
-					} catch (MeetingTimeBeforeStart | MeetingTimeNotSameDay | MeetingTimeSameTime | MeetingTimeStartConflict | GenericFieldEmpty e) {
+					} catch (MeetingTimeBeforeStart | MeetingTimeSameTime | MeetingTimeStartConflict | GenericFieldEmpty e) {
 						// Display the error to the user.
 						CustomText errorText = new CustomText(e.getMessage(), 16);
 						grid.add(errorText, 1, 5);
