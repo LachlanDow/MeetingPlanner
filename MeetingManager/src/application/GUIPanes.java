@@ -284,6 +284,7 @@ public class GUIPanes {
 
 		/**
 		 * Classic constructor. Sets up all the styles and Nodes on the Pane.
+		 * @param employee as the employee to be edited
 		 */
 		public EditEmployee(Employee employee) {
 			// Top styles (title, subtitle..)
@@ -707,6 +708,7 @@ public class GUIPanes {
 
 		/**
 		 * Classic constructor. Sets up all the styles and Nodes on the Pane.
+		 * @param employee as the employee who's diary is to be displayed
 		 */
 		public EmployeeDiary(Employee employee) {
 			this.employee = employee;
@@ -907,9 +909,8 @@ public class GUIPanes {
 
 		/**
 		 * Method that re-draws the calendar based on the date given.
-		 * 
-		 * @param calendar
-		 * @param date
+		 * @param calendar as the calendar to be passed in
+		 * @param date as the dates to be put on the calendar
 		 */
 		public void drawCal(GridPane calendar, Date date) {
 			Calendar cal = Calendar.getInstance();
@@ -1000,6 +1001,7 @@ public class GUIPanes {
 
 		/**
 		 * Classic constructor. Sets up all the styles and Nodes on the Pane.
+		 * @param employee as the employee to be added
 		 */
 		public AddMeeting(Employee employee) {
 			VBox topBox = new VBox();
@@ -1123,6 +1125,9 @@ public class GUIPanes {
 
 	public static class CompanyMeeting extends BorderPane {
 		@SuppressWarnings("unchecked")
+		/**
+		 * class to load the company for searching
+		 */
 		public CompanyMeeting() {
 			// Add the
 			LinkedList<Employee> searchList = new LinkedList<Employee>();
@@ -1282,9 +1287,15 @@ public class GUIPanes {
 		}
 
 	}
-
+/**
+ * class to search employees
+ */
 	public static class Search extends BorderPane {
 		@SuppressWarnings("unchecked")
+		/**
+		 * method to search the list of employees between two search times
+		 * @param searchList
+		 */
 		public Search(LinkedList<Employee> searchList) {
 			TableView<Meeting> table = new TableView<Meeting>();
 			VBox topPane = new VBox();
@@ -1343,7 +1354,7 @@ public class GUIPanes {
 			grid.add(endTimePicker, 1, 3);
 
 			setLeft(grid);
-			CustomButton searchButton = new CustomButton("SearchFreeTimes", 20);
+			CustomButton searchButton = new CustomButton("Add Meeting to All Employees", 20);
 			searchButton.setOnAction(new EventHandler<ActionEvent>() {
 				@Override
 				public void handle(ActionEvent event) {
@@ -1455,6 +1466,12 @@ public class GUIPanes {
 	 */
 	public static class ViewDay extends BorderPane {
 		@SuppressWarnings("unchecked")
+		/**
+		 * method to view the meetings of the day
+		 * @param employee as the employees
+		 * @param meetingsas the linked list of meetings in that day
+		 * @param date as the date of the day to be displayed
+		 */
 		public ViewDay(Employee employee, LinkedList<Meeting> meetings, String date) {
 			VBox topBox = new VBox();
 			CustomText title = new CustomText("Meeting Manager", 64);

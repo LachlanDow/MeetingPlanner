@@ -12,22 +12,21 @@ public class Company {
 	 *A binary tree of all the employees in the company
 	 */
 	private static TreeMap<Integer,Employee> employees = new TreeMap<Integer,Employee>();
+
 	
 	
-	/**
-	 * this search  method will accept a string of employee id's and find the times where non of the members of staff are in meetings
-	 * @param ids as the array of the employees ids that the algorithm will run for
-	 * @param startTime as the the time that the algorithm will start from
-	 * @param endTime as the time that the algorithm will stop to search for free times
-	 */
+	
+	
 	
 	/**
-	 * Method to preform a search of available time for the user to pick when to add meetings to
-	 * @param ids
-	 * @param startTime
-	 * @param endTime
-	 * @return
-	 */
+	 * method to search through all the employees and find the times that they are free
+	 * @param listOfEmployee as the employees to be used in the search
+	 * @param startTime as the start time to be searched through
+	 * @param endTime as the end time of the period to be searched through 
+	 * @return a linked list of all the available times
+**/
+	
+
 	public static LinkedList<Meeting> search(LinkedList<Employee>listOfEmployee, Date startTime, Date endTime) {
 	LinkedList<Meeting> totalMeetings = new LinkedList<Meeting>();
 	for(int i = 0; i <listOfEmployee.size(); i++) {	
@@ -91,8 +90,10 @@ public class Company {
 	/**
 	 * A method to add an employee to the binary tree
 	 * @param id as the id of the employee to add
-	 * @param name as the name of the employee to add
+	 * @param forename as the name of the employee to add
+	 * @param surname as the surname of the employee
 	 * @param jobTitle as the title of the position in the workplace of the employee
+	 * @return the reference to the employee object
 	 */
 	public static Employee addEmployee(int id,String forename,String surname, String jobTitle) {
 		Employee toAdd = new Employee(id,forename,surname,jobTitle);
@@ -104,6 +105,7 @@ public class Company {
 	/**
 	 * method to delete an employee from the binary tree
 	 * @param id as the id of the employee you want to remove
+	 * @return the boolean if the employee was remved or not
 	 */
 	public static boolean deleteEmployee(int id) {
 		try {
@@ -120,6 +122,7 @@ public class Company {
 	 * method to select a certain employee from the binary tree so that methods can be run on them
 	 * eg. edit
 	 * @param id as the id of the employee that is to be edited
+	 * @return the reference to the employee selected
 	 */
 	public static Employee selectEmployee(int id) {
 		try {
@@ -133,10 +136,10 @@ public class Company {
 	/**
 	 * Method to find the times between the unavailable times employees
 	 * @param startTime as the start time entered by the user
-	 * @param endTimeas the end time entered by the user
+	 * @param endTime as the end time entered by the user
 	 * @param totalMeetings as the linked list of meetings that the emplpoyees have
-	 * @param timesBetween
-	 * @return
+	 * @param timesBetween as the linked list to be used to store the times between the employees meetings
+	 * @return linked list of the times between the meetings
 	 */
 	public static LinkedList<Meeting> getTimesBetween(Date startTime,Date endTime, LinkedList<Meeting> totalMeetings, LinkedList<Meeting> timesBetween) {
 	if(totalMeetings==null) {
@@ -162,7 +165,7 @@ public class Company {
 }
 /**
  * get tree of employees
- * @return
+ * @return the TreeMap of the emplpoyees
  */
 	public static TreeMap<Integer, Employee> getEmployees() {
 		return employees;

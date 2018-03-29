@@ -30,9 +30,9 @@ public class Diary {
 	private Stack<Action> recentActions = new Stack<Action>();
 	
 	/**
-	 * Returns a LinkedList<Meeting> of meetings that occur on provided date.
+	 * Returns a LinkedList of meetings that occur on provided date.
 	 * @param date Date to get meetings for
-	 * @return LinkedList<Meeting> containing meetings occuring on date
+	 * @return LinkedList containing meetings occuring on date
 	 */
 
 	public LinkedList<Meeting> getMeetingsOnDay(Date date){
@@ -147,7 +147,7 @@ public class Diary {
 
 	/**
 	 * Returns the reference to the Task list
-	 * @return LinkedList<Task> list of tasks
+	 * @return LinkedList list of tasks
 	 */
 	public LinkedList<Task> getTaskList() {
 		return taskList;
@@ -163,7 +163,7 @@ public class Diary {
 
 	/**
 	 * Remove Task from task list
-	 * @param toDelete
+	 * @param toDelete as the task to be deleted
 	 */
 	public void deleteTask(Task toDelete) {
 		taskList.remove(toDelete);
